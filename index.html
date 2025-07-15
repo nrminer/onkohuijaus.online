@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Checkpoint</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .screen {
+            display: none;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        .start-screen {
+            text-align: center;
+        }
+        
+        .start-screen i {
+            font-size: 4rem;
+            color: #4b6cb7;
+            margin-bottom: 20px;
+        }
+        
+        .info-box {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #4b6cb7;
+        }
+        
+        .info-item {
+            display: flex;
+            margin: 15px 0;
+            align-items: center;
+        }
+        
+        .info-item i {
+            width: 30px;
+            color: #4b6cb7;
+            font-size: 1.2rem;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            margin: 20px 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 25px;
+        }
+        
+        .timer {
+            background-color: #e3f2fd;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            color: #182848;
+            display: flex;
+            align-items: center;
+        }
+        
+        .timer i {
+            margin-right: 8px;
+            color: #ff6b6b;
+        }
+        
+        .question-count {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #4b6cb7;
+        }
+        
+        .question-text {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            color: #333;
+        }
+        
+        .option {
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .option:hover {
+            background-color: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background-color: #d1e7ff;
+            border-color: #4b6cb7;
+        }
+        
+        .option.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .option.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .option-prefix {
+            width: 30px;
+            height: 30px;
+            background-color: #4b6cb7;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            font-weight: 600;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .results-screen {
+            text-align: center;
+        }
+        
+        .score-container {
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px auto;
+            max-width: 400px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .score-text {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .score-value {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+        
+        .score-message {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            font-style: italic;
+        }
+        
+        .feedback {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 15px;
+            }
+            
+            header {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .question-text {
+                font-size: 1.2rem;
+            }
+            
+            .btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+            
+            .quiz-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Knowledge Checkpoint</h1>
+            <div class="subtitle">Test your understanding with this quick assessment</div>
+        </header>
+        
+        <div class="content">
+            <!-- Start Screen -->
+            <div id="start-screen" class="screen active">
+                <div class="start-screen">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h2>Welcome to the Knowledge Test</h2>
+                    <p>This assessment will evaluate your understanding of various topics.</p>
+                    
+                    <div class="info-box">
+                        <div class="info-item">
+                            <i class="fas fa-question-circle"></i>
+                            <div>5 multiple-choice questions</div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <div>Complete within 2 minutes</div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-lightbulb"></i>
+                            <div>Each correct answer gives you 20 points</div>
+                        </div>
+                    </div>
+                    
+                    <button id="start-btn" class="btn">Start Test <i class="fas fa-play"></i></button>
+                </div>
+            </div>
+            
+            <!-- Quiz Screen -->
+            <div id="quiz-screen" class="screen">
+                <div class="quiz-header">
+                    <div class="timer">
+                        <i class="fas fa-clock"></i>
+                        <span id="time">02:00</span>
+                    </div>
+                    <div class="question-count">
+                        Question <span id="current-question">1</span> of 5
+                    </div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
+                
+                <div class="question-text" id="question-text">
+                    What is the capital of France?
+                </div>
+                
+                <div class="options">
+                    <div class="option" data-index="0">
+                        <div class="option-prefix">A</div>
+                        <div class="option-text">London</div>
+                    </div>
+                    <div class="option" data-index="1">
+                        <div class="option-prefix">B</div>
+                        <div class="option-text">Paris</div>
+                    </div>
+                    <div class="option" data-index="2">
+                        <div class="option-prefix">C</div>
+                        <div class="option-text">Berlin</div>
+                    </div>
+                    <div class="option" data-index="3">
+                        <div class="option-prefix">D</div>
+                        <div class="option-text">Madrid</div>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button id="prev-btn" class="btn" disabled>
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button id="next-btn" class="btn">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button id="submit-btn" class="btn" style="display: none;">
+                        Submit Test
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Results Screen -->
+            <div id="results-screen" class="screen">
+                <div class="results-screen">
+                    <i class="fas fa-trophy" style="font-size: 5rem; color: #FFD700; margin: 20px 0;"></i>
+                    <h2>Test Completed!</h2>
+                    <p>Here are your results:</p>
+                    
+                    <div class="score-container">
+                        <div class="score-text">Your Score</div>
+                        <div class="score-value" id="score">0</div>
+                        <div class="score-message" id="score-message">Keep learning!</div>
+                    </div>
+                    
+                    <div class="feedback">
+                        <p id="feedback-text">You answered 0 out of 5 questions correctly.</p>
+                        <p id="time-taken">Time taken: 0 seconds</p>
+                    </div>
+                    
+                    <button id="restart-btn" class="btn">Take Test Again <i class="fas fa-redo"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Questions data
+        const questions = [
+            {
+                question: "What is the capital of France?",
+                options: ["London", "Paris", "Berlin", "Madrid"],
+                answer: 1
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["Venus", "Mars", "Jupiter", "Saturn"],
+                answer: 1
+            },
+            {
+                question: "What is the largest mammal in the world?",
+                options: ["Elephant", "Giraffe", "Blue Whale", "Hippopotamus"],
+                answer: 2
+            },
+            {
+                question: "Which element has the chemical symbol 'O'?",
+                options: ["Gold", "Oxygen", "Osmium", "Oganesson"],
+                answer: 1
+            },
+            {
+                question: "Who wrote 'Romeo and Juliet'?",
+                options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
+                answer: 1
+            }
+        ];
+        
+        // DOM elements
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultsScreen = document.getElementById('results-screen');
+        const startBtn = document.getElementById('start-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const questionText = document.getElementById('question-text');
+        const timeDisplay = document.getElementById('time');
+        const currentQuestionDisplay = document.getElementById('current-question');
+        const optionsContainer = document.querySelector('.options');
+        const scoreDisplay = document.getElementById('score');
+        const scoreMessage = document.getElementById('score-message');
+        const feedbackText = document.getElementById('feedback-text');
+        const timeTakenText = document.getElementById('time-taken');
+        const progressBar = document.getElementById('progress-bar');
+        
+        // Quiz state
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOptions = Array(questions.length).fill(null);
+        let timer;
+        let timeLeft = 120; // 2 minutes in seconds
+        let startTime;
+        
+        // Initialize quiz
+        function initQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedOptions = Array(questions.length).fill(null);
+            timeLeft = 120;
+            clearInterval(timer);
+            startTime = new Date();
+            updateTimer();
+            showQuestion();
+            updateProgressBar();
+            startScreen.classList.remove('active');
+            quizScreen.classList.add('active');
+            
+            // Start timer
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimer();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    submitTest();
+                }
+            }, 1000);
+        }
+        
+        // Update timer display
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Change color when time is running low
+            if (timeLeft < 30) {
+                timeDisplay.parentElement.style.backgroundColor = '#ffebee';
+                timeDisplay.parentElement.style.color = '#d32f2f';
+            }
+        }
+        
+        // Show current question
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            questionText.textContent = question.question;
+            currentQuestionDisplay.textContent = currentQuestion + 1;
+            
+            // Update options
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                if (selectedOptions[currentQuestion] === index) {
+                    optionElement.classList.add('selected');
+                }
+                optionElement.dataset.index = index;
+                
+                optionElement.innerHTML = `
+                    <div class="option-prefix">${String.fromCharCode(65 + index)}</div>
+                    <div class="option-text">${option}</div>
+                `;
+                
+                optionElement.addEventListener('click', () => selectOption(index));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Update navigation buttons
+            prevBtn.disabled = currentQuestion === 0;
+            nextBtn.style.display = currentQuestion < questions.length - 1 ? 'block' : 'none';
+            submitBtn.style.display = currentQuestion === questions.length - 1 ? 'block' : 'none';
+        }
+        
+        // Select an option
+        function selectOption(optionIndex) {
+            // Remove selected class from all options
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            const selectedOption = document.querySelector(`.option[data-index="${optionIndex}"]`);
+            selectedOption.classList.add('selected');
+            
+            // Store selected option
+            selectedOptions[currentQuestion] = optionIndex;
+        }
+        
+        // Move to next question
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion();
+                updateProgressBar();
+            }
+        }
+        
+        // Move to previous question
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+                updateProgressBar();
+            }
+        }
+        
+        // Update progress bar
+        function updateProgressBar() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // Calculate score
+        function calculateScore() {
+            let correctCount = 0;
+            selectedOptions.forEach((selected, index) => {
+                if (selected === questions[index].answer) {
+                    correctCount++;
+                }
+            });
+            score = correctCount * 20; // 20 points per correct answer
+            return correctCount;
+        }
+        
+        // Get score message
+        function getScoreMessage(score) {
+            if (score >= 80) return "Excellent work! You're a knowledge master!";
+            if (score >= 60) return "Great job! You have a good understanding.";
+            if (score >= 40) return "Not bad! Keep learning to improve.";
+            return "Keep studying! You'll do better next time.";
+        }
+        
+        // Submit test
+        function submitTest() {
+            clearInterval(timer);
+            
+            // Calculate time taken
+            const endTime = new Date();
+            const timeTaken = Math.floor((endTime - startTime) / 1000);
+            const minutesTaken = Math.floor(timeTaken / 60);
+            const secondsTaken = timeTaken % 60;
+            
+            // Calculate score
+            const correctCount = calculateScore();
+            
+            // Update results screen
+            scoreDisplay.textContent = score;
+            scoreMessage.textContent = getScoreMessage(score);
+            feedbackText.textContent = `You answered ${correctCount} out of ${questions.length} questions correctly.`;
+            timeTakenText.textContent = `Time taken: ${minutesTaken}m ${secondsTaken}s`;
+            
+            // Show results screen
+            quizScreen.classList.remove('active');
+            resultsScreen.classList.add('active');
+        }
+        
+        // Event listeners
+        startBtn.addEventListener('click', initQuiz);
+        nextBtn.addEventListener('click', nextQuestion);
+        prevBtn.addEventListener('click', prevQuestion);
+        submitBtn.addEventListener('click', submitTest);
+        restartBtn.addEventListener('click', () => {
+            resultsScreen.classList.remove('active');
+            startScreen.classList.add('active');
+        });
+        
+        // Initialize the first screen
+        updateProgressBar();
+    </script>
+</body>
+</html>
