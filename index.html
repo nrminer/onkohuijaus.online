@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Knowledge Checkpoint</title>
+    <title>OnkoHuijaus.online - Suojaa itsesi verkossa</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #1a3a6c;
+            --secondary: #e63946;
+            --accent: #2a9d8f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --warning: #e9c46a;
+            --success: #4caf50;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -14,613 +24,921 @@
         }
         
         body {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            background: linear-gradient(135deg, #f0f4f8 0%, #e6f0fa 100%);
+            color: var(--dark);
+            line-height: 1.6;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            flex-direction: column;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+        
+        a:focus, button:focus {
+            outline: 3px solid var(--warning);
+            outline-offset: 2px;
         }
         
         .container {
-            max-width: 800px;
             width: 100%;
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
         }
         
         header {
-            background: linear-gradient(to right, #4b6cb7, #182848);
-            color: white;
-            padding: 25px;
-            text-align: center;
-            position: relative;
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-        
-        .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .content {
-            padding: 30px;
-        }
-        
-        .screen {
-            display: none;
-        }
-        
-        .active {
-            display: block;
-        }
-        
-        .start-screen {
-            text-align: center;
-        }
-        
-        .start-screen i {
-            font-size: 4rem;
-            color: #4b6cb7;
-            margin-bottom: 20px;
-        }
-        
-        .info-box {
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            border-left: 5px solid #4b6cb7;
-        }
-        
-        .info-item {
-            display: flex;
-            margin: 15px 0;
-            align-items: center;
-        }
-        
-        .info-item i {
-            width: 30px;
-            color: #4b6cb7;
-            font-size: 1.2rem;
-        }
-        
-        .btn {
-            background: linear-gradient(to right, #4b6cb7, #182848);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            margin: 20px 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.25);
-        }
-        
-        .btn:active {
-            transform: translateY(1px);
-        }
-        
-        .quiz-header {
+        .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 25px;
+            padding: 1rem 0;
         }
         
-        .timer {
-            background-color: #e3f2fd;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            color: #182848;
+        .logo {
             display: flex;
             align-items: center;
+            text-decoration: none;
         }
         
-        .timer i {
-            margin-right: 8px;
-            color: #ff6b6b;
-        }
-        
-        .question-count {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #4b6cb7;
-        }
-        
-        .question-text {
-            font-size: 1.4rem;
-            margin-bottom: 25px;
-            line-height: 1.5;
-            color: #333;
-        }
-        
-        .option {
-            background-color: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-        }
-        
-        .option:hover {
-            background-color: #e9ecef;
-            transform: translateX(5px);
-        }
-        
-        .option.selected {
-            background-color: #d1e7ff;
-            border-color: #4b6cb7;
-        }
-        
-        .option.correct {
-            background-color: #d4edda;
-            border-color: #28a745;
-        }
-        
-        .option.incorrect {
-            background-color: #f8d7da;
-            border-color: #dc3545;
-        }
-        
-        .option-prefix {
-            width: 30px;
-            height: 30px;
-            background-color: #4b6cb7;
+        .logo-icon {
+            background: var(--primary);
             color: white;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 12px;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+        
+        .logo-text span {
+            color: var(--secondary);
+            font-weight: 800;
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 1.2rem;
+        }
+        
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0.8rem;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            font-size: 1.05rem;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--primary);
+            background-color: rgba(26, 58, 108, 0.05);
+        }
+        
+        .emergency-link {
+            background-color: var(--secondary);
+            color: white !important;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .emergency-link:hover {
+            background-color: #c1121f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(230, 57, 70, 0.3);
+        }
+        
+        .language-switcher {
+            margin-left: 1.5rem;
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 2px;
+            background: white;
+        }
+        
+        .language-switcher button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.95rem;
+            opacity: 0.7;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        
+        .language-switcher button.active {
+            background-color: var(--primary);
+            color: white;
+            opacity: 1;
+            font-weight: 600;
+        }
+        
+        .emergency-banner {
+            background: linear-gradient(90deg, var(--secondary) 0%, #c1121f 100%);
+            color: white;
+            text-align: center;
+            padding: 0.8rem;
+            font-weight: bold;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-right: 15px;
-            font-weight: 600;
-        }
-        
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-        }
-        
-        .results-screen {
-            text-align: center;
-        }
-        
-        .score-container {
-            background: linear-gradient(135deg, #4b6cb7, #182848);
-            color: white;
-            border-radius: 20px;
-            padding: 40px;
-            margin: 30px auto;
-            max-width: 400px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .score-text {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-        }
-        
-        .score-value {
-            font-size: 4rem;
-            font-weight: 700;
-            margin: 20px 0;
-        }
-        
-        .score-message {
-            font-size: 1.2rem;
-            margin-top: 20px;
-            font-style: italic;
-        }
-        
-        .feedback {
-            margin: 20px 0;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 10px;
-        }
-        
-        .progress-bar {
-            height: 10px;
-            background-color: #e9ecef;
-            border-radius: 5px;
-            margin: 20px 0;
+            position: relative;
             overflow: hidden;
         }
         
-        .progress {
+        .emergency-banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -10%;
+            width: 20%;
             height: 100%;
-            background: linear-gradient(to right, #4b6cb7, #182848);
-            border-radius: 5px;
-            transition: width 0.5s ease;
+            background: rgba(255, 255, 255, 0.15);
+            transform: skewX(-20deg);
+            animation: banner-shine 3s infinite;
         }
         
-        @media (max-width: 600px) {
-            .container {
-                border-radius: 15px;
+        .emergency-banner a {
+            color: white;
+            text-decoration: underline;
+            margin-left: 0.5rem;
+            font-weight: 700;
+        }
+        
+        @keyframes banner-shine {
+            0% { left: -10%; }
+            100% { left: 110%; }
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #0d2a4d 100%);
+            color: white;
+            padding: 5rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin: 0 auto 2.5rem;
+            max-width: 700px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(42, 157, 143, 0.3);
+        }
+        
+        .btn:hover {
+            background-color: #21897e;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(42, 157, 143, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid white;
+            margin-left: 15px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.3rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.8rem;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background-color: var(--accent);
+            border-radius: 3px;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-icon {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            font-size: 2.2rem;
+            padding: 1.8rem;
+            text-align: center;
+        }
+        
+        .card-content {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card h3 {
+            margin-bottom: 1.2rem;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        
+        .card p {
+            margin-bottom: 1.8rem;
+            flex-grow: 1;
+        }
+        
+        .card .btn {
+            align-self: flex-start;
+            background: var(--primary);
+            font-size: 1rem;
+            padding: 0.7rem 1.5rem;
+        }
+        
+        .resource-list {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        
+        .resource-item {
+            background-color: white;
+            border-left: 5px solid var(--accent);
+            margin-bottom: 1.2rem;
+            padding: 1.8rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .resource-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .resource-icon {
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .resource-text {
+            flex-grow: 1;
+        }
+        
+        .resource-item h3 {
+            margin-bottom: 0.6rem;
+            color: var(--primary);
+        }
+        
+        .resource-item a {
+            display: inline-block;
+            margin-top: 0.8rem;
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .resource-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .news-box {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .news-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: var(--secondary);
+        }
+        
+        .news-box h3 {
+            color: var(--secondary);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            font-size: 1.4rem;
+        }
+        
+        .news-box h3 i {
+            margin-right: 10px;
+        }
+        
+        .news-content {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .news-content p {
+            margin-bottom: 0.8rem;
+        }
+        
+        .tip-box {
+            background: #e8f5e9;
+            border-left: 4px solid var(--success);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--dark) 0%, #121a26 100%);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: auto;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--warning);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-links a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .footer-about p {
+            margin-bottom: 1.5rem;
+            color: #bbb;
+            line-height: 1.7;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+            color: #999;
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.4rem;
             }
             
-            header {
-                padding: 20px 15px;
+            .section {
+                padding: 4rem 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: block;
             }
             
-            h1 {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                padding: 1rem 0;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav li {
+                margin: 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+            
+            .language-switcher {
+                margin: 1rem auto 0;
+                justify-content: center;
+                width: fit-content;
+            }
+            
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
+            .hero {
+                padding: 4rem 0 3rem;
+            }
+            
+            .hero h1 {
                 font-size: 2rem;
             }
             
-            .content {
-                padding: 20px;
-            }
-            
-            .question-text {
-                font-size: 1.2rem;
-            }
-            
-            .btn {
-                padding: 12px 30px;
-                font-size: 1rem;
-            }
-            
-            .quiz-header {
-                flex-direction: column;
-                gap: 15px;
+            .section-title h2 {
+                font-size: 1.8rem;
             }
         }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+        
+        [aria-hidden="true"] {
+            display: none;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animated {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Knowledge Checkpoint</h1>
-            <div class="subtitle">Test your understanding with this quick assessment</div>
-        </header>
-        
-        <div class="content">
-            <!-- Start Screen -->
-            <div id="start-screen" class="screen active">
-                <div class="start-screen">
-                    <i class="fas fa-graduation-cap"></i>
-                    <h2>Welcome to the Knowledge Test</h2>
-                    <p>This assessment will evaluate your understanding of various topics.</p>
-                    
-                    <div class="info-box">
-                        <div class="info-item">
-                            <i class="fas fa-question-circle"></i>
-                            <div>5 multiple-choice questions</div>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-clock"></i>
-                            <div>Complete within 2 minutes</div>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-lightbulb"></i>
-                            <div>Each correct answer gives you 20 points</div>
-                        </div>
-                    </div>
-                    
-                    <button id="start-btn" class="btn">Start Test <i class="fas fa-play"></i></button>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-alt"></i>
                 </div>
+                <div class="logo-text">
+                    Onko<span>Huijaus</span>.online
+                </div>
+            </a>
+            
+            <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav">
+                <i class="fas fa-bars"></i>
+                <span class="sr-only">Valikko</span>
+            </button>
+            
+            <nav>
+                <ul id="main-nav">
+                    <li><a href="index.html">Etusivu</a></li>
+                    <li><a href="torjuntaoppaat.html" class="active">Torjuntaoppaat</a></li>
+                    <li><a href="uhrin-tuki.html">Olen uhrina</a></li>
+                    <li><a href="resurssit.html">Resurssit</a></li>
+                    <li><a href="uutiset.html">Ajankohtaista</a></li>
+                    <li><a href="uhrin-tuki.html" class="emergency-link">HÄTÄTILANNE</a></li>
+                </ul>
+            </nav>
+            
+            <div class="language-switcher">
+                <button class="active" aria-label="Suomi">FI</button>
+                <button aria-label="English">EN</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="emergency-banner">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>Oletko huijaamisen uhri? </span>
+        <a href="uhrin-tuki.html">Tee välittömästi nämä toimet</a>
+    </div>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Tunnista ja estä verkkopetokset</h1>
+            <p>Opettele suojaamaan itseäsi verkossa ja saa tarvittavaa tukea, jos olet joutunut huijauksen uhri. Kaikki ohjeemme perustuvat viranomaisten luotettaviin suosituksiin.</p>
+            <div>
+                <a href="torjuntaoppaat.html" class="btn">Aloita suojaaminen</a>
+                <a href="uhrin-tuki.html" class="btn btn-secondary">Saat apua täältä</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Petostorjuntaoppaat</h2>
+                <p>Opi tunnistamaan yleisimmät verkkopetokset ja suojaamaan itseäsi</p>
             </div>
             
-            <!-- Quiz Screen -->
-            <div id="quiz-screen" class="screen">
-                <div class="quiz-header">
-                    <div class="timer">
-                        <i class="fas fa-clock"></i>
-                        <span id="time">02:00</span>
+            <div class="card-grid">
+                <div class="card animated">
+                    <div class="card-icon">
+                        <i class="fas fa-envelope"></i>
                     </div>
-                    <div class="question-count">
-                        Question <span id="current-question">1</span> of 5
-                    </div>
-                </div>
-                
-                <div class="progress-bar">
-                    <div class="progress" id="progress-bar"></div>
-                </div>
-                
-                <div class="question-text" id="question-text">
-                    What is the capital of France?
-                </div>
-                
-                <div class="options">
-                    <div class="option" data-index="0">
-                        <div class="option-prefix">A</div>
-                        <div class="option-text">London</div>
-                    </div>
-                    <div class="option" data-index="1">
-                        <div class="option-prefix">B</div>
-                        <div class="option-text">Paris</div>
-                    </div>
-                    <div class="option" data-index="2">
-                        <div class="option-prefix">C</div>
-                        <div class="option-text">Berlin</div>
-                    </div>
-                    <div class="option" data-index="3">
-                        <div class="option-prefix">D</div>
-                        <div class="option-text">Madrid</div>
+                    <div class="card-content">
+                        <h3>Huijaussähköpostit</h3>
+                        <p>Opi tunnistamaan huijausviestit ja mitä tehdä epäilyttävän sähköpostin saapuessa. Tarkista lähettäjä, oikoluku ja linkkien osoitteet ennen napsauttamista.</p>
+                        <a href="huijaussahkopostit.html" class="btn">Lue lisää</a>
                     </div>
                 </div>
                 
-                <div class="navigation">
-                    <button id="prev-btn" class="btn" disabled>
-                        <i class="fas fa-arrow-left"></i> Previous
-                    </button>
-                    <button id="next-btn" class="btn">
-                        Next <i class="fas fa-arrow-right"></i>
-                    </button>
-                    <button id="submit-btn" class="btn" style="display: none;">
-                        Submit Test
-                    </button>
+                <div class="card animated delay-1">
+                    <div class="card-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Turvalliset verkkokaupat</h3>
+                        <p>Varmat käytännöt verkko-ostoksille. Tunnista luotettavat verkkokaupat, turvalliset maksutavat ja mitä välttää. Opettele tarkistamaan verkkokauppojen luotettavuus.</p>
+                        <a href="verkkokaupat.html" class="btn">Lue lisää</a>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Results Screen -->
-            <div id="results-screen" class="screen">
-                <div class="results-screen">
-                    <i class="fas fa-trophy" style="font-size: 5rem; color: #FFD700; margin: 20px 0;"></i>
-                    <h2>Test Completed!</h2>
-                    <p>Here are your results:</p>
-                    
-                    <div class="score-container">
-                        <div class="score-text">Your Score</div>
-                        <div class="score-value" id="score">0</div>
-                        <div class="score-message" id="score-message">Keep learning!</div>
+                
+                <div class="card animated delay-2">
+                    <div class="card-icon">
+                        <i class="fas fa-mobile-alt"></i>
                     </div>
-                    
-                    <div class="feedback">
-                        <p id="feedback-text">You answered 0 out of 5 questions correctly.</p>
-                        <p id="time-taken">Time taken: 0 seconds</p>
+                    <div class="card-content">
+                        <h3>Puhelinhuijaukset</h3>
+                        <p>Kuinka käsitellä epäilyttäviä puheluita ja tekstiviestejä. Älä koskaan anna henkilötietoja puhelimessa - viranomaiset eivät niitä koskaan puhelimitse kysy. Opettele puhelinhuijausten yleisimmät kuviot.</p>
+                        <a href="puhelinhuijaukset.html" class="btn">Lue lisää</a>
                     </div>
-                    
-                    <button id="restart-btn" class="btn">Take Test Again <i class="fas fa-redo"></i></button>
                 </div>
             </div>
         </div>
-    </div>
-    
+    </section>
+
+    <section class="section" style="background-color: #f0f8ff;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Ajankohtaista ja varoitukset</h2>
+                <p>Pysy ajan tasalla uusimmista petostrendeistä</p>
+            </div>
+            
+            <div class="news-box animated">
+                <h3><i class="fas fa-exclamation-circle"></i> Uusin varoitus: Tilintarkastus-huijauskirjeet</h3>
+                <div class="news-content">
+                    <p><strong>Poliisi varoittaa:</strong> Suomessa liikkuu huijauskirjeitä, joissa väitetään olevasi perintätoimiston asiakas. Kirjeet vaativat maksua uhkaavilla ilmauksilla.</p>
+                    <p>Kirjeissä käytetään usein viranomaisten logoja ja virallisen näköistä kieltä. Älä maksa tai ota yhteyttä kirjeessä annettuihin yhteystietoihin.</p>
+                    <p>Jos olet saanut tällaisen kirjeen, ota yhteys paikalliseen poliisiasemaan tai tee rikosilmoitus verkossa.</p>
+                </div>
+                
+                <div class="tip-box">
+                    <h3><i class="fas fa-lightbulb"></i> Vinkki viikolta: Salasanojen turvallisuus</h3>
+                    <p>Käytä erilaisia salasanoja eri palveluissa. Jos jokin palveluista joutuu tietovuodon kohteeksi, muut tilit pysyvät turvassa. Käytä salasanahallintaohjelmaa turvallisten salasanojen luomiseen ja tallentamiseen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Oletko huijaamisen uhri?</h2>
+                <p>Tärkeät askeleet, jotka kannattaa tehdä välittömästi</p>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card animated">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Ota välittömästi yhteyttä pankkiisi</h3>
+                        <p>Soita pankkisi hätänumeroon ja ilmoita petoksesta. Pankki voi pysäyttää epäilyttäviä tapahtumia ja lukita korttisi. Tallenna kaikki petokseen liittyvät tiedot.</p>
+                        <a href="uhrin-tuki.html#pankki" class="btn" style="background: #e63946;">Ohjeet pankkiin</a>
+                    </div>
+                </div>
+                
+                <div class="card animated delay-1">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #1a3a6c 0%, #0d2a4d 100%);">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Tee rikosilmoitus</h3>
+                        <p>Ilmoita petos poliisille. Kerää kaikki petokseen liittyvät todisteet (viestit, kuvankaappaukset, tapahtumatiedot). Rikosilmoituksen voit tehdä helposti verkossa.</p>
+                        <a href="https://www.poliisi.fi/rikosilmotus" target="_blank" class="btn">Tee rikosilmoitus</a>
+                    </div>
+                </div>
+                
+                <div class="card animated delay-2">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #2a9d8f 0%, #21897e 100%);">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Suojaa henkilötietosi</h3>
+                        <p>Vaihda palveluiden salasanat, erityisesti jos olet antanut tunnistetietojasi huijareille. Tarkista luottotietosi ja harkitse varoitusmerkinnän asettamista.</p>
+                        <a href="uhrin-tuki.html#tiedot" class="btn" style="background: #2a9d8f;">Tietojen suojaaminen</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background-color: #f9fbfd;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Luotettavat resurssit</h2>
+                <p>Viralliset tahot, joihin voit luottaa</p>
+            </div>
+            
+            <div class="resource-list">
+                <div class="resource-item animated">
+                    <div class="resource-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="resource-text">
+                        <h3>Traficom - Kyberturvallisuuskeskus</h3>
+                        <p>Valtion viralliset ohjeet verkkoturvallisuuteen ja petosten torjuntaan. Sisältää ajankohtaiset varoitukset ja oppaat.</p>
+                        <a href="https://www.kyberturvallisuuskeskus.fi" target="_blank" rel="noopener">Siirry sivustolle →</a>
+                    </div>
+                </div>
+                
+                <div class="resource-item animated delay-1">
+                    <div class="resource-icon">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <div class="resource-text">
+                        <h3>Poliisi - Rikosilmoituksen tekeminen</h3>
+                        <p>Tee rikosilmoitus verkossa, jos olet huijauksen uhri. Ohjeet rikosilmoituksen tekemiseen ja tarvittavat tiedot.</p>
+                        <a href="https://www.poliisi.fi/rikosilmotus" target="_blank" rel="noopener">Tee rikosilmoitus →</a>
+                    </div>
+                </div>
+                
+                <div class="resource-item animated delay-2">
+                    <div class="resource-icon">
+                        <i class="fas fa-life-ring"></i>
+                    </div>
+                    <div class="resource-text">
+                        <h3>Kuluttajaneuvonta</h3>
+                        <p>Apua kuluttaja-asioihin ja petosten selvittämiseen. Tarjoaa neuvontaa ja ohjausta oikeuksiesi perässä.</p>
+                        <a href="https://www.kuluttajaneuvonta.fi" target="_blank" rel="noopener">Hae apua →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column footer-about">
+                    <h3>OnkoHuijaus.online</h3>
+                    <p>Tarjoamme luotettavaa tietoa verkkopetosten ennaltaehkäisyyn ja uhrien tukeen. Kaikki sisältömme perustuu viranomaisten suosituksiin ja on tarkistettu asiantuntijoiden toimesta.</p>
+                    <p>Sivustomme ei kerää henkilötietoja eikä käytä evästeitä.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Sivuston sisältö</h3>
+                    <ul class="footer-links">
+                        <li><a href="torjuntaoppaat.html"><i class="fas fa-arrow-right"></i> Torjuntaoppaat</a></li>
+                        <li><a href="uhrin-tuki.html"><i class="fas fa-arrow-right"></i> Olen uhrina</a></li>
+                        <li><a href="resurssit.html"><i class="fas fa-arrow-right"></i> Resurssit</a></li>
+                        <li><a href="uutiset.html"><i class="fas fa-arrow-right"></i> Ajankohtaiset varoitukset</a></li>
+                        <li><a href="ukk.html"><i class="fas fa-arrow-right"></i> Usein kysytyt kysymykset</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Kriisituki</h3>
+                    <ul class="footer-links">
+                        <li><a href="tel:116006"><i class="fas fa-phone-alt"></i> MIELI Kriisipuhelin: 116 006</a></li>
+                        <li><a href="https://www.mieli.fi" target="_blank"><i class="fas fa-globe"></i> MIELI Suomen Mielenterveys ry</a></li>
+                        <li><a href="tel:112"><i class="fas fa-phone-alt"></i> Hätänumero 112</a></li>
+                        <li><a href="https://www.poliisi.fi" target="_blank"><i class="fas fa-globe"></i> Poliisin hätänumero 112</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Lähteet ja yhteistyö</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://www.traficom.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Traficom</a></li>
+                        <li><a href="https://www.europol.europa.eu" target="_blank"><i class="fas fa-external-link-alt"></i> Europol</a></li>
+                        <li><a href="https://www.finanssivalvonta.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Finanssivalvonta</a></li>
+                        <li><a href="https://www.kyberturvallisuuskeskus.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Kyberturvallisuuskeskus</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 OnkoHuijaus.online - Kaikki oikeudet pidätetään. Sivusto ei kerää henkilötietoja.</p>
+                <p>Sisältö perustuu viranomaisten suosituksiin. Tietoa päivitetään säännöllisesti.</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        // Questions data
-        const questions = [
-            {
-                question: "What is the capital of France?",
-                options: ["London", "Paris", "Berlin", "Madrid"],
-                answer: 1
-            },
-            {
-                question: "Which planet is known as the Red Planet?",
-                options: ["Venus", "Mars", "Jupiter", "Saturn"],
-                answer: 1
-            },
-            {
-                question: "What is the largest mammal in the world?",
-                options: ["Elephant", "Giraffe", "Blue Whale", "Hippopotamus"],
-                answer: 2
-            },
-            {
-                question: "Which element has the chemical symbol 'O'?",
-                options: ["Gold", "Oxygen", "Osmium", "Oganesson"],
-                answer: 1
-            },
-            {
-                question: "Who wrote 'Romeo and Juliet'?",
-                options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
-                answer: 1
-            }
-        ];
-        
-        // DOM elements
-        const startScreen = document.getElementById('start-screen');
-        const quizScreen = document.getElementById('quiz-screen');
-        const resultsScreen = document.getElementById('results-screen');
-        const startBtn = document.getElementById('start-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const prevBtn = document.getElementById('prev-btn');
-        const submitBtn = document.getElementById('submit-btn');
-        const restartBtn = document.getElementById('restart-btn');
-        const questionText = document.getElementById('question-text');
-        const timeDisplay = document.getElementById('time');
-        const currentQuestionDisplay = document.getElementById('current-question');
-        const optionsContainer = document.querySelector('.options');
-        const scoreDisplay = document.getElementById('score');
-        const scoreMessage = document.getElementById('score-message');
-        const feedbackText = document.getElementById('feedback-text');
-        const timeTakenText = document.getElementById('time-taken');
-        const progressBar = document.getElementById('progress-bar');
-        
-        // Quiz state
-        let currentQuestion = 0;
-        let score = 0;
-        let selectedOptions = Array(questions.length).fill(null);
-        let timer;
-        let timeLeft = 120; // 2 minutes in seconds
-        let startTime;
-        
-        // Initialize quiz
-        function initQuiz() {
-            currentQuestion = 0;
-            score = 0;
-            selectedOptions = Array(questions.length).fill(null);
-            timeLeft = 120;
-            clearInterval(timer);
-            startTime = new Date();
-            updateTimer();
-            showQuestion();
-            updateProgressBar();
-            startScreen.classList.remove('active');
-            quizScreen.classList.add('active');
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navMenu = document.querySelector('#main-nav');
             
-            // Start timer
-            timer = setInterval(() => {
-                timeLeft--;
-                updateTimer();
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    submitTest();
-                }
-            }, 1000);
-        }
-        
-        // Update timer display
-        function updateTimer() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            // Change color when time is running low
-            if (timeLeft < 30) {
-                timeDisplay.parentElement.style.backgroundColor = '#ffebee';
-                timeDisplay.parentElement.style.color = '#d32f2f';
-            }
-        }
-        
-        // Show current question
-        function showQuestion() {
-            const question = questions[currentQuestion];
-            questionText.textContent = question.question;
-            currentQuestionDisplay.textContent = currentQuestion + 1;
-            
-            // Update options
-            optionsContainer.innerHTML = '';
-            question.options.forEach((option, index) => {
-                const optionElement = document.createElement('div');
-                optionElement.className = 'option';
-                if (selectedOptions[currentQuestion] === index) {
-                    optionElement.classList.add('selected');
-                }
-                optionElement.dataset.index = index;
-                
-                optionElement.innerHTML = `
-                    <div class="option-prefix">${String.fromCharCode(65 + index)}</div>
-                    <div class="option-text">${option}</div>
-                `;
-                
-                optionElement.addEventListener('click', () => selectOption(index));
-                optionsContainer.appendChild(optionElement);
+            navToggle.addEventListener('click', function() {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !isExpanded);
+                navMenu.classList.toggle('active');
             });
             
-            // Update navigation buttons
-            prevBtn.disabled = currentQuestion === 0;
-            nextBtn.style.display = currentQuestion < questions.length - 1 ? 'block' : 'none';
-            submitBtn.style.display = currentQuestion === questions.length - 1 ? 'block' : 'none';
-        }
-        
-        // Select an option
-        function selectOption(optionIndex) {
-            // Remove selected class from all options
-            document.querySelectorAll('.option').forEach(option => {
-                option.classList.remove('selected');
+            const langButtons = document.querySelectorAll('.language-switcher button');
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
             
-            // Add selected class to clicked option
-            const selectedOption = document.querySelector(`.option[data-index="${optionIndex}"]`);
-            selectedOption.classList.add('selected');
+            const animatedElements = document.querySelectorAll('.animated');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
             
-            // Store selected option
-            selectedOptions[currentQuestion] = optionIndex;
-        }
-        
-        // Move to next question
-        function nextQuestion() {
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
-                showQuestion();
-                updateProgressBar();
-            }
-        }
-        
-        // Move to previous question
-        function prevQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                showQuestion();
-                updateProgressBar();
-            }
-        }
-        
-        // Update progress bar
-        function updateProgressBar() {
-            const progress = ((currentQuestion + 1) / questions.length) * 100;
-            progressBar.style.width = `${progress}%`;
-        }
-        
-        // Calculate score
-        function calculateScore() {
-            let correctCount = 0;
-            selectedOptions.forEach((selected, index) => {
-                if (selected === questions[index].answer) {
-                    correctCount++;
-                }
+            animatedElements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(el);
             });
-            score = correctCount * 20; // 20 points per correct answer
-            return correctCount;
-        }
-        
-        // Get score message
-        function getScoreMessage(score) {
-            if (score >= 80) return "Excellent work! You're a knowledge master!";
-            if (score >= 60) return "Great job! You have a good understanding.";
-            if (score >= 40) return "Not bad! Keep learning to improve.";
-            return "Keep studying! You'll do better next time.";
-        }
-        
-        // Submit test
-        function submitTest() {
-            clearInterval(timer);
-            
-            // Calculate time taken
-            const endTime = new Date();
-            const timeTaken = Math.floor((endTime - startTime) / 1000);
-            const minutesTaken = Math.floor(timeTaken / 60);
-            const secondsTaken = timeTaken % 60;
-            
-            // Calculate score
-            const correctCount = calculateScore();
-            
-            // Update results screen
-            scoreDisplay.textContent = score;
-            scoreMessage.textContent = getScoreMessage(score);
-            feedbackText.textContent = `You answered ${correctCount} out of ${questions.length} questions correctly.`;
-            timeTakenText.textContent = `Time taken: ${minutesTaken}m ${secondsTaken}s`;
-            
-            // Show results screen
-            quizScreen.classList.remove('active');
-            resultsScreen.classList.add('active');
-        }
-        
-        // Event listeners
-        startBtn.addEventListener('click', initQuiz);
-        nextBtn.addEventListener('click', nextQuestion);
-        prevBtn.addEventListener('click', prevQuestion);
-        submitBtn.addEventListener('click', submitTest);
-        restartBtn.addEventListener('click', () => {
-            resultsScreen.classList.remove('active');
-            startScreen.classList.add('active');
         });
-        
-        // Initialize the first screen
-        updateProgressBar();
     </script>
 </body>
 </html>
