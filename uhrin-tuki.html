@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnkoHuijaus.online - Resurssit ja tuki</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a3a6c;
+            --secondary: #e63946;
+            --accent: #2a9d8f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --warning: #e9c46a;
+            --success: #4caf50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f4f8 0%, #e6f0fa 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+        
+        a:focus, button:focus {
+            outline: 3px solid var(--warning);
+            outline-offset: 2px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header & navigaatio */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 12px;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+        
+        .logo-text span {
+            color: var(--secondary);
+            font-weight: 800;
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 1.2rem;
+        }
+        
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0.8rem;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            font-size: 1.05rem;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--primary);
+            background-color: rgba(26, 58, 108, 0.05);
+        }
+        
+        .emergency-link {
+            background-color: var(--secondary);
+            color: white !important;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .emergency-link:hover {
+            background-color: #c1121f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(230, 57, 70, 0.3);
+        }
+        
+        .language-switcher {
+            margin-left: 1.5rem;
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 2px;
+            background: white;
+        }
+        
+        .language-switcher button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.95rem;
+            opacity: 0.7;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        
+        .language-switcher button.active {
+            background-color: var(--primary);
+            color: white;
+            opacity: 1;
+            font-weight: 600;
+        }
+        
+        /* Hätäbanneri */
+        .emergency-banner {
+            background: linear-gradient(90deg, var(--secondary) 0%, #c1121f 100%);
+            color: white;
+            padding: 0.8rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .emergency-banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -10%;
+            width: 20%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            transform: skewX(-20deg);
+            animation: banner-shine 3s infinite;
+        }
+        
+        .emergency-banner a, .emergency-banner .phone-link {
+            color: white;
+            text-decoration: underline;
+            margin-left: 0.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        @keyframes banner-shine {
+            0% { left: -10%; }
+            100% { left: 110%; }
+        }
+        
+        /* Hero-osio */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #0d2a4d 100%);
+            color: white;
+            padding: 5rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin: 0 auto 2.5rem;
+            max-width: 700px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(42, 157, 143, 0.3);
+        }
+        
+        .btn:hover {
+            background-color: #21897e;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(42, 157, 143, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid white;
+            margin-left: 15px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.3rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.8rem;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background-color: var(--accent);
+            border-radius: 3px;
+        }
+        
+        /* Yleiset kortit ja osiot */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-icon {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            font-size: 2.2rem;
+            padding: 1.8rem;
+            text-align: center;
+        }
+        
+        .card-content {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card h3 {
+            margin-bottom: 1.2rem;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        
+        .card p {
+            margin-bottom: 1.8rem;
+            flex-grow: 1;
+        }
+        
+        .card .btn {
+            align-self: flex-start;
+            background: var(--primary);
+            font-size: 1rem;
+            padding: 0.7rem 1.5rem;
+        }
+        
+        .resource-list {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        
+        .resource-item {
+            background-color: white;
+            border-left: 5px solid var(--accent);
+            margin-bottom: 1.2rem;
+            padding: 1.8rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .resource-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .resource-icon {
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .resource-text {
+            flex-grow: 1;
+        }
+        
+        .resource-item h3 {
+            margin-bottom: 0.6rem;
+            color: var(--primary);
+        }
+        
+        .resource-item a {
+            display: inline-block;
+            margin-top: 0.8rem;
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .resource-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .step-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .warning-box {
+            background: #fff8e1;
+            border-left: 4px solid var(--warning);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 2rem 0;
+        }
+        
+        .scam-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .scam-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--secondary);
+        }
+        
+        .scam-card h4 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark) 0%, #121a26 100%);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: auto;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--warning);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-links a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .footer-about p {
+            margin-bottom: 1.5rem;
+            color: #bbb;
+            line-height: 1.7;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+            color: #999;
+            font-size: 0.95rem;
+        }
+        
+        .stats-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            margin: 2rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stats-banner h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stats-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            min-width: 200px;
+        }
+        
+        .stat-item .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+        }
+        
+        /* Responsiivisuus */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+            
+            .section {
+                padding: 4rem 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: block;
+            }
+            
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                padding: 1rem 0;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav li {
+                margin: 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+            
+            .language-switcher {
+                margin: 1rem auto 0;
+                justify-content: center;
+                width: fit-content;
+            }
+            
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
+            .hero {
+                padding: 4rem 0 3rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .emergency-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
+            
+            .emergency-banner > * {
+                margin: 5px 0;
+            }
+            
+            .stats-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        /* Piilotetut osiot */
+        .page-section {
+            display: none;
+        }
+        
+        .active-section {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pääotsikko ja navigaatio -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="logo-text">
+                    Onko<span>Huijaus</span>.online
+                </div>
+            </a>
+            
+            <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav">
+                <i class="fas fa-bars"></i>
+                <span class="sr-only">Valikko</span>
+            </button>
+            
+            <nav>
+                <ul id="main-nav">
+                    <li><a href="#" data-page="index">Etusivu</a></li>
+                    <li><a href="#" data-page="huijaussahkopostit" class="active">Huijaussähköpostit</a></li>
+                    <li><a href="#" data-page="uhrin-tuki">Olen uhrina</a></li>
+                    <li><a href="#" data-page="resurssit">Resurssit</a></li>
+                </ul>
+            </nav>
+            
+            <div class="language-switcher">
+                <button class="active" aria-label="Suomi" data-lang="fi">FI</button>
+                <button aria-label="English" data-lang="en">EN</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="emergency-banner">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>Oletko huijaamisen uhri? </span>
+        <a href="#" data-page="uhrin-tuki">Tee välittömästi nämä toimet</a>
+        <div class="contact-info">
+            <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <span>Soita neuvontaan: 045550487 (arkisin 11-22)</span>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>Sähköposti: aspa@onkohuijaus.online</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Huijaussähköpostit - Sivu -->
+    <section id="huijaussahkopostit" class="page-section active-section">
+        <section class="hero" style="background: linear-gradient(135deg, #2a9d8f 0%, #21897e 100%);">
+            <div class="container hero-content">
+                <h1><i class="fas fa-envelope"></i> Huijaussähköpostit</h1>
+                <p>Opi tunnistamaan ja torjumaan yleisimmät huijaussähköpostit. Tässä oppaassa kerromme, miten suojautua sähköpostihuijauksilta.</p>
+                
+                <!-- Tilastobanneri -->
+                <div class="stats-banner">
+                    <h3>OnkoHuijaus.online - auttamassa sinua</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="number">9000 €</div>
+                            <div class="text">Estetyt tappiot 4 kuukaudessa</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="number">80+</div>
+                            <div class="text">Vastaanotetut puhelut</div>
+                        </div>
+                    </div>
+                    <p>3 hengen tiimimme on auttanut suomalaisia torjumaan huijauksia arkisin klo 11-22</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Kuinka tunnistaa huijaussähköposti</h2>
+                    <p>Huijarit käyttävät monia temppuja, mutta nämä merkit paljastavat useimmat huijaukset</p>
+                </div>
+                
+                <div class="warning-box">
+                    <h3><i class="fas fa-exclamation-circle"></i> Tärkeää muistaa</h3>
+                    <p>Lähettäjäosoite on usein väärennetty. Älä koskaan luota pelkästään lähettäjäosoitteeseen. Tarkista aina viestin sisältö ja epäilyttävät linkit.</p>
+                </div>
+                
+                <div class="scam-examples">
+                    <div class="scam-card">
+                        <h4><i class="fas fa-university"></i> Pankkihuijaukset</h4>
+                        <p>Viestissä väitetään, että pankkitilisi on vaarassa ja sinun on kirjauduttava nopeasti linkin kautta. Huijarit yrittävät varastaa pankkitunnuksesi.</p>
+                        <p><strong>Merkit:</strong> Kiirehdintää, kirjoitusvirheitä, epäilyttävä linkki</p>
+                    </div>
+                    
+                    <div class="scam-card">
+                        <h4><i class="fas fa-box"></i> Toimitushuijaukset</h4>
+                        <p>Viestissä väitetään, että sinulle on tulossa paketti, mutta toimitus on keskeytynyt. Sinua pyydetään avaamaan liite tai maksamaan "toimitusmaksu".</p>
+                        <p><strong>Merkit:</strong> Yllättävä viesti, liitteet, maksupyyntö</p>
+                    </div>
+                    
+                    <div class="scam-card">
+                        <h4><i class="fas fa-trophy"></i> Arpajaisvoitot</h4>
+                        <p>Viestissä ilmoitetaan, että olet voittanut suuren summan rahaa. Voittoa ei voi saada ilman, että ensin maksat "käsittelymaksun".</p>
+                        <p><strong>Merkit:</strong> Liian hyvää ollakseen totta, maksupyyntö, epäilyttävä lähettäjä</p>
+                    </div>
+                </div>
+                
+                <div class="section-title">
+                    <h2>Miten suojautua</h2>
+                    <p>Näillä toimilla voit vähentää huijaussähköpostien riskiä</p>
+                </div>
+                
+                <div class="step-section">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Tarkista lähettäjä</h3>
+                        <p>Avaa lähettäjän osoite kokonaan. Huijarit käyttävät usein virallisen näköisiä osoitteita, jotka ovat kuitenkin kirjoitettu väärin (esim. paypaal.com paypal.com sijaan).</p>
+                    </div>
+                </div>
+                
+                <div class="step-section">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Tarkista linkit ennen napsauttamista</h3>
+                        <p>Vie hiiri linkin päälle (älä napsauta) ja tarkista selaimen alapalkista, mihin osoitteeseen linkki todella vie. Epäilyttävät verkkotunnukset (esim. .xyz, .top) ovat usein huijauksia.</p>
+                    </div>
+                </div>
+                
+                <div class="step-section">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Älä avaa liitteitä</h3>
+                        <p>Huijaussähköpostien liitteet voivat sisältää haittaohjelmia. Älä koskaan avaa liitettä epäilyttävästä sähköpostista.</p>
+                    </div>
+                </div>
+                
+                <div class="step-section">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Ota yhteyttä virallisesti</h3>
+                        <p>Jos epäilet viestiä esimerkiksi pankistasi, älä käytä sähköpostissa olevia yhteystietoja. Käytä sen sijaan virallista verkkosivua tai puhelinnumeroa.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Uhrin tuki - Sivu -->
+    <section id="uhrin-tuki" class="page-section">
+        <section class="hero" style="background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);">
+            <div class="container hero-content">
+                <h1><i class="fas fa-hands-helping"></i> Oletko huijaamisen uhri?</h1>
+                <p>Tässä ohjeessa kerromme, mitä tehdä, jos olet joutunut huijauksen uhriksi. Toimi nopeasti minimoidaksesi vahingot.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Välittömät toimenpiteet</h2>
+                    <p>Nämä askeleet kannattaa tehdä mahdollisimman pian huijauksen jälkeen</p>
+                </div>
+                
+                <div class="warning-box">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Tärkeää</h3>
+                    <p>Jos olet antanut pankkitietojasi, ota välittömästi yhteyttä pankkiisi. Pankki voi pysäyttää epäilyttävät tapahtumat ja lukita korttisi.</p>
+                </div>
+                
+                <div class="step-section">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Ota yhteyttä pankkiisi</h3>
+                        <p>Soita pankkisi hätänumeroon ja ilmoita petoksesta. Pankki voi pysäyttää käynnissä olevat tapahtumat ja estää uudet.</p>
+                        <p><strong>Pankkien hätänumerot:</strong> OP: 010 333, Nordea: 0200 31300, Danske Bank: 0200 2580</p>
+                    </div>
+                </div>
+                
+                <div class="step-section">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Tee rikosilmoitus</h3>
+                        <p>Tee rikosilmoitus poliisille verkossa. Kerää kaikki petokseen liittyvät todisteet (sähköpostit, viestit, kuvankaappaukset).</p>
+                        <a href="https://www.poliisi.fi/rikosilmotus" target="_blank" class="btn">Tee rikosilmoitus</a>
+                    </div>
+                </div>
+                
+                <div class="step-section">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Vaihda salasanat</h3>
+                        <p>Jos olet antanut tunnistetietojasi huijareille, vaihda välittömästi palveluiden salasanat. Käytä vahvoja, yksilöllisiä salasanoja.</p>
+                    </div>
+                </div>
+                
+                <div class="step-section">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Ilmoita petos palveluntarjoajalle</h3>
+                        <p>Jos petos liittyy tiettyyn palveluun (esim. verkkokauppa, pankki), ilmoita heille petoksesta. He voivat estää huijareiden tilejä.</p>
+                    </div>
+                </div>
+                
+                <div class="section-title">
+                    <h2>Henkilötietojen suojaaminen</h2>
+                    <p>Miten suojella henkilötietojasi, jos ne ovat vuotaneet huijareille</p>
+                </div>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #1a3a6c 0%, #0d2a4d 100%);">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Maksukorttien lukitus</h3>
+                            <p>Jos olet antanut korttitietojasi, pyydä pankkia lukitsemaan korttisi välittömästi. Voit tehdä tämän usein pankkisovelluksen kautta.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Varoitusmerkinnät</h3>
+                            <p>Ota yhteyttä luottotietoyhtiöön (esim. Bisnode, Asiakastieto) ja pyydä asettamaan varoitusmerkintä henkilötietoihisi. Tämä estää huijareita avaamasta luottotilejä nimissäsi.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #2a9d8f 0%, #21897e 100%);">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Kaksivaiheinen tunnistus</h3>
+                            <p>Ota käyttöön kaksivaiheinen tunnistus kaikissa tärkeissä tileissäsi (sähköposti, pankki, some). Tämä lisää tietoturvaa merkittävästi.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Oma neuvontapalvelu -->
+                <div class="section-title">
+                    <h2>Oma neuvontapalvelumme</h2>
+                    <p>Olemme täällä auttamassa sinua</p>
+                </div>
+                
+                <div class="resource-item">
+                    <div class="resource-icon" style="background-color: var(--accent);">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="resource-text">
+                        <h3>OnkoHuijaus.online - neuvonta</h3>
+                        <p>Tarjoamme neuvontaa verkkopetoksista puhelimitse ja sähköpostitse. 3 hengen tiimimme on vastannut yli 80 puheluun ja auttanut estämään yli 9000 euron vahingot.</p>
+                        <p><strong>Puhelinneuvonta:</strong> 045550487 arkisin klo 11-22</p>
+                        <p><strong>Sähköposti:</strong> aspa@onkohuijaus.online</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Resurssit - Sivu -->
+    <section id="resurssit" class="page-section">
+        <section class="hero" style="background: linear-gradient(135deg, #1a3a6c 0%, #0d2a4d 100%);">
+            <div class="container hero-content">
+                <h1><i class="fas fa-book"></i> Resurssit ja linkit</h1>
+                <p>Keräämme tälle sivulle luotettavat resurssit verkkopetosten torjuntaan ja uhrien tukeen.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Viranomaisten ohjeet ja linkit</h2>
+                    <p>Näiden viranomaisten sivuilta löydät luotettavaa tietoa</p>
+                </div>
+                
+                <div class="resource-list">
+                    <div class="resource-item">
+                        <div class="resource-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="resource-text">
+                            <h3>Traficom - Kyberturvallisuuskeskus</h3>
+                            <p>Valtion viralliset ohjeet verkkoturvallisuuteen ja petosten torjuntaan. Sisältää ajankohtaiset varoitukset ja oppaat.</p>
+                            <a href="https://www.kyberturvallisuuskeskus.fi" target="_blank" rel="noopener">Siirry sivustolle →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-item">
+                        <div class="resource-icon">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <div class="resource-text">
+                            <h3>Poliisi - Rikosilmoituksen tekeminen</h3>
+                            <p>Tee rikosilmoitus verkossa, jos olet huijauksen uhri. Ohjeet rikosilmoituksen tekemiseen ja tarvittavat tiedot.</p>
+                            <a href="https://www.poliisi.fi/rikosilmotus" target="_blank" rel="noopener">Tee rikosilmoitus →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-item">
+                        <div class="resource-icon">
+                            <i class="fas fa-life-ring"></i>
+                        </div>
+                        <div class="resource-text">
+                            <h3>Kuluttajaneuvonta</h3>
+                            <p>Apua kuluttaja-asioihin ja petosten selvittämiseen. Tarjoaa neuvontaa ja ohjausta oikeuksiesi perässä.</p>
+                            <a href="https://www.kuluttajaneuvonta.fi" target="_blank" rel="noopener">Hae apua →</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Oma neuvontapalvelu -->
+                    <div class="resource-item">
+                        <div class="resource-icon" style="background-color: var(--accent);">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="resource-text">
+                            <h3>OnkoHuijaus.online - neuvonta</h3>
+                            <p>Tarjoamme neuvontaa verkkopetoksista puhelimitse ja sähköpostitse. Ota yhteyttä, jos epäilet huijausta tai olet jo uhri.</p>
+                            <p><strong>Puhelinneuvonta:</strong> 045550487 arkisin klo 11-22</p>
+                            <p><strong>Sähköposti:</strong> aspa@onkohuijaus.online</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-title">
+                    <h2>Lataukset ja käytännön työkalut</h2>
+                    <p>Hyödyllisiä ohjeita ja työkaluja suojaamiseen</p>
+                </div>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Huijauksien tunnistamisopas</h3>
+                            <p>Lataa PDF-muotoinen opas, jossa on esimerkkejä yleisimmistä huijauksista ja ohjeita niiden tunnistamiseen.</p>
+                            <a href="#" class="btn">Lataa opas (PDF)</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Turvallisuuschecklista</h3>
+                            <p>Tarkista digitaalinen turvallisuutesi tällä listalla. Lista auttaa tunnistamaan heikot kohdat ja parantamaan tietoturvaasi.</p>
+                            <a href="#" class="btn">Lataa lista</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Puhelinhuijausraportointisovellus</h3>
+                            <p>Lataa viranomaisten kehittämä sovellus, jolla voit ilmoittaa vastaanottamistasi huijauspuheluista ja -teksteistä.</p>
+                            <a href="#" class="btn">Lataa sovellus</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-title">
+                    <h2>Henkinen tuki</h2>
+                    <p>Apua ja tukea petoksen kokeneille</p>
+                </div>
+                
+                <div class="resource-list">
+                    <div class="resource-item">
+                        <div class="resource-icon" style="background-color: var(--accent);">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="resource-text">
+                            <h3>MIELI Suomen Mielenterveys ry</h3>
+                            <p>Tarjoaa kriisipuhelinpalvelua ja vertaistukea. Soita 09 2525 0111 arkisin klo 9-15 tai 010 195 202 iltaisin ja viikonloppuisin.</p>
+                            <a href="https://www.mieli.fi" target="_blank" rel="noopener">Kotisivut →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-item">
+                        <div class="resource-icon" style="background-color: var(--secondary);">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <div class="resource-text">
+                            <h3>Väärinkäytettyjen Tukiliitto</h3>
+                            <p>Tarjoaa tukea ja neuvontaa petosten uhreille. Soita neuvontaan numeroon 029 533 8990 arkisin klo 9-15.</p>
+                            <a href="https://www.tukiliitto.fi" target="_blank" rel="noopener">Kotisivut →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column footer-about">
+                    <h3>OnkoHuijaus.online</h3>
+                    <p>Tarjoamme luotettavaa tietoa verkkopetosten ennaltaehkäisyyn ja uhrien tukeen. Olemme 3 hengen tiimi, joka on auttanut estämään yli 9000 euron vahingot 4 kuukaudessa ja vastannut yli 80 puheluun.</p>
+                    <p>Sivustomme ei kerää henkilötietoja eikä käytä evästeitä.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Sivuston sisältö</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-page="huijaussahkopostit"><i class="fas fa-envelope"></i> Huijaussähköpostit</a></li>
+                        <li><a href="#" data-page="uhrin-tuki"><i class="fas fa-hands-helping"></i> Olen uhrina</a></li>
+                        <li><a href="#" data-page="resurssit"><i class="fas fa-book"></i> Resurssit</a></li>
+                        <li><a href="#" data-page="index"><i class="fas fa-home"></i> Etusivu</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Neuvonta ja tuki</h3>
+                    <ul class="footer-links">
+                        <li><a href="tel:045550487"><i class="fas fa-phone"></i> Verkkopetosneuvonta: 045550487 (arkisin 11-22)</a></li>
+                        <li><a href="mailto:aspa@onkohuijaus.online"><i class="fas fa-envelope"></i> Sähköposti: aspa@onkohuijaus.online</a></li>
+                        <li><a href="tel:116006"><i class="fas fa-phone-alt"></i> MIELI Kriisipuhelin: 116 006</a></li>
+                        <li><a href="tel:112"><i class="fas fa-phone-alt"></i> Hätänumero 112</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Lähteet ja yhteistyö</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://www.traficom.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Traficom</a></li>
+                        <li><a href="https://www.europol.europa.eu" target="_blank"><i class="fas fa-external-link-alt"></i> Europol</a></li>
+                        <li><a href="https://www.finanssivalvonta.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Finanssivalvonta</a></li>
+                        <li><a href="https://www.kyberturvallisuuskeskus.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Kyberturvallisuuskeskus</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 OnkoHuijaus.online - Kaikki oikeudet pidätetään. Sivusto ei kerää henkilötietoja.</p>
+                <p>Sisältö perustuu viranomaisten suosituksiin. Tietoa päivitetään säännöllisesti.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navMenu = document.querySelector('#main-nav');
+            
+            // Navigaatiovalikon toiminnallisuus
+            if (navToggle) {
+                navToggle.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    navMenu.classList.toggle('active');
+                });
+            }
+            
+            // Sivujen vaihto
+            const pageLinks = document.querySelectorAll('nav a, .emergency-banner a, .footer-links a');
+            pageLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('data-page');
+                    
+                    // Piilota kaikki sivut
+                    document.querySelectorAll('.page-section').forEach(section => {
+                        section.classList.remove('active-section');
+                    });
+                    
+                    // Näytä valittu sivu
+                    if (pageId) {
+                        document.getElementById(pageId).classList.add('active-section');
+                    }
+                    
+                    // Sulje mobiilivalikko
+                    if (navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        navToggle.setAttribute('aria-expanded', 'false');
+                    }
+                    
+                    // Päivitä aktiivinen valikkolinkki
+                    document.querySelectorAll('nav a').forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+            
+            // Kielivalitsimen toiminnallisuus
+            const langButtons = document.querySelectorAll('.language-switcher button');
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Tässä esimerkissä kielenvaihto on vain demo
+                    if (lang === 'en') {
+                        document.querySelector('.hero h1').textContent = 'Scam Emails - Identification and Prevention';
+                        document.querySelector('.hero p').textContent = 'Learn to identify and prevent common scam emails. This guide provides practical tips to protect yourself.';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
