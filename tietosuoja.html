@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tietosuojaseloste - OnkoHuijaus.online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Käytetään pääsivuston tyylejä */
+        :root {
+            --primary: #1a3a6c;
+            --secondary: #e63946;
+            --accent: #2a9d8f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --warning: #e9c46a;
+            --success: #4caf50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f4f8 0%, #e6f0fa 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 12px;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+        
+        .logo-text span {
+            color: var(--secondary);
+            font-weight: 800;
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+        
+        .emergency-link {
+            background-color: var(--secondary);
+            color: white !important;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .language-switcher {
+            margin-left: 1.5rem;
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 2px;
+            background: white;
+        }
+        
+        .language-switcher button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.95rem;
+            opacity: 0.7;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        
+        .language-switcher button.active {
+            background-color: var(--primary);
+            color: white;
+            opacity: 1;
+            font-weight: 600;
+        }
+        
+        /* GDPR-sisältö */
+        .gdpr-header {
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .gdpr-header h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .gdpr-header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .gdpr-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            padding: 3rem;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            margin: 2.5rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+            font-size: 1.8rem;
+        }
+        
+        .section-title:first-child {
+            margin-top: 0;
+        }
+        
+        .gdpr-point {
+            margin-bottom: 2rem;
+        }
+        
+        .gdpr-point h3 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .gdpr-point p {
+            margin-bottom: 0.8rem;
+            line-height: 1.7;
+        }
+        
+        .highlight-box {
+            background: #f0f8ff;
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .contact-card {
+            flex: 1;
+            min-width: 300px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .contact-card h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--dark) 0%, #121a26 100%);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: auto;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--warning);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-links a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+            color: #999;
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            .gdpr-content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .gdpr-header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="logo-text">
+                    Onko<span>Huijaus</span>.online
+                </div>
+            </a>
+            
+            <div class="language-switcher">
+                <button class="active" aria-label="Suomi" data-lang="fi">FI</button>
+                <button aria-label="English" data-lang="en">EN</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="gdpr-header">
+            <h1><i class="fas fa-lock"></i> Tietosuojaseloste</h1>
+            <p>Päivitetty: 1. tammikuuta 2024</p>
+        </div>
+        
+        <div class="gdpr-content">
+            <p>Tämä tietosuojaseloste kertoo, miten OnkoHuijaus.online käsittelee henkilötietojasi. Sivustomme arvostaa käyttäjien yksityisyyttä ja sitoutuu suojaamaan henkilötietojasi EU:n yleisen tietosuoja-asetuksen (GDPR) mukaisesti.</p>
+            
+            <div class="highlight-box">
+                <h3><i class="fas fa-info-circle"></i> Tärkeää tietoa</h3>
+                <p>Sivustomme ei kerää henkilötietoja eikä käytä evästeitä käyttäjäseurantaan. Emme vaadi rekisteröitymistä palvelun käyttöön. Puheluitamme ei nauhoiteta eikä puheluista kerätä henkilötietoja.</p>
+            </div>
+            
+            <h2 class="section-title">1. Rekisterinpitäjä</h2>
+            <div class="gdpr-point">
+                <p>OnkoHuijaus.online</p>
+                <p>Verkkopetostorjunta- ja neuvontapalvelu</p>
+                <p>Y-tunnus: 1234567-8</p>
+                <p>Sähköposti: tietosuoja@onkohuijaus.online</p>
+            </div>
+            
+            <h2 class="section-title">2. Henkilötietojen käsittely</h2>
+            <div class="gdpr-point">
+                <h3><i class="fas fa-database"></i> Keräämmekö henkilötietoja?</h3>
+                <p>Emme kerää tai tallenna henkilötietoja sivustomme käyttäjistä. Sivustomme toimii ilman käyttäjätilejä, eikä se edellytä rekisteröitymistä.</p>
+                
+                <h3><i class="fas fa-cookie"></i> Evästeet (cookies)</h3>
+                <p>Sivustomme käyttää ainoastaan välttämättömiä toiminnallisia evästeitä, jotka mahdollistavat sivuston teknisen toiminnan. Emme käytä evästeitä käyttäjien seuraamiseen, markkinointitarkoituksiin tai analytiikkaan.</p>
+                
+                <h3><i class="fas fa-server"></i> Palvelinlokit</h3>
+                <p>Palvelimemme voivat kerätä automaattisesti teknisiä tietoja kuten IP-osoitteen, selaintyypin ja käyttöjärjestelmän. Nämä tiedot eivät ole henkilökohtaisia eikä niitä yhdistetä yksittäisiin käyttäjiin. Tiedot säilytetään enintään 30 päivää.</p>
+            </div>
+            
+            <h2 class="section-title">3. Puheluiden käsittely</h2>
+            <div class="gdpr-point">
+                <h3><i class="fas fa-phone"></i> Puheluneuvontamme</h3>
+                <p>Tarjoamme verkkopetoksiin liittyvää neuvontaa puhelimitse numerosta <strong>09 123 4567</strong>.</p>
+                
+                <div class="highlight-box">
+                    <h3><i class="fas fa-ban"></i> Emme tallenna puheluita</h3>
+                    <p>Kaikki neuvontapuhelumme ovat täysin anonyymeja. Emme nauhoita puheluita emmekä kerää soittajien henkilötietoja. Emme pyydä nimeäsi, puhelinnumeroasi tai muita henkilötietoja, ellei se ole välttämätöntä neuvonnan kannalta.</p>
+                </div>
+                
+                <h3><i class="fas fa-euro-sign"></i> Puhelumaksut</h3>
+                <p>Neuvontapuhelumme ovat ilmaisia. Puhelun hinta on sama kuin normaali paikallispuhelu puhelinliittymäsi perussopimuksen mukaisesti. Emme peri puheluista lisämaksuja.</p>
+            </div>
+            
+            <h2 class="section-title">4. Tietojen suojaaminen</h2>
+            <div class="gdpr-point">
+                <h3><i class="fas fa-shield-alt"></i> Turvatoimet</h3>
+                <p>Suojaamme sivustomme ja palvelimemme käyttämällä nykyaikaisia tietoturvatoimia:</p>
+                <ul style="margin: 1rem 0 1rem 2rem;">
+                    <li>SSL-salaus (HTTPS) kaikelle liikenteelle</li>
+                    <li>Säännölliset tietoturvapäivitykset</li>
+                    <li>Palomuurit ja tunkeutumisenestojärjestelmät</li>
+                    <li>Säännölliset tietoturvatarkastukset</li>
+                </ul>
+                
+                <h3><i class="fas fa-user-friends"></i> Tietojen luovutus kolmansille osapuolille</h3>
+                <p>Emme luovuta henkilötietoja kolmansille osapuolille, koska emme kerää henkilötietoja. Ainoat tiedot, joita voimme jakaa viranomaisille, ovat epäilyttävien petostapausten raportit ilman henkilötietoja.</p>
+            </div>
+            
+            <h2 class="section-title">5. Käyttöoikeutesi</h2>
+            <div class="gdpr-point">
+                <p>GDPR:n myöntämät oikeudet koskevat tietojasi, mutta koska emme kerää henkilötietoja, näitä oikeuksia ei käytännössä voida soveltaa:</p>
+                
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <h4><i class="fas fa-file-alt"></i> Saatavuusoikeus</h4>
+                        <p>Sinulla on oikeus tarkastaa meillä olevat tietosi. Koska emme kerää henkilötietoja, tähän ei ole käytännön sovellusta.</p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <h4><i class="fas fa-eraser"></i> Oikeus tietojen poistamiseen</h4>
+                        <p>Sinulla on oikeus vaatia henkilötietojesi poistamista. Koska emme kerää henkilötietoja, tätä oikeutta ei tarvitse käyttää.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="section-title">6. Muutokset tietosuojaselosteeseen</h2>
+            <div class="gdpr-point">
+                <p>Pidätämme oikeuden tehdä muutoksia tähän tietosuojaselosteeseen. Merkittävät muutokset julkaistaan näkyvästi sivustollamme. Viimeisin päivitys on merkitty selosteen alkuun.</p>
+            </div>
+            
+            <h2 class="section-title">7. Yhteystiedot</h2>
+            <div class="gdpr-point">
+                <p>Kaikkiin tietosuojaan liittyviin kysymyksiin ja huomioihin:</p>
+                
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <h4><i class="fas fa-envelope"></i> Sähköposti</h4>
+                        <p>tietosuoja@onkohuijaus.online</p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <h4><i class="fas fa-phone"></i> Puhelinneuvonta</h4>
+                        <p>09 123 4567</p>
+                        <p>Ma-Pe 9-18, La 10-15</p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <h4><i class="fas fa-mail-bulk"></i> Postiosoite</h4>
+                        <p>OnkoHuijaus.online</p>
+                        <p>PL 123</p>
+                        <p>00100 Helsinki</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>OnkoHuijaus.online</h3>
+                    <p>Luotettavaa tietoa verkkopetosten ennaltaehkäisyyn ja uhrien tukeen. Kaikki sisältömme perustuu viranomaisten suosituksiin.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Linkkejä</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-home"></i> Etusivu</a></li>
+                        <li><a href="uhrin-tuki.html"><i class="fas fa-hands-helping"></i> Olen uhrina</a></li>
+                        <li><a href="resurssit.html"><i class="fas fa-link"></i> Resurssit</a></li>
+                        <li><a href="tietosuoja.html"><i class="fas fa-lock"></i> Tietosuojaseloste</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Neuvonta</h3>
+                    <ul class="footer-links">
+                        <li><a href="tel:091234567"><i class="fas fa-phone"></i> Verkkopetosneuvonta: 09 123 4567</a></li>
+                        <li><a href="tel:116006"><i class="fas fa-phone-alt"></i> MIELI Kriisipuhelin: 116 006</a></li>
+                        <li><a href="tel:112"><i class="fas fa-phone-alt"></i> Hätänumero 112</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Viranomaiset</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://www.tietosuoja.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Tietosuojavaltuutetun toimisto</a></li>
+                        <li><a href="https://www.traficom.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Traficom</a></li>
+                        <li><a href="https://www.poliisi.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Poliisi</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 OnkoHuijaus.online - Kaikki oikeudet pidätetään. Sivusto ei kerää henkilötietoja.</p>
+                <p>Tietosuojaseloste päivitetty 1.1.2024</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kielivalitsimen toiminnallisuus
+            const langButtons = document.querySelectorAll('.language-switcher button');
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Vaihda kieli
+                    if (lang === 'en') {
+                        document.documentElement.lang = 'en';
+                        document.querySelector('title').textContent = 'Privacy Policy - IsItScam.online';
+                        document.querySelector('.gdpr-header h1').innerHTML = '<i class="fas fa-lock"></i> Privacy Policy';
+                        document.querySelector('.gdpr-header p').textContent = 'Updated: January 1, 2024';
+                        document.querySelector('.gdpr-content p:first-of-type').textContent = 'This privacy policy explains how IsItScam.online handles your personal data. Our site values user privacy and is committed to protecting your personal data in accordance with the EU General Data Protection Regulation (GDPR).';
+                        document.querySelector('.highlight-box h3').innerHTML = '<i class="fas fa-info-circle"></i> Important Information';
+                        document.querySelector('.highlight-box p').textContent = 'Our site does not collect personal data or use cookies for user tracking. We do not require registration to use the service. Our calls are not recorded and no personal data is collected from calls.';
+                        document.querySelectorAll('.section-title')[0].textContent = '1. Data Controller';
+                        document.querySelectorAll('.gdpr-point p')[0].innerHTML = 'IsItScam.online<br>Online Scam Prevention and Advisory Service<br>Business ID: 1234567-8<br>Email: privacy@isitscam.online';
+                        document.querySelectorAll('.section-title')[1].textContent = '2. Processing of Personal Data';
+                        document.querySelectorAll('.gdpr-point h3')[0].innerHTML = '<i class="fas fa-database"></i> Do We Collect Personal Data?';
+                        document.querySelectorAll('.gdpr-point p')[1].textContent = 'We do not collect or store personal data from our site users. Our site operates without user accounts and does not require registration.';
+                        document.querySelectorAll('.gdpr-point h3')[1].innerHTML = '<i class="fas fa-cookie"></i> Cookies';
+                        document.querySelectorAll('.gdpr-point p')[2].textContent = 'Our site uses only essential functional cookies that enable the technical functioning of the site. We do not use cookies to track users, for marketing purposes, or for analytics.';
+                        document.querySelectorAll('.gdpr-point h3')[2].innerHTML = '<i class="fas fa-server"></i> Server Logs';
+                        document.querySelectorAll('.gdpr-point p')[3].textContent = 'Our servers may automatically collect technical information such as IP address, browser type, and operating system. This data is not personal and is not linked to individual users. Data is retained for a maximum of 30 days.';
+                        document.querySelectorAll('.section-title')[2].textContent = '3. Call Handling';
+                        document.querySelectorAll('.gdpr-point h3')[3].innerHTML = '<i class="fas fa-phone"></i> Our Phone Advisory Service';
+                        document.querySelectorAll('.gdpr-point p')[4].textContent = 'We provide advice on online scams by phone at <strong>09 123 4567</strong>.';
+                        document.querySelectorAll('.highlight-box')[1].querySelector('h3').innerHTML = '<i class="fas fa-ban"></i> We Do Not Record Calls';
+                        document.querySelectorAll('.highlight-box')[1].querySelector('p').textContent = 'All our advisory calls are completely anonymous. We do not record calls or collect callers\' personal data. We do not ask for your name, phone number or other personal information unless necessary for the advice.';
+                        document.querySelectorAll('.gdpr-point h3')[4].innerHTML = '<i class="fas fa-euro-sign"></i> Call Charges';
+                        document.querySelectorAll('.gdpr-point p')[5].textContent = 'Our advisory calls are free. The cost of the call is the same as a normal local call according to your basic phone subscription. We do not charge extra for calls.';
+                        document.querySelectorAll('.section-title')[3].textContent = '4. Data Protection';
+                        document.querySelectorAll('.gdpr-point h3')[5].innerHTML = '<i class="fas fa-shield-alt"></i> Security Measures';
+                        document.querySelectorAll('.gdpr-point p')[6].textContent = 'We protect our site and servers using modern security measures:';
+                        document.querySelectorAll('.gdpr-point ul')[0].innerHTML = '<li>SSL encryption (HTTPS) for all traffic</li><li>Regular security updates</li><li>Firewalls and intrusion prevention systems</li><li>Regular security audits</li>';
+                        document.querySelectorAll('.gdpr-point h3')[6].innerHTML = '<i class="fas fa-user-friends"></i> Disclosure to Third Parties';
+                        document.querySelectorAll('.gdpr-point p')[7].textContent = 'We do not disclose personal data to third parties because we do not collect personal data. The only information we may share with authorities are reports of suspicious fraud cases without personal data.';
+                        document.querySelectorAll('.section-title')[4].textContent = '5. Your Rights';
+                        document.querySelectorAll('.gdpr-point p')[8].textContent = 'The rights granted by the GDPR concern your data, but since we do not collect personal data, these rights cannot be applied in practice:';
+                        document.querySelectorAll('.contact-card h4')[0].innerHTML = '<i class="fas fa-file-alt"></i> Right of Access';
+                        document.querySelectorAll('.contact-card p')[0].textContent = 'You have the right to inspect the data we have about you. Since we do not collect personal data, this has no practical application.';
+                        document.querySelectorAll('.contact-card h4')[1].innerHTML = '<i class="fas fa-eraser"></i> Right to Erasure';
+                        document.querySelectorAll('.contact-card p')[1].textContent = 'You have the right to request the deletion of your personal data. Since we do not collect personal data, this right does not need to be exercised.';
+                        document.querySelectorAll('.contact-card h4')[2].innerHTML = '<i class="fas fa-envelope"></i> Email';
+                        document.querySelectorAll('.contact-card p')[2].textContent = 'privacy@isitscam.online';
+                        document.querySelectorAll('.contact-card h4')[3].innerHTML = '<i class="fas fa-phone"></i> Phone Advisory';
+                        document.querySelectorAll('.contact-card p')[3].innerHTML = '09 123 4567<br>Mon-Fri 9-18, Sat 10-15';
+                        document.querySelectorAll('.contact-card h4')[4].innerHTML = '<i class="fas fa-mail-bulk"></i> Postal Address';
+                        document.querySelectorAll('.contact-card p')[4].innerHTML = 'IsItScam.online<br>PO Box 123<br>00100 Helsinki';
+                        document.querySelectorAll('.section-title')[5].textContent = '6. Changes to the Privacy Policy';
+                        document.querySelectorAll('.gdpr-point p')[9].textContent = 'We reserve the right to make changes to this privacy policy. Significant changes will be prominently published on our site. The latest update is marked at the beginning of the policy.';
+                        document.querySelectorAll('.section-title')[6].textContent = '7. Contact Information';
+                        document.querySelectorAll('.gdpr-point p')[10].textContent = 'For all questions and concerns regarding privacy:';
+                    } else {
+                        // Palauta suomenkielinen versio
+                        document.documentElement.lang = 'fi';
+                        document.querySelector('title').textContent = 'Tietosuojaseloste - OnkoHuijaus.online';
+                        document.querySelector('.gdpr-header h1').innerHTML = '<i class="fas fa-lock"></i> Tietosuojaseloste';
+                        document.querySelector('.gdpr-header p').textContent = 'Päivitetty: 1. tammikuuta 2024';
+                        document.querySelector('.gdpr-content p:first-of-type').textContent = 'Tämä tietosuojaseloste kertoo, miten OnkoHuijaus.online käsittelee henkilötietojasi. Sivustomme arvostaa käyttäjien yksityisyyttä ja sitoutuu suojaamaan henkilötietojasi EU:n yleisen tietosuoja-asetuksen (GDPR) mukaisesti.';
+                        document.querySelector('.highlight-box h3').innerHTML = '<i class="fas fa-info-circle"></i> Tärkeää tietoa';
+                        document.querySelector('.highlight-box p').textContent = 'Sivustomme ei kerää henkilötietoja eikä käytä evästeitä käyttäjäseurantaan. Emme vaadi rekisteröitymistä palvelun käyttöön. Puheluitamme ei nauhoiteta eikä puheluista kerätä henkilötietoja.';
+                        document.querySelectorAll('.section-title')[0].textContent = '1. Rekisterinpitäjä';
+                        document.querySelectorAll('.gdpr-point p')[0].innerHTML = 'OnkoHuijaus.online<br>Verkkopetostorjunta- ja neuvontapalvelu<br>Y-tunnus: 1234567-8<br>Sähköposti: tietosuoja@onkohuijaus.online';
+                        document.querySelectorAll('.section-title')[1].textContent = '2. Henkilötietojen käsittely';
+                        document.querySelectorAll('.gdpr-point h3')[0].innerHTML = '<i class="fas fa-database"></i> Keräämmekö henkilötietoja?';
+                        document.querySelectorAll('.gdpr-point p')[1].textContent = 'Emme kerää tai tallenna henkilötietoja sivustomme käyttäjistä. Sivustomme toimii ilman käyttäjätilejä, eikä se edellytä rekisteröitymistä.';
+                        document.querySelectorAll('.gdpr-point h3')[1].innerHTML = '<i class="fas fa-cookie"></i> Evästeet (cookies)';
+                        document.querySelectorAll('.gdpr-point p')[2].textContent = 'Sivustomme käyttää ainoastaan välttämättömiä toiminnallisia evästeitä, jotka mahdollistavat sivuston teknisen toiminnan. Emme käytä evästeitä käyttäjien seuraamiseen, markkinointitarkoituksiin tai analytiikkaan.';
+                        document.querySelectorAll('.gdpr-point h3')[2].innerHTML = '<i class="fas fa-server"></i> Palvelinlokit';
+                        document.querySelectorAll('.gdpr-point p')[3].textContent = 'Palvelimemme voivat kerätä automaattisesti teknisiä tietoja kuten IP-osoitteen, selaintyypin ja käyttöjärjestelmän. Nämä tiedot eivät ole henkilökohtaisia eikä niitä yhdistetä yksittäisiin käyttäjiin. Tiedot säilytetään enintään 30 päivää.';
+                        document.querySelectorAll('.section-title')[2].textContent = '3. Puheluiden käsittely';
+                        document.querySelectorAll('.gdpr-point h3')[3].innerHTML = '<i class="fas fa-phone"></i> Puheluneuvontamme';
+                        document.querySelectorAll('.gdpr-point p')[4].textContent = 'Tarjoamme verkkopetoksiin liittyvää neuvontaa puhelimitse numerosta <strong>09 123 4567</strong>.';
+                        document.querySelectorAll('.highlight-box')[1].querySelector('h3').innerHTML = '<i class="fas fa-ban"></i> Emme tallenna puheluita';
+                        document.querySelectorAll('.highlight-box')[1].querySelector('p').textContent = 'Kaikki neuvontapuhelumme ovat täysin anonyymeja. Emme nauhoita puheluita emmekä kerää soittajien henkilötietoja. Emme pyydä nimeäsi, puhelinnumeroasi tai muita henkilötietoja, ellei se ole välttämätöntä neuvonnan kannalta.';
+                        document.querySelectorAll('.gdpr-point h3')[4].innerHTML = '<i class="fas fa-euro-sign"></i> Puhelumaksut';
+                        document.querySelectorAll('.gdpr-point p')[5].textContent = 'Neuvontapuhelumme ovat ilmaisia. Puhelun hinta on sama kuin normaali paikallispuhelu puhelinliittymäsi perussopimuksen mukaisesti. Emme peri puheluista lisämaksuja.';
+                        document.querySelectorAll('.section-title')[3].textContent = '4. Tietojen suojaaminen';
+                        document.querySelectorAll('.gdpr-point h3')[5].innerHTML = '<i class="fas fa-shield-alt"></i> Turvatoimet';
+                        document.querySelectorAll('.gdpr-point p')[6].textContent = 'Suojaamme sivustomme ja palvelimemme käyttämällä nykyaikaisia tietoturvatoimia:';
+                        document.querySelectorAll('.gdpr-point ul')[0].innerHTML = '<li>SSL-salaus (HTTPS) kaikelle liikenteelle</li><li>Säännölliset tietoturvapäivitykset</li><li>Palomuurit ja tunkeutumisenestojärjestelmät</li><li>Säännölliset tietoturvatarkastukset</li>';
+                        document.querySelectorAll('.gdpr-point h3')[6].innerHTML = '<i class="fas fa-user-friends"></i> Tietojen luovutus kolmansille osapuolille';
+                        document.querySelectorAll('.gdpr-point p')[7].textContent = 'Emme luovuta henkilötietoja kolmansille osapuolille, koska emme kerää henkilötietoja. Ainoat tiedot, joita voimme jakaa viranomaisille, ovat epäilyttävien petostapausten raportit ilman henkilötietoja.';
+                        document.querySelectorAll('.section-title')[4].textContent = '5. Käyttöoikeutesi';
+                        document.querySelectorAll('.gdpr-point p')[8].textContent = 'GDPR:n myöntämät oikeudet koskevat tietojasi, mutta koska emme kerää henkilötietoja, näitä oikeuksia ei käytännössä voida soveltaa:';
+                        document.querySelectorAll('.contact-card h4')[0].innerHTML = '<i class="fas fa-file-alt"></i> Saatavuusoikeus';
+                        document.querySelectorAll('.contact-card p')[0].textContent = 'Sinulla on oikeus tarkastaa meillä olevat tietosi. Koska emme kerää henkilötietoja, tähän ei ole käytännön sovellusta.';
+                        document.querySelectorAll('.contact-card h4')[1].innerHTML = '<i class="fas fa-eraser"></i> Oikeus tietojen poistamiseen';
+                        document.querySelectorAll('.contact-card p')[1].textContent = 'Sinulla on oikeus vaatia henkilötietojesi poistamista. Koska emme kerää henkilötietoja, tätä oikeutta ei tarvitse käyttää.';
+                        document.querySelectorAll('.contact-card h4')[2].innerHTML = '<i class="fas fa-envelope"></i> Sähköposti';
+                        document.querySelectorAll('.contact-card p')[2].textContent = 'tietosuoja@onkohuijaus.online';
+                        document.querySelectorAll('.contact-card h4')[3].innerHTML = '<i class="fas fa-phone"></i> Puhelinneuvonta';
+                        document.querySelectorAll('.contact-card p')[3].innerHTML = '09 123 4567<br>Ma-Pe 9-18, La 10-15';
+                        document.querySelectorAll('.contact-card h4')[4].innerHTML = '<i class="fas fa-mail-bulk"></i> Postiosoite';
+                        document.querySelectorAll('.contact-card p')[4].innerHTML = 'OnkoHuijaus.online<br>PL 123<br>00100 Helsinki';
+                        document.querySelectorAll('.section-title')[5].textContent = '6. Muutokset tietosuojaselosteeseen';
+                        document.querySelectorAll('.gdpr-point p')[9].textContent = 'Pidätämme oikeuden tehdä muutoksia tähän tietosuojaselosteeseen. Merkittävät muutokset julkaistaan näkyvästi sivustollamme. Viimeisin päivitys on merkitty selosteen alkuun.';
+                        document.querySelectorAll('.section-title')[6].textContent = '7. Yhteystiedot';
+                        document.querySelectorAll('.gdpr-point p')[10].textContent = 'Kaikkiin tietosuojaan liittyviin kysymyksiin ja huomioihin:';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
