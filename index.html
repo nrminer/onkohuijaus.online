@@ -180,7 +180,6 @@
         .emergency-banner {
             background: linear-gradient(90deg, var(--secondary) 0%, #c1121f 100%);
             color: white;
-            text-align: center;
             padding: 0.8rem;
             font-weight: bold;
             display: flex;
@@ -188,6 +187,8 @@
             align-items: center;
             position: relative;
             overflow: hidden;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
         .emergency-banner::before {
@@ -202,11 +203,14 @@
             animation: banner-shine 3s infinite;
         }
         
-        .emergency-banner a {
+        .emergency-banner a, .emergency-banner .phone-link {
             color: white;
             text-decoration: underline;
             margin-left: 0.5rem;
             font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
         @keyframes banner-shine {
@@ -477,6 +481,61 @@
             margin-top: 1.5rem;
         }
         
+        .gdpr-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .gdpr-section h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+        
+        .gdpr-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .gdpr-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .gdpr-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .phone-highlight {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px rgba(42, 157, 143, 0.3);
+        }
+        
+        .phone-highlight .number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            display: block;
+        }
+        
         footer {
             background: linear-gradient(135deg, var(--dark) 0%, #121a26 100%);
             color: white;
@@ -563,18 +622,46 @@
         @media (max-width: 768px) {
             .nav-toggle {
                 display: block;
+            order: 2;
+            margin-left: 15px;
+            margin-right: 0;
+            padding: 5px;
+            background: rgba(26, 58, 108, 0.1);
+            border-radius: 5px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 100;
+        }
+        
+            .language-switcher {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                z-index: 101;
+                margin: 0;
+            }
+            
+            .header-container {
+                flex-wrap: wrap;
+                position: relative;
             }
             
             nav ul {
                 display: none;
-                position: absolute;
-                top: 100%;
+                position: fixed;
+                top: 0;
                 left: 0;
                 width: 100%;
+                height: 100%;
                 background-color: white;
                 flex-direction: column;
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-                padding: 1rem 0;
+                padding: 80px 20px 20px;
+                z-index: 99;
+                overflow-y: auto;
             }
             
             nav ul.active {
@@ -584,23 +671,15 @@
             nav li {
                 margin: 0;
                 width: 100%;
-                text-align: center;
+                text-align: left;
             }
             
             nav a {
                 display: block;
                 padding: 1rem;
                 width: 100%;
-            }
-            
-            .language-switcher {
-                margin: 1rem auto 0;
-                justify-content: center;
-                width: fit-content;
-            }
-            
-            .header-container {
-                flex-wrap: wrap;
+                font-size: 1.2rem;
+                border-bottom: 1px solid #eee;
             }
             
             .btn-secondary {
@@ -618,6 +697,16 @@
             
             .section-title h2 {
                 font-size: 1.8rem;
+            }
+            
+            .emergency-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
+            
+            .emergency-banner > * {
+                margin: 5px 0;
             }
         }
         
@@ -649,6 +738,7 @@
     </style>
 </head>
 <body>
+    <!-- Pääotsikko ja navigaatio -->
     <header>
         <div class="container header-container">
             <a href="index.html" class="logo">
@@ -677,18 +767,24 @@
             </nav>
             
             <div class="language-switcher">
-                <button class="active" aria-label="Suomi">FI</button>
-                <button aria-label="English">EN</button>
+                <button class="active" aria-label="Suomi" data-lang="fi">FI</button>
+                <button aria-label="English" data-lang="en">EN</button>
             </div>
         </div>
     </header>
 
+    <!-- Hätätilanne banneri -->
     <div class="emergency-banner">
         <i class="fas fa-exclamation-triangle"></i>
         <span>Oletko huijaamisen uhri? </span>
         <a href="uhrin-tuki.html">Tee välittömästi nämä toimet</a>
+        <div class="phone-link">
+            <i class="fas fa-phone"></i>
+            <span>Soita neuvontaan: 09 123 4567</span>
+        </div>
     </div>
 
+    <!-- Hero-osio -->
     <section class="hero">
         <div class="container hero-content">
             <h1>Tunnista ja estä verkkopetokset</h1>
@@ -700,6 +796,26 @@
         </div>
     </section>
 
+    <!-- Puhelinneuvonta -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Ilmainen neuvontapuhelin</h2>
+                <p>Soita asiantuntijoille kysyttävissä tapauksissa</p>
+            </div>
+            
+            <div class="phone-highlight animated">
+                <i class="fas fa-phone-alt fa-3x"></i>
+                <h3>Verkkopetosten neuvontanumero</h3>
+                <span class="number">09 123 4567</span>
+                <p>Soittamalla tähän numeroon saat ilmaista neuvontaa epäilyttävistä viesteistä, puheluista tai verkko-ostoksista.</p>
+                <p><strong>Aukioloajat:</strong> Ma-Pe 9-18, La 10-15</p>
+                <p><i class="fas fa-info-circle"></i> Puhelu ei lisää puhelinlaskuusi, emme tallenna puheluita ja neuvonta on ilmaista</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Torjuntaoppaat -->
     <section class="section">
         <div class="container">
             <div class="section-title">
@@ -744,117 +860,45 @@
         </div>
     </section>
 
+    <!-- GDPR ja tietosuoja -->
     <section class="section" style="background-color: #f0f8ff;">
         <div class="container">
             <div class="section-title">
-                <h2>Ajankohtaista ja varoitukset</h2>
-                <p>Pysy ajan tasalla uusimmista petostrendeistä</p>
+                <h2>Tietosuoja ja puheluiden käsittely</h2>
+                <p>Miten käsittelemme tietojasi ja puheluitasi</p>
             </div>
             
-            <div class="news-box animated">
-                <h3><i class="fas fa-exclamation-circle"></i> Uusin varoitus: Tilintarkastus-huijauskirjeet</h3>
-                <div class="news-content">
-                    <p><strong>Poliisi varoittaa:</strong> Suomessa liikkuu huijauskirjeitä, joissa väitetään olevasi perintätoimiston asiakas. Kirjeet vaativat maksua uhkaavilla ilmauksilla.</p>
-                    <p>Kirjeissä käytetään usein viranomaisten logoja ja virallisen näköistä kieltä. Älä maksa tai ota yhteyttä kirjeessä annettuihin yhteystietoihin.</p>
-                    <p>Jos olet saanut tällaisen kirjeen, ota yhteys paikalliseen poliisiasemaan tai tee rikosilmoitus verkossa.</p>
-                </div>
+            <div class="gdpr-section animated">
+                <h3><i class="fas fa-shield-alt"></i> Tietosuojakäytäntömme</h3>
+                <p>OnkoHuijaus.online arvostaa käyttäjien yksityisyyttä ja sitoutuu suojaamaan henkilötietojasi. Sivustomme ei kerää henkilötietoja eikä käytä evästeitä käyttökokemuksen seuraamiseen.</p>
                 
-                <div class="tip-box">
-                    <h3><i class="fas fa-lightbulb"></i> Vinkki viikolta: Salasanojen turvallisuus</h3>
-                    <p>Käytä erilaisia salasanoja eri palveluissa. Jos jokin palveluista joutuu tietovuodon kohteeksi, muut tilit pysyvät turvassa. Käytä salasanahallintaohjelmaa turvallisten salasanojen luomiseen ja tallentamiseen.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Oletko huijaamisen uhri?</h2>
-                <p>Tärkeät askeleet, jotka kannattaa tehdä välittömästi</p>
-            </div>
-            
-            <div class="card-grid">
-                <div class="card animated">
-                    <div class="card-icon" style="background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);">
-                        <i class="fas fa-phone-alt"></i>
+                <div class="gdpr-points">
+                    <div class="gdpr-card">
+                        <h4><i class="fas fa-phone"></i> Puheluiden käsittely</h4>
+                        <p>Neuvontapuheluitamme <strong>ei nauhoiteta</strong> emmekä tallenna puheluiden sisältöä. Emme myöskään kerää soittajan henkilötietoja ellei soittaja niitä vapaaehtoisesti jaa.</p>
                     </div>
-                    <div class="card-content">
-                        <h3>Ota välittömästi yhteyttä pankkiisi</h3>
-                        <p>Soita pankkisi hätänumeroon ja ilmoita petoksesta. Pankki voi pysäyttää epäilyttäviä tapahtumia ja lukita korttisi. Tallenna kaikki petokseen liittyvät tiedot.</p>
-                        <a href="uhrin-tuki.html#pankki" class="btn" style="background: #e63946;">Ohjeet pankkiin</a>
+                    
+                    <div class="gdpr-card">
+                        <h4><i class="fas fa-euro-sign"></i> Puhelumaksut</h4>
+                        <p>Neuvontapuhelumme ovat <strong>ilmaisia</strong> eikä niistä aiheudu lisäkustannuksia puhelinlaskuusi. Puhelun hinta on sama kuin normaali paikallispuhelu.</p>
                     </div>
-                </div>
-                
-                <div class="card animated delay-1">
-                    <div class="card-icon" style="background: linear-gradient(135deg, #1a3a6c 0%, #0d2a4d 100%);">
-                        <i class="fas fa-file-alt"></i>
+                    
+                    <div class="gdpr-card">
+                        <h4><i class="fas fa-user-secret"></i> Tietojen käsittely</h4>
+                        <p>Emme jaa henkilötietojasi kolmansille osapuolille. Sivustomme ei edellytä rekisteröitymistä eikä kerää selaustietojasi.</p>
                     </div>
-                    <div class="card-content">
-                        <h3>Tee rikosilmoitus</h3>
-                        <p>Ilmoita petos poliisille. Kerää kaikki petokseen liittyvät todisteet (viestit, kuvankaappaukset, tapahtumatiedot). Rikosilmoituksen voit tehdä helposti verkossa.</p>
-                        <a href="https://www.poliisi.fi/rikosilmotus" target="_blank" class="btn">Tee rikosilmoitus</a>
-                    </div>
-                </div>
-                
-                <div class="card animated delay-2">
-                    <div class="card-icon" style="background: linear-gradient(135deg, #2a9d8f 0%, #21897e 100%);">
-                        <i class="fas fa-user-shield"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>Suojaa henkilötietosi</h3>
-                        <p>Vaihda palveluiden salasanat, erityisesti jos olet antanut tunnistetietojasi huijareille. Tarkista luottotietosi ja harkitse varoitusmerkinnän asettamista.</p>
-                        <a href="uhrin-tuki.html#tiedot" class="btn" style="background: #2a9d8f;">Tietojen suojaaminen</a>
+                    
+                    <div class="gdpr-card">
+                        <h4><i class="fas fa-file-alt"></i> Tietosuojaseloste</h4>
+                        <p>Voit lukea täydellisen tietosuojaselosteemme alla olevasta linkistä:</p>
+                        <a href="tietosuoja.html" class="btn" style="background: var(--accent); margin-top: 10px;">Lue tietosuojaseloste</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section" style="background-color: #f9fbfd;">
-        <div class="container">
-            <div class="section-title">
-                <h2>Luotettavat resurssit</h2>
-                <p>Viralliset tahot, joihin voit luottaa</p>
-            </div>
-            
-            <div class="resource-list">
-                <div class="resource-item animated">
-                    <div class="resource-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="resource-text">
-                        <h3>Traficom - Kyberturvallisuuskeskus</h3>
-                        <p>Valtion viralliset ohjeet verkkoturvallisuuteen ja petosten torjuntaan. Sisältää ajankohtaiset varoitukset ja oppaat.</p>
-                        <a href="https://www.kyberturvallisuuskeskus.fi" target="_blank" rel="noopener">Siirry sivustolle →</a>
-                    </div>
-                </div>
-                
-                <div class="resource-item animated delay-1">
-                    <div class="resource-icon">
-                        <i class="fas fa-gavel"></i>
-                    </div>
-                    <div class="resource-text">
-                        <h3>Poliisi - Rikosilmoituksen tekeminen</h3>
-                        <p>Tee rikosilmoitus verkossa, jos olet huijauksen uhri. Ohjeet rikosilmoituksen tekemiseen ja tarvittavat tiedot.</p>
-                        <a href="https://www.poliisi.fi/rikosilmotus" target="_blank" rel="noopener">Tee rikosilmoitus →</a>
-                    </div>
-                </div>
-                
-                <div class="resource-item animated delay-2">
-                    <div class="resource-icon">
-                        <i class="fas fa-life-ring"></i>
-                    </div>
-                    <div class="resource-text">
-                        <h3>Kuluttajaneuvonta</h3>
-                        <p>Apua kuluttaja-asioihin ja petosten selvittämiseen. Tarjoaa neuvontaa ja ohjausta oikeuksiesi perässä.</p>
-                        <a href="https://www.kuluttajaneuvonta.fi" target="_blank" rel="noopener">Hae apua →</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-grid">
@@ -876,12 +920,12 @@
                 </div>
                 
                 <div class="footer-column">
-                    <h3>Kriisituki</h3>
+                    <h3>Neuvonta ja tuki</h3>
                     <ul class="footer-links">
+                        <li><a href="tel:091234567"><i class="fas fa-phone"></i> Verkkopetosneuvonta: 09 123 4567</a></li>
                         <li><a href="tel:116006"><i class="fas fa-phone-alt"></i> MIELI Kriisipuhelin: 116 006</a></li>
                         <li><a href="https://www.mieli.fi" target="_blank"><i class="fas fa-globe"></i> MIELI Suomen Mielenterveys ry</a></li>
                         <li><a href="tel:112"><i class="fas fa-phone-alt"></i> Hätänumero 112</a></li>
-                        <li><a href="https://www.poliisi.fi" target="_blank"><i class="fas fa-globe"></i> Poliisin hätänumero 112</a></li>
                     </ul>
                 </div>
                 
@@ -892,6 +936,7 @@
                         <li><a href="https://www.europol.europa.eu" target="_blank"><i class="fas fa-external-link-alt"></i> Europol</a></li>
                         <li><a href="https://www.finanssivalvonta.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Finanssivalvonta</a></li>
                         <li><a href="https://www.kyberturvallisuuskeskus.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Kyberturvallisuuskeskus</a></li>
+                        <li><a href="tietosuoja.html"><i class="fas fa-lock"></i> Tietosuojaseloste</a></li>
                     </ul>
                 </div>
             </div>
@@ -914,11 +959,99 @@
                 navMenu.classList.toggle('active');
             });
             
+            // Kielivalitsimen toiminnallisuus
             const langButtons = document.querySelectorAll('.language-switcher button');
             langButtons.forEach(button => {
                 button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
                     langButtons.forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
+                    
+                    // Vaihda kieli
+                    if (lang === 'en') {
+                        document.documentElement.lang = 'en';
+                        document.querySelector('title').textContent = 'IsItScam.online - Protect Yourself Online';
+                        document.querySelector('.hero h1').textContent = 'Identify and Prevent Online Scams';
+                        document.querySelector('.hero p').textContent = 'Learn to protect yourself online and get support if you have been a victim of fraud. All our advice is based on reliable recommendations from authorities.';
+                        document.querySelector('.btn').textContent = 'Start Protecting';
+                        document.querySelector('.btn-secondary').textContent = 'Get Help Here';
+                        document.querySelector('.emergency-banner span').textContent = 'Are you a victim of fraud? ';
+                        document.querySelector('.emergency-banner a').textContent = 'Take immediate action';
+                        document.querySelector('.phone-link span').textContent = 'Call for advice: 09 123 4567';
+                        document.querySelector('.section-title:first-of-type h2').textContent = 'Free Advice Hotline';
+                        document.querySelector('.section-title:first-of-type p').textContent = 'Call our experts with any questions';
+                        document.querySelector('.phone-highlight h3').textContent = 'Online Scams Advice Line';
+                        document.querySelector('.phone-highlight .number').textContent = '09 123 4567';
+                        document.querySelector('.phone-highlight p:first-of-type').textContent = 'Call this number for free advice on suspicious messages, calls or online purchases.';
+                        document.querySelector('.phone-highlight p:nth-of-type(2)').innerHTML = '<strong>Opening hours:</strong> Mon-Fri 9-18, Sat 10-15';
+                        document.querySelector('.phone-highlight p:nth-of-type(3)').innerHTML = '<i class="fas fa-info-circle"></i> Calls do not incur extra charges, we do not record calls, and advice is free';
+                        document.querySelector('.section-title:nth-of-type(2) h2').textContent = 'Scam Prevention Guides';
+                        document.querySelector('.section-title:nth-of-type(2) p').textContent = 'Learn to identify common online scams and protect yourself';
+                        document.querySelectorAll('.card h3')[0].textContent = 'Scam Emails';
+                        document.querySelectorAll('.card p')[0].textContent = 'Learn to identify scam messages and what to do when you receive a suspicious email. Check the sender, spelling and link addresses before clicking.';
+                        document.querySelectorAll('.card .btn')[0].textContent = 'Read More';
+                        document.querySelectorAll('.card h3')[1].textContent = 'Safe Online Shopping';
+                        document.querySelectorAll('.card p')[1].textContent = 'Safe practices for online shopping. Identify trustworthy online stores, secure payment methods and what to avoid. Learn to verify the reliability of online stores.';
+                        document.querySelectorAll('.card .btn')[1].textContent = 'Read More';
+                        document.querySelectorAll('.card h3')[2].textContent = 'Phone Scams';
+                        document.querySelectorAll('.card p')[2].textContent = 'How to handle suspicious calls and text messages. Never give personal information over the phone - authorities never ask for it by phone. Learn the most common patterns of phone scams.';
+                        document.querySelectorAll('.card .btn')[2].textContent = 'Read More';
+                        document.querySelector('.section-title:nth-of-type(3) h2').textContent = 'Privacy and Call Handling';
+                        document.querySelector('.section-title:nth-of-type(3) p').textContent = 'How we handle your data and calls';
+                        document.querySelector('.gdpr-section h3').innerHTML = '<i class="fas fa-shield-alt"></i> Our Privacy Policy';
+                        document.querySelector('.gdpr-section p').textContent = 'IsItScam.online values user privacy and is committed to protecting your personal data. Our site does not collect personal data or use cookies for tracking user experience.';
+                        document.querySelectorAll('.gdpr-card h4')[0].innerHTML = '<i class="fas fa-phone"></i> Call Handling';
+                        document.querySelectorAll('.gdpr-card p')[0].textContent = 'Our advice calls are not recorded and we do not store call content. We also do not collect caller personal information unless the caller voluntarily shares it.';
+                        document.querySelectorAll('.gdpr-card h4')[1].innerHTML = '<i class="fas fa-euro-sign"></i> Call Charges';
+                        document.querySelectorAll('.gdpr-card p')[1].textContent = 'Our advice calls are free and do not incur additional charges on your phone bill. The call price is the same as a normal local call.';
+                        document.querySelectorAll('.gdpr-card h4')[2].innerHTML = '<i class="fas fa-user-secret"></i> Data Processing';
+                        document.querySelectorAll('.gdpr-card p')[2].textContent = 'We do not share your personal data with third parties. Our site does not require registration and does not collect browsing data.';
+                        document.querySelectorAll('.gdpr-card h4')[3].innerHTML = '<i class="fas fa-file-alt"></i> Privacy Policy';
+                        document.querySelectorAll('.gdpr-card p')[3].textContent = 'You can read our full privacy policy from the link below:';
+                        document.querySelectorAll('.gdpr-card .btn')[0].textContent = 'Read Privacy Policy';
+                    } else {
+                        // Palauta suomenkielinen versio
+                        document.documentElement.lang = 'fi';
+                        document.querySelector('title').textContent = 'OnkoHuijaus.online - Suojaa itsesi verkossa';
+                        document.querySelector('.hero h1').textContent = 'Tunnista ja estä verkkopetokset';
+                        document.querySelector('.hero p').textContent = 'Opettele suojaamaan itseäsi verkossa ja saa tarvittavaa tukea, jos olet joutunut huijauksen uhri. Kaikki ohjeemme perustuvat viranomaisten luotettaviin suosituksiin.';
+                        document.querySelector('.btn').textContent = 'Aloita suojaaminen';
+                        document.querySelector('.btn-secondary').textContent = 'Saat apua täältä';
+                        document.querySelector('.emergency-banner span').textContent = 'Oletko huijaamisen uhri? ';
+                        document.querySelector('.emergency-banner a').textContent = 'Tee välittömästi nämä toimet';
+                        document.querySelector('.phone-link span').textContent = 'Soita neuvontaan: 09 123 4567';
+                        document.querySelector('.section-title:first-of-type h2').textContent = 'Ilmainen neuvontapuhelin';
+                        document.querySelector('.section-title:first-of-type p').textContent = 'Soita asiantuntijoille kysyttävissä tapauksissa';
+                        document.querySelector('.phone-highlight h3').textContent = 'Verkkopetosten neuvontanumero';
+                        document.querySelector('.phone-highlight .number').textContent = '09 123 4567';
+                        document.querySelector('.phone-highlight p:first-of-type').textContent = 'Soittamalla tähän numeroon saat ilmaista neuvontaa epäilyttävistä viesteistä, puheluista tai verkko-ostoksista.';
+                        document.querySelector('.phone-highlight p:nth-of-type(2)').innerHTML = '<strong>Aukioloajat:</strong> Ma-Pe 9-18, La 10-15';
+                        document.querySelector('.phone-highlight p:nth-of-type(3)').innerHTML = '<i class="fas fa-info-circle"></i> Puhelu ei lisää puhelinlaskuusi, emme tallenna puheluita ja neuvonta on ilmaista';
+                        document.querySelector('.section-title:nth-of-type(2) h2').textContent = 'Petostorjuntaoppaat';
+                        document.querySelector('.section-title:nth-of-type(2) p').textContent = 'Opi tunnistamaan yleisimmät verkkopetokset ja suojaamaan itseäsi';
+                        document.querySelectorAll('.card h3')[0].textContent = 'Huijaussähköpostit';
+                        document.querySelectorAll('.card p')[0].textContent = 'Opi tunnistamaan huijausviestit ja mitä tehdä epäilyttävän sähköpostin saapuessa. Tarkista lähettäjä, oikoluku ja linkkien osoitteet ennen napsauttamista.';
+                        document.querySelectorAll('.card .btn')[0].textContent = 'Lue lisää';
+                        document.querySelectorAll('.card h3')[1].textContent = 'Turvalliset verkkokaupat';
+                        document.querySelectorAll('.card p')[1].textContent = 'Varmat käytännöt verkko-ostoksille. Tunnista luotettavat verkkokaupat, turvalliset maksutavat ja mitä välttää. Opettele tarkistamaan verkkokauppojen luotettavuus.';
+                        document.querySelectorAll('.card .btn')[1].textContent = 'Lue lisää';
+                        document.querySelectorAll('.card h3')[2].textContent = 'Puhelinhuijaukset';
+                        document.querySelectorAll('.card p')[2].textContent = 'Kuinka käsitellä epäilyttäviä puheluita ja tekstiviestejä. Älä koskaan anna henkilötietoja puhelimessa - viranomaiset eivät niitä koskaan puhelimitse kysy. Opettele puhelinhuijausten yleisimmät kuviot.';
+                        document.querySelectorAll('.card .btn')[2].textContent = 'Lue lisää';
+                        document.querySelector('.section-title:nth-of-type(3) h2').textContent = 'Tietosuoja ja puheluiden käsittely';
+                        document.querySelector('.section-title:nth-of-type(3) p').textContent = 'Miten käsittelemme tietojasi ja puheluitasi';
+                        document.querySelector('.gdpr-section h3').innerHTML = '<i class="fas fa-shield-alt"></i> Tietosuojakäytäntömme';
+                        document.querySelector('.gdpr-section p').textContent = 'OnkoHuijaus.online arvostaa käyttäjien yksityisyyttä ja sitoutuu suojaamaan henkilötietojasi. Sivustomme ei kerää henkilötietoja eikä käytä evästeitä käyttökokemuksen seuraamiseen.';
+                        document.querySelectorAll('.gdpr-card h4')[0].innerHTML = '<i class="fas fa-phone"></i> Puheluiden käsittely';
+                        document.querySelectorAll('.gdpr-card p')[0].textContent = 'Neuvontapuheluitamme ei nauhoiteta emmekä tallenna puheluiden sisältöä. Emme myöskään kerää soittajan henkilötietoja ellei soittaja niitä vapaaehtoisesti jaa.';
+                        document.querySelectorAll('.gdpr-card h4')[1].innerHTML = '<i class="fas fa-euro-sign"></i> Puhelumaksut';
+                        document.querySelectorAll('.gdpr-card p')[1].textContent = 'Neuvontapuhelumme ovat ilmaisia eikä niistä aiheudu lisäkustannuksia puhelinlaskuusi. Puhelun hinta on sama kuin normaali paikallispuhelu.';
+                        document.querySelectorAll('.gdpr-card h4')[2].innerHTML = '<i class="fas fa-user-secret"></i> Tietojen käsittely';
+                        document.querySelectorAll('.gdpr-card p')[2].textContent = 'Emme jaa henkilötietojasi kolmansille osapuolille. Sivustomme ei edellytä rekisteröitymistä eikä kerää selaustietojasi.';
+                        document.querySelectorAll('.gdpr-card h4')[3].innerHTML = '<i class="fas fa-file-alt"></i> Tietosuojaseloste';
+                        document.querySelectorAll('.gdpr-card p')[3].textContent = 'Voit lukea täydellisen tietosuojaselosteemme alla olevasta linkistä:';
+                        document.querySelectorAll('.gdpr-card .btn')[0].textContent = 'Lue tietosuojaseloste';
+                    }
                 });
             });
             
