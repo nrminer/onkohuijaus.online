@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UKK - Verkkopetokset | OnkoHuijaus.online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a3a6c;
+            --secondary: #e63946;
+            --accent: #2a9d8f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --warning: #e9c46a;
+            --success: #4caf50;
+            --faq-bg: #f0f8ff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f4f8 0%, #e6f0fa 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+        
+        a:focus, button:focus {
+            outline: 3px solid var(--warning);
+            outline-offset: 2px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header & navigaatio */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 12px;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+        
+        .logo-text span {
+            color: var(--secondary);
+            font-weight: 800;
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 1.2rem;
+        }
+        
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0.8rem;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            font-size: 1.05rem;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--primary);
+            background-color: rgba(26, 58, 108, 0.05);
+        }
+        
+        .emergency-link {
+            background-color: var(--secondary);
+            color: white !important;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .emergency-link:hover {
+            background-color: #c1121f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(230, 57, 70, 0.3);
+        }
+        
+        .language-switcher {
+            margin-left: 1.5rem;
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 2px;
+            background: white;
+        }
+        
+        .language-switcher button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.95rem;
+            opacity: 0.7;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        
+        .language-switcher button.active {
+            background-color: var(--primary);
+            color: white;
+            opacity: 1;
+            font-weight: 600;
+        }
+        
+        /* Hätäbanneri */
+        .emergency-banner {
+            background: linear-gradient(90deg, var(--secondary) 0%, #c1121f 100%);
+            color: white;
+            padding: 0.8rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .emergency-banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -10%;
+            width: 20%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            transform: skewX(-20deg);
+            animation: banner-shine 3s infinite;
+        }
+        
+        .emergency-banner a, .emergency-banner .phone-link {
+            color: white;
+            text-decoration: underline;
+            margin-left: 0.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        @keyframes banner-shine {
+            0% { left: -10%; }
+            100% { left: 110%; }
+        }
+        
+        /* Hero-osio */
+        .hero {
+            background: linear-gradient(135deg, var(--accent) 0%, #21897e 100%);
+            color: white;
+            padding: 5rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin: 0 auto 2.5rem;
+            max-width: 700px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(26, 58, 108, 0.3);
+        }
+        
+        .btn:hover {
+            background-color: #0d2a4d;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(26, 58, 108, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid white;
+            margin-left: 15px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.3rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.8rem;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background-color: var(--accent);
+            border-radius: 3px;
+        }
+        
+        /* UKK-styling */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-category {
+            margin-bottom: 3rem;
+        }
+        
+        .faq-category h3 {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .faq-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+        
+        .faq-item.active {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            background: var(--faq-bg);
+            transition: all 0.3s;
+        }
+        
+        .faq-question:hover {
+            background: #e0f0ff;
+        }
+        
+        .faq-question::after {
+            content: '\f067';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            transition: all 0.3s;
+        }
+        
+        .faq-item.active .faq-question::after {
+            content: '\f068';
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 1.5rem;
+            max-height: 1000px;
+        }
+        
+        .faq-answer p {
+            margin-bottom: 1rem;
+        }
+        
+        .faq-answer ul, .faq-answer ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .faq-answer li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .faq-tip {
+            background: #fff8e1;
+            border-left: 4px solid var(--warning);
+            padding: 1rem;
+            border-radius: 0 4px 4px 0;
+            margin: 1rem 0;
+        }
+        
+        .faq-warning {
+            background: #ffebee;
+            border-left: 4px solid var(--secondary);
+            padding: 1rem;
+            border-radius: 0 4px 4px 0;
+            margin: 1rem 0;
+        }
+        
+        .faq-important {
+            background: #e8f5e9;
+            border-left: 4px solid var(--success);
+            padding: 1rem;
+            border-radius: 0 4px 4px 0;
+            margin: 1rem 0;
+        }
+        
+        .faq-contact {
+            background: var(--faq-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+            border: 2px dashed var(--accent);
+        }
+        
+        .faq-contact h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 1.5rem;
+        }
+        
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .contact-method:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark) 0%, #121a26 100%);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: auto;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--warning);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-links a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .footer-about p {
+            margin-bottom: 1.5rem;
+            color: #bbb;
+            line-height: 1.7;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+            color: #999;
+            font-size: 0.95rem;
+        }
+        
+        /* Responsiivisuus */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+            
+            .section {
+                padding: 4rem 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: block;
+            }
+            
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                padding: 1rem 0;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav li {
+                margin: 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+            
+            .language-switcher {
+                margin: 1rem auto 0;
+                justify-content: center;
+                width: fit-content;
+            }
+            
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
+            .hero {
+                padding: 4rem 0 3rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .emergency-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
+            
+            .emergency-banner > * {
+                margin: 5px 0;
+            }
+            
+            .contact-methods {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pääotsikko ja navigaatio -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="logo-text">
+                    Onko<span>Huijaus</span>.online
+                </div>
+            </a>
+            
+            <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav">
+                <i class="fas fa-bars"></i>
+                <span class="sr-only">Valikko</span>
+            </button>
+            
+            <nav>
+                <ul id="main-nav">
+                    <li><a href="index.html">Etusivu</a></li>
+                    <li><a href="huijaussahkopostit.html">Huijaussähköpostit</a></li>
+                    <li><a href="uhrin-tuki.html">Olen uhrina</a></li>
+                    <li><a href="resurssit.html">Resurssit</a></li>
+                    <li><a href="ukk.html" class="active">UKK</a></li>
+                </ul>
+            </nav>
+            
+            <div class="language-switcher">
+                <button class="active" aria-label="Suomi" data-lang="fi">FI</button>
+                <button aria-label="English" data-lang="en">EN</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="emergency-banner">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>Oletko huijaamisen uhri? </span>
+        <a href="uhrin-tuki.html">Tee välittömästi nämä toimet</a>
+        <div class="phone-link">
+            <i class="fas fa-phone"></i>
+            <span>Soita neuvontaan: 045550487 (arkisin 11-22)</span>
+        </div>
+    </div>
+
+    <!-- UKK - Sivu -->
+    <main>
+        <section class="hero">
+            <div class="container hero-content">
+                <h1><i class="fas fa-question-circle"></i> Usein Kysytyt Kysymykset</h1>
+                <p>Löydä vastaukset yleisimpiin kysymyksiin verkkopetoksista ja huijauksista. Täältä löydät nopeasti tarvitsemasi tiedot.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Yleisimmät kysymykset</h2>
+                    <p>Valitsemme jatkuvasti uusia kysymyksiä vastattavaksi</p>
+                </div>
+                
+                <div class="faq-container">
+                    <!-- Yleiset kysymykset -->
+                    <div class="faq-category">
+                        <h3><i class="fas fa-globe"></i> Yleiset kysymykset</h3>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Mikä on verkkopetos?</div>
+                            <div class="faq-answer">
+                                <p>Verkkopetos on rikos, jossa petos tehdään internetin välityksellä. Tyypillisiä verkkopetoksia ovat esimerkiksi:</p>
+                                <ul>
+                                    <li>Huijaussähköpostit (esim. pankki- tai tilinhallintahuijaukset)</li>
+                                    <li>Verkkokaupassa tapahtuva petos</li>
+                                    <li>Huijauspuhelut</li>
+                                    <li>Sosiaalisen median huijaukset</li>
+                                    <li>Haittaohjelmien levitys</li>
+                                </ul>
+                                <p>Verkkopetosten tavoitteena on yleensä saada uhri luovuttamaan henkilötietoja, pankkitietoja tai rahaa.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Kuinka yleisiä verkkopetokset ovat?</div>
+                            <div class="faq-answer">
+                                <p>Verkkopetokset ovat erittäin yleisiä. Poliisin mukaan verkkopetoksia tapahtuu Suomessa kymmeniä tuhansia vuosittain. Vuonna 2022 poliisille ilmoitettiin yli 30,000 verkkopetosta.</p>
+                                <div class="faq-tip">
+                                    <p><strong>Vinkki:</strong> Suurin osa verkkopetoksista jää ilmoittamatta, joten todellinen määrä on huomattavasti suurempi.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Ketkä ovat useimmiten verkkopetosten kohteena?</div>
+                            <div class="faq-answer">
+                                <p>Verkkopetokset kohdistuvat kaikkiin ikäryhmiin, mutta erityisesti:</p>
+                                <ol>
+                                    <li><strong>Nuoret aikuiset (18-30-vuotiaat):</strong> Usein uhreja sosiaalisen median ja nettikaupankäynnin kautta</li>
+                                    <li><strong>Keski-ikäiset (40-60-vuotiaat):</strong> Usein pankki- ja sijoituspetosten uhreja</li>
+                                    <li><strong>Ikääntyneet (yli 65-vuotiaat):</strong> Teknisesti huijaukset, perintäpetokset ja huijauspuhelut</li>
+                                </ol>
+                                <p>Huijarit kohdistavat toimintaansa erityisesti heikko-osaisiin, mutta kukaan ei ole täysin turvassa.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tunnistaminen ja ehkäisy -->
+                    <div class="faq-category">
+                        <h3><i class="fas fa-search"></i> Huijauksien tunnistaminen ja ehkäisy</h3>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Kuinka tunnistan huijaussähköpostin?</div>
+                            <div class="faq-answer">
+                                <p>Huijaussähköpostit tunnistat seuraavista merkeistä:</p>
+                                <ul>
+                                    <li>Lähettäjä on tuntematon tai osoite näyttää epäilyttävältä</li>
+                                    <li>Viestissä on kiirehdintää ("Toimi nyt!")</li>
+                                    <li>Viestissä vaaditaan henkilötietoja tai kirjautumista</li>
+                                    <li>Linkit johtavat epäilyttäviin verkkosivustoihin</li>
+                                    <li>Otsikko tai sisältö on kirjoitettu huonolla kielellä</li>
+                                    <li>Lupaatut asiat ovat "liian hyviä ollakseen totta"</li>
+                                </ul>
+                                <div class="faq-warning">
+                                    <p><strong>Varoitus:</strong> Älä koskaan avaa liitteitä epäilyttävistä sähköposteista tai napsauta linkkejä.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Mitä teen, jos epäilen saaneeni huijausviestin?</div>
+                            <div class="faq-answer">
+                                <p>Jos epäilet saaneesi huijausviestin:</p>
+                                <ol>
+                                    <li>Älä avaa liitteitä tai napsauta linkkejä</li>
+                                    <li>Älä vastaa viestiin</li>
+                                    <li>Poista viesti</li>
+                                    <li>Ilmoita petoksesta osoitteeseen <a href="mailto:report@oncahuijaus.online">report@oncahuijaus.online</a></li>
+                                    <li>Jos olet jo napsauttanut linkkiä tai antanut tietoja, ota välittömästi yhteyttä pankkiisi</li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Kuinka voin suojautua verkkopetoksilta?</div>
+                            <div class="faq-answer">
+                                <p>Parhaat suojautumiskeinot:</p>
+                                <ul>
+                                    <li>Käytä vahvoja, yksilöllisiä salasanoja</li>
+                                    <li>Ota käyttöön kaksivaiheinen tunnistautuminen</li>
+                                    <li>Päivitä ohjelmistosi ja käyttöjärjestelmäsi säännöllisesti</li>
+                                    <li>Asenna luotettava virustorjuntaohjelma</li>
+                                    <li>Varo epäilyttäviä viestejä ja puheluita</li>
+                                    <li>Älä koskaan jaa henkilötietojasi tuntemattomille</li>
+                                </ul>
+                                <div class="faq-important">
+                                    <p><strong>Tärkeää:</strong> Parhaat suojaukset ovat terve maalaisjärki ja epäilys liian hyviä tarjouksia kohtaan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Uhrien tuki -->
+                    <div class="faq-category">
+                        <h3><i class="fas fa-hands-helping"></i> Uhrien tuki</h3>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Olen huijauksen uhri, mitä teen?</div>
+                            <div class="faq-answer">
+                                <p>Jos olet huijauksen uhri:</p>
+                                <ol>
+                                    <li>Ota välittömästi yhteyttä pankkiisi</li>
+                                    <li>Vaihda palveluiden salasanat</li>
+                                    <li>Tee rikosilmoitus poliisille</li>
+                                    <li>Ilmoita petos palveluntarjoajalle (esim. verkkokauppa, pankki)</li>
+                                    <li>Ota yhteyttä luottotietoyhtiöön (estääksesi luottotietojen väärinkäytön)</li>
+                                    <li>Ota tarvittaessa yhteyttä meihin neuvontaan</li>
+                                </ol>
+                                <p>Toimi nopeasti minimoidaksesi vahingot!</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Saanako rahani takaisin, jos olen huijauksen uhri?</div>
+                            <div class="faq-answer">
+                                <p>Rahojen saaminen takaisin riippuu tapauksesta:</p>
+                                <ul>
+                                    <li><strong>Luottokortilla:</strong> Useimmat luottokorttiyhtiöt tarjoavat petossuojaa</li>
+                                    <li><strong>Lähetetyt rahat:</strong> Rahojen saaminen takaisin on vaikeaa, ellei nopeasti toimi</li>
+                                    <li><strong>Pankkisiirrot:</strong> Ota välittömästi yhteyttä pankkiisi - jos toimitat nopeasti, siirto voidaan ehkä peruuttaa</li>
+                                </ul>
+                                <div class="faq-warning">
+                                    <p>Huijareiden saaminen kiinni ja rahojen palauttaminen on harvoin mahdollista, koska useimmat toimivat ulkomailta.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Mitä tukea minulle on tarjolla?</div>
+                            <div class="faq-answer">
+                                <p>Huijauksen uhreille on tarjolla useita tukimuotoja:</p>
+                                <ul>
+                                    <li><strong>Meidän neuvontapalvelumme:</strong> Ohjeet ja neuvonta puhelimitse tai sähköpostitse</li>
+                                    <li><strong>Poliisi:</strong> Rikosilmoituksen tekeminen ja tutkinta</li>
+                                    <li><strong>Kuluttajariitalautakunta:</strong> Apua kuluttajapetostilanteissa</li>
+                                    <li><strong>Mielenterveysapu:</strong> Kriisipuhelin ja neuvonta, jos petos on aiheuttanut vakavaa ahdistusta</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tekniset kysymykset -->
+                    <div class="faq-category">
+                        <h3><i class="fas fa-laptop-code"></i> Tekniset kysymykset</h3>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Kuinka huijarit saavat sähköpostiosoitteeni?</div>
+                            <div class="faq-answer">
+                                <p>Huijarit saavat sähköpostiosoitteita useilla tavoilla:</p>
+                                <ul>
+                                    <li>Tietovuodot yrityksiltä</li>
+                                    <li>Verkkosivustojen keräämät osoitteet</li>
+                                    <li>Satunnaiset osoiteyhdistelmät (ns. "dictionary attack")</li>
+                                    <li>Haittaohjelmat tietokoneellasi</li>
+                                    <li>Yhteystietojen julkisesta saatavuudesta</li>
+                                </ul>
+                                <p>Osoitteesi voi päätyä huijareille vaikka et olisi koskaan antanut sitä heille.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Mitä on haittaohjelma ja miten se levitetään?</div>
+                            <div class="faq-answer">
+                                <p>Haittaohjelma on ohjelma, joka vahingoittaa tietokonetta tai varastaa tietoja. Yleisimpiä ovat:</p>
+                                <ul>
+                                    <li><strong>Virukset:</strong> Levitetään tartuttamalla tiedostoja</li>
+                                    <li><strong>Madot:</strong> Levitetään itsenäisesti verkossa</li>
+                                    <li><strong>Troijalaiset:</strong> Esiintyvät hyödyllisinä ohjelmina</li>
+                                    <li><strong>Vakoiluohjelmat:</strong> Keräävät tietoja tietokoneeltasi</li>
+                                </ul>
+                                <p>Haittaohjelmat levitetään yleensä:</p>
+                                <ol>
+                                    <li>Sähköpostiliitteiden kautta</li>
+                                    <li>Lataamalla ohjelmia epäluotettavilta sivustoilta</li>
+                                    <li>Haavoittuvien ohjelmistojen kautta</li>
+                                    <li>Infektoituneiden USB-tikkujen kautta</li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Kuinka voin tarkistaa, onko henkilötietoni vuotanut verkkoon?</div>
+                            <div class="faq-answer">
+                                <p>Voit tarkistaa henkilötietojesi vuotamisen:</p>
+                                <ul>
+                                    <li>Palvelun <a href="https://haveibeenpwned.com/" target="_blank">Have I Been Pwned</a> kautta</li>
+                                    <li>Tarkistamalla <a href="https://tietovuoto.fi/" target="_blank">Tietovuoto.fi</a> sivustolta</li>
+                                    <li>Seuraamalla Traficomin ja Kyberturvallisuuskeskuksen tiedotteita</li>
+                                </ul>
+                                <div class="faq-tip">
+                                    <p><strong>Vinkki:</strong> Jos henkilötietosi ovat vuotaneet, vaihda välittömästi salasanasi kaikissa palveluissa, joissa olet käyttänyt samaa salasanaa.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Yhteydenotto -->
+                    <div class="faq-contact">
+                        <h3>Etkö löytänyt vastausta kysymykseesi?</h3>
+                        <p>Ota meihin rohkeasti yhteyttä - autamme mielellämme!</p>
+                        
+                        <div class="contact-methods">
+                            <a href="tel:045550487" class="contact-method">
+                                <i class="fas fa-phone"></i>
+                                <span>045550487 (arkisin 11-22)</span>
+                            </a>
+                            
+                            <a href="mailto:aspa@onkohuijaus.online" class="contact-method">
+                                <i class="fas fa-envelope"></i>
+                                <span>aspa@onkohuijaus.online</span>
+                            </a>
+                            
+                            <a href="https://onkohuijaus.online/yhteydenotto" class="contact-method">
+                                <i class="fas fa-comments"></i>
+                                <span>Yhteydenottolomake</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column footer-about">
+                    <h3>OnkoHuijaus.online</h3>
+                    <p>Tarjoamme luotettavaa tietoa verkkopetosten ennaltaehkäisyyn ja uhrien tukeen. Kaikki sisältömme perustuu viranomaisten suosituksiin ja on tarkistettu asiantuntijoiden toimesta.</p>
+                    <p>Sivustomme ei kerää henkilötietoja eikä käytä evästeitä.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Sivuston sisältö</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-home"></i> Etusivu</a></li>
+                        <li><a href="huijaussahkopostit.html"><i class="fas fa-envelope"></i> Huijaussähköpostit</a></li>
+                        <li><a href="uhrin-tuki.html"><i class="fas fa-hands-helping"></i> Olen uhrina</a></li>
+                        <li><a href="resurssit.html"><i class="fas fa-book"></i> Resurssit</a></li>
+                        <li><a href="ukk.html"><i class="fas fa-question-circle"></i> UKK</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Neuvonta ja tuki</h3>
+                    <ul class="footer-links">
+                        <li><a href="tel:045550487"><i class="fas fa-phone"></i> Verkkopetosneuvonta: 045550487</a></li>
+                        <li><a href="mailto:aspa@onkohuijaus.online"><i class="fas fa-envelope"></i> Sähköposti: aspa@onkohuijaus.online</a></li>
+                        <li><a href="tel:116006"><i class="fas fa-phone-alt"></i> MIELI Kriisipuhelin: 116 006</a></li>
+                        <li><a href="tel:112"><i class="fas fa-phone-alt"></i> Hätänumero 112</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Lähteet ja yhteistyö</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://www.traficom.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Traficom</a></li>
+                        <li><a href="https://www.europol.europa.eu" target="_blank"><i class="fas fa-external-link-alt"></i> Europol</a></li>
+                        <li><a href="https://www.finanssivalvonta.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Finanssivalvonta</a></li>
+                        <li><a href="https://www.kyberturvallisuuskeskus.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Kyberturvallisuuskeskus</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 OnkoHuijaus.online - Kaikki oikeudet pidätetään. Sivusto ei kerää henkilötietoja.</p>
+                <p>Sisältö perustuu viranomaisten suosituksiin. Tietoa päivitetään säännöllisesti.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navMenu = document.querySelector('#main-nav');
+            
+            // Navigaatiovalikon toiminnallisuus
+            if (navToggle) {
+                navToggle.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    navMenu.classList.toggle('active');
+                });
+            }
+            
+            // FAQ-toiminnallisuus
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Sulje muut avoimet kysymykset
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Avaa/piilota klikattu kysymys
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Kielivalitsimen toiminnallisuus
+            const langButtons = document.querySelectorAll('.language-switcher button');
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Tässä esimerkissä kielenvaihto on vain demo
+                    if (lang === 'en') {
+                        document.querySelector('.hero h1').textContent = 'Frequently Asked Questions';
+                        document.querySelector('.hero p').textContent = 'Find answers to common questions about online scams and fraud. Get the information you need quickly.';
+                    } else {
+                        document.querySelector('.hero h1').textContent = 'Usein Kysytyt Kysymykset';
+                        document.querySelector('.hero p').textContent = 'Löydä vastaukset yleisimpiin kysymyksiin verkkopetoksista ja huijauksista. Täältä löydät nopeasti tarvitsemasi tiedot.';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
