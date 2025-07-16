@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ota Yhteyttä | OnkoHuijaus.online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a3a6c;
+            --secondary: #e63946;
+            --accent: #2a9d8f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --warning: #e9c46a;
+            --success: #4caf50;
+            --contact-bg: #f0f8ff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f4f8 0%, #e6f0fa 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header & navigaatio */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 12px;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+        
+        .logo-text span {
+            color: var(--secondary);
+            font-weight: 800;
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 1.2rem;
+        }
+        
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0.8rem;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            font-size: 1.05rem;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--primary);
+            background-color: rgba(26, 58, 108, 0.05);
+        }
+        
+        .emergency-link {
+            background-color: var(--secondary);
+            color: white !important;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .emergency-link:hover {
+            background-color: #c1121f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(230, 57, 70, 0.3);
+        }
+        
+        .language-switcher {
+            margin-left: 1.5rem;
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 2px;
+            background: white;
+        }
+        
+        .language-switcher button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.95rem;
+            opacity: 0.7;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        
+        .language-switcher button.active {
+            background-color: var(--primary);
+            color: white;
+            opacity: 1;
+            font-weight: 600;
+        }
+        
+        /* Hätäbanneri */
+        .emergency-banner {
+            background: linear-gradient(90deg, var(--secondary) 0%, #c1121f 100%);
+            color: white;
+            padding: 0.8rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .emergency-banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -10%;
+            width: 20%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            transform: skewX(-20deg);
+            animation: banner-shine 3s infinite;
+        }
+        
+        .emergency-banner a, .emergency-banner .phone-link {
+            color: white;
+            text-decoration: underline;
+            margin-left: 0.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        @keyframes banner-shine {
+            0% { left: -10%; }
+            100% { left: 110%; }
+        }
+        
+        /* Hero-osio */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #0d2a4d 100%);
+            color: white;
+            padding: 5rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin: 0 auto 2.5rem;
+            max-width: 700px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(42, 157, 143, 0.3);
+        }
+        
+        .btn:hover {
+            background-color: #21897e;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(42, 157, 143, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid white;
+            margin-left: 15px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.3rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.8rem;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background-color: var(--accent);
+            border-radius: 3px;
+        }
+        
+        /* Yhteystiedot */
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+        
+        .contact-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+        
+        .contact-icon {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-icon i {
+            color: white;
+            font-size: 2.5rem;
+        }
+        
+        .contact-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .contact-card p {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+        
+        .contact-info {
+            margin-top: auto;
+            width: 100%;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: 8px;
+            background: var(--contact-bg);
+            transition: all 0.3s;
+        }
+        
+        .contact-item:hover {
+            background: #e0f0ff;
+            transform: translateX(5px);
+        }
+        
+        .contact-item i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            min-width: 25px;
+        }
+        
+        .contact-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .contact-link:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        
+        /* Lomake */
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            padding: 3rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .submit-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            margin: 2rem auto 0;
+            width: 200px;
+        }
+        
+        .submit-btn:hover {
+            background: #0d2a4d;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(26, 58, 108, 0.3);
+        }
+        
+        /* Toimipiste */
+        .office-section {
+            background: linear-gradient(135deg, var(--contact-bg) 0%, #e6f0fa 100%);
+            border-radius: 12px;
+            padding: 3rem;
+            margin-top: 4rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .office-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .office-info h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .office-hours {
+            margin-top: 2rem;
+        }
+        
+        .office-hours h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .hours-table tr {
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .hours-table td {
+            padding: 0.6rem 0;
+        }
+        
+        .office-map {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark) 0%, #121a26 100%);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: auto;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--warning);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-links a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .footer-about p {
+            margin-bottom: 1.5rem;
+            color: #bbb;
+            line-height: 1.7;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+            color: #999;
+            font-size: 0.95rem;
+        }
+        
+        /* Responsiivisuus */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+            
+            .section {
+                padding: 4rem 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: block;
+            }
+            
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                padding: 1rem 0;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav li {
+                margin: 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+            
+            .language-switcher {
+                margin: 1rem auto 0;
+                justify-content: center;
+                width: fit-content;
+            }
+            
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
+            .hero {
+                padding: 4rem 0 3rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .emergency-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
+            
+            .emergency-banner > * {
+                margin: 5px 0;
+            }
+            
+            .form-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pääotsikko ja navigaatio -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="logo-text">
+                    Onko<span>Huijaus</span>.online
+                </div>
+            </a>
+            
+            <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav">
+                <i class="fas fa-bars"></i>
+                <span class="sr-only">Valikko</span>
+            </button>
+            
+            <nav>
+                <ul id="main-nav">
+                    <li><a href="index.html">Etusivu</a></li>
+                    <li><a href="huijaussahkopostit.html">Huijaussähköpostit</a></li>
+                    <li><a href="uhrin-tuki.html">Olen uhrina</a></li>
+                    <li><a href="resurssit.html">Resurssit</a></li>
+                    <li><a href="ukk.html">UKK</a></li>
+                    <li><a href="yhteydenotto.html" class="active">Ota Yhteyttä</a></li>
+                </ul>
+            </nav>
+            
+            <div class="language-switcher">
+                <button class="active" aria-label="Suomi" data-lang="fi">FI</button>
+                <button aria-label="English" data-lang="en">EN</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="emergency-banner">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>Hätätilanne? </span>
+        <a href="uhrin-tuki.html">Soita välittömästi neuvontaan: 045550487</a>
+    </div>
+
+    <!-- Yhteydenottosivu -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1><i class="fas fa-headset"></i> Ota Yhteyttä</h1>
+            <p>Me olemme täällä auttamassa sinua. Valitse sinulle sopivin tapa ottaa yhteyttä asiantuntijaamme.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Yhteystietomme</h2>
+                <p>Valitse sinulle sopivin tapa ottaa yhteyttä</p>
+            </div>
+            
+            <div class="contact-container">
+                <!-- Puhelinneuvonta -->
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3>Puhelinneuvonta</h3>
+                    <p>Soita meidän asiantuntijoillemme, jotka auttavat sinua verkkopetosten tunnistamisessa ja ennaltaehkäisyssä.</p>
+                    
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:045550487" class="contact-link">045550487</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Arkisin klo 11-22</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-user-friends"></i>
+                            <span>3 asiantuntijaa</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-stopwatch"></i>
+                            <span>Vastausaika: alle 5 min</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sähköposti -->
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Sähköposti</h3>
+                    <p>Lähetä meille sähköpostia, ja me vastaamme sinulle mahdollisimman pian. Käytä eri osoitteita eri kysymyksiin.</p>
+                    
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-question-circle"></i>
+                            <a href="mailto:aspa@onkohuijaus.online" class="contact-link">aspa@onkohuijaus.online</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <a href="mailto:report@onkohuijaus.online" class="contact-link">report@onkohuijaus.online</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-comments"></i>
+                            <a href="mailto:yhteistyö@onkohuijaus.online" class="contact-link">yhteistyö@onkohuijaus.online</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Vastausaika: 1-2 arkipäivää</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chat ja sosiaalinen media -->
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-comment-dots"></i>
+                    </div>
+                    <h3>Chat & Sosiaalinen media</h3>
+                    <p>Seuraa meitä somessa tai käytä chattipalveluamme. Vastaamme kysymyksiisi reaaliajassa.</p>
+                    
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fab fa-facebook-messenger"></i>
+                            <a href="#" class="contact-link">Messenger-chat</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-facebook"></i>
+                            <a href="#" class="contact-link">Facebook-sivu</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-instagram"></i>
+                            <a href="#" class="contact-link">Instagram</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-twitter"></i>
+                            <a href="#" class="contact-link">Twitter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Yhteydenottolomake -->
+            <div class="section-title">
+                <h2>Lähetä viesti</h2>
+                <p>Täytä lomake ja asiantuntijamme ottaa sinuun yhteyttä</p>
+            </div>
+            
+            <div class="form-container">
+                <form id="contact-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Nimi *</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Sähköposti *</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Puhelinnumero</label>
+                            <input type="tel" id="phone" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Aihe *</label>
+                            <select id="subject" class="form-control" required>
+                                <option value="">Valitse aihe</option>
+                                <option value="scam-report">Huijausilmoitus</option>
+                                <option value="support">Tuki huijauksen uhreille</option>
+                                <option value="prevention">Ennaltaehkäisy ja neuvonta</option>
+                                <option value="cooperation">Yhteistyöehdotukset</option>
+                                <option value="other">Muu kysymys</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Viesti *</label>
+                        <textarea id="message" class="form-control" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" id="consent" class="form-check-input" required>
+                            <label for="consent" class="form-check-label">Hyväksyn että tietoni tallennetaan ja käsitellään tietosuojaselosteen mukaisesti *</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Lähetä viesti
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Toimipiste -->
+            <div class="office-section">
+                <div class="office-info">
+                    <h3><i class="fas fa-map-marker-alt"></i> Toimipisteemme</h3>
+                    <p>Voit tulla myös käymään toimipisteellämme, mutta suosittelemme ajanvarausta etukäteen puhelimitse.</p>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span>Mannerheimintie 12 A 5, 00100 Helsinki</span>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:045550487" class="contact-link">045550487</a>
+                    </div>
+                    
+                    <div class="office-hours">
+                        <h4>Aukioloajat</h4>
+                        <table class="hours-table">
+                            <tr>
+                                <td>Maanantai - Perjantai</td>
+                                <td>10:00 - 18:00</td>
+                            </tr>
+                            <tr>
+                                <td>Lauantai</td>
+                                <td>10:00 - 15:00</td>
+                            </tr>
+                            <tr>
+                                <td>Sunnuntai</td>
+                                <td>Suljettu</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="office-map">
+                    <i class="fas fa-map"></i>
+                    <span>Kartta toimipisteestämme</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column footer-about">
+                    <h3>OnkoHuijaus.online</h3>
+                    <p>Tarjoamme luotettavaa tietoa verkkopetosten ennaltaehkäisyyn ja uhrien tukeen. Olemme auttaneet suomalaisia torjumaan yli 9000 euron vahingot ja vastanneet yli 80 puheluun.</p>
+                    <p>Sivustomme ei kerää henkilötietoja eikä käytä evästeitä.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Sivuston sisältö</h3>
+                    <ul class="footer-links">
+                        <li><a href="huijaussahkopostit.html"><i class="fas fa-envelope"></i> Huijaussähköpostit</a></li>
+                        <li><a href="uhrin-tuki.html"><i class="fas fa-hands-helping"></i> Olen uhrina</a></li>
+                        <li><a href="resurssit.html"><i class="fas fa-book"></i> Resurssit</a></li>
+                        <li><a href="ukk.html"><i class="fas fa-question-circle"></i> UKK</a></li>
+                        <li><a href="yhteydenotto.html"><i class="fas fa-headset"></i> Ota Yhteyttä</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Neuvonta ja tuki</h3>
+                    <ul class="footer-links">
+                        <li><a href="tel:045550487"><i class="fas fa-phone"></i> Verkkopetosneuvonta: 045550487</a></li>
+                        <li><a href="mailto:aspa@onkohuijaus.online"><i class="fas fa-envelope"></i> Sähköposti: aspa@onkohuijaus.online</a></li>
+                        <li><a href="tel:116006"><i class="fas fa-phone-alt"></i> MIELI Kriisipuhelin: 116 006</a></li>
+                        <li><a href="tel:112"><i class="fas fa-phone-alt"></i> Hätänumero 112</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Lähteet ja yhteistyö</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://www.traficom.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Traficom</a></li>
+                        <li><a href="https://www.europol.europa.eu" target="_blank"><i class="fas fa-external-link-alt"></i> Europol</a></li>
+                        <li><a href="https://www.finanssivalvonta.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Finanssivalvonta</a></li>
+                        <li><a href="https://www.kyberturvallisuuskeskus.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Kyberturvallisuuskeskus</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 OnkoHuijaus.online - Kaikki oikeudet pidätetään. Sivusto ei kerää henkilötietoja.</p>
+                <p>Sisältö perustuu viranomaisten suosituksiin. Tietoa päivitetään säännöllisesti.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navMenu = document.querySelector('#main-nav');
+            
+            // Navigaatiovalikon toiminnallisuus
+            if (navToggle) {
+                navToggle.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    navMenu.classList.toggle('active');
+                });
+            }
+            
+            // Lomakkeen toiminnallisuus
+            const contactForm = document.getElementById('contact-form');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Lomakkeen kentät
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    
+                    // Näytä onnistumisviesti
+                    alert(`Kiitos yhteydenotostasi ${name}! Viestisi on vastaanotettu. Otamme sinuun yhteyttä sähköpostiisi ${email} mahdollisimman pian.`);
+                    
+                    // Tyhjennä lomake
+                    contactForm.reset();
+                });
+            }
+            
+            // Kielivalitsimen toiminnallisuus
+            const langButtons = document.querySelectorAll('.language-switcher button');
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Tässä esimerkissä kielenvaihto on vain demo
+                    if (lang === 'en') {
+                        document.querySelector('.hero h1').textContent = 'Contact Us';
+                        document.querySelector('.hero p').textContent = 'We are here to help you. Choose the most convenient way to contact our experts.';
+                    } else {
+                        document.querySelector('.hero h1').textContent = 'Ota Yhteyttä';
+                        document.querySelector('.hero p').textContent = 'Me olemme täällä auttamassa sinua. Valitse sinulle sopivin tapa ottaa yhteyttä asiantuntijaamme.';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
