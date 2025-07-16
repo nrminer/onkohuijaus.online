@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Torjuntaoppaat | OnkoHuijaus.online</title>
+    <title>Huijausvisailut | OnkoHuijaus.online</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,7 +14,7 @@
             --dark: #212529;
             --warning: #e9c46a;
             --success: #4caf50;
-            --guide-bg: #e6f0fa;
+            --quiz-bg: #e6f0fa;
         }
         
         * {
@@ -305,8 +305,8 @@
             border-radius: 3px;
         }
         
-        /* Oppaiden tyylit */
-        .guide-categories {
+        /* Visailujen tyylit */
+        .quiz-categories {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
@@ -330,13 +330,13 @@
             color: white;
         }
         
-        .guides-container {
+        .quizzes-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2.5rem;
         }
         
-        .guide-card {
+        .quiz-card {
             background: white;
             border-radius: 12px;
             overflow: hidden;
@@ -347,70 +347,66 @@
             height: 100%;
         }
         
-        .guide-card:hover {
+        .quiz-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
         }
         
-        .guide-header {
+        .quiz-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             color: white;
             padding: 1.5rem;
             text-align: center;
         }
         
-        .guide-icon {
+        .quiz-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
         }
         
-        .guide-header h3 {
+        .quiz-header h3 {
             font-size: 1.6rem;
             margin-bottom: 0.5rem;
         }
         
-        .guide-content {
+        .quiz-content {
             padding: 2rem;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
         
-        .guide-content p {
+        .quiz-content p {
             margin-bottom: 1.5rem;
-            flex-grow: 1;
         }
         
-        .guide-steps {
-            background: var(--guide-bg);
+        .quiz-stats {
+            background: var(--quiz-bg);
             border-radius: 8px;
             padding: 1.2rem;
             margin-bottom: 1.5rem;
-        }
-        
-        .guide-steps h4 {
-            color: var(--primary);
-            margin-bottom: 0.8rem;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 8px;
         }
         
-        .guide-steps ol {
-            padding-left: 1.5rem;
+        .stat-item {
+            text-align: center;
         }
         
-        .guide-steps li {
-            margin-bottom: 0.7rem;
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
         }
         
-        .guide-buttons {
+        .quiz-buttons {
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
         }
         
-        .guide-btn {
+        .quiz-btn {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -421,40 +417,190 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            justify-content: center;
         }
         
-        .guide-btn:hover {
+        .quiz-btn:hover {
             background: #0d2a4d;
             transform: translateY(-3px);
         }
         
-        .guide-btn.secondary {
+        /* Visailunäkymän tyylit */
+        #quizView {
+            display: none;
             background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
         }
         
-        .guide-btn.secondary:hover {
-            background: var(--guide-bg);
-        }
-        
-        /* Tiedostetyypit */
-        .file-types {
+        .quiz-progress {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 3rem;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: #f0f4f8;
+            padding: 1rem;
+            border-radius: 30px;
         }
         
-        .file-type {
+        .progress-bar {
+            flex-grow: 1;
+            height: 10px;
+            background: #e0e6ed;
+            border-radius: 5px;
+            margin: 0 1rem;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .question-container {
+            margin-bottom: 2rem;
+        }
+        
+        .question {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .options-container {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .option {
+            padding: 1.2rem;
+            border: 2px solid #e0e6ed;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .option:hover {
+            border-color: var(--primary);
+            background: rgba(26, 58, 108, 0.05);
+        }
+        
+        .option.selected {
+            border-color: var(--accent);
+            background: rgba(42, 157, 143, 0.1);
+        }
+        
+        .option.correct {
+            border-color: var(--success);
+            background: rgba(76, 175, 80, 0.1);
+        }
+        
+        .option.incorrect {
+            border-color: var(--secondary);
+            background: rgba(230, 57, 70, 0.1);
+        }
+        
+        .option-letter {
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 10px;
-            background: white;
-            padding: 0.8rem 1.5rem;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .explanation {
+            background: #f8f9fa;
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 1.5rem;
+            display: none;
+        }
+        
+        .explanation-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .result-container {
+            text-align: center;
+            padding: 3rem;
+            display: none;
+        }
+        
+        .result-icon {
+            font-size: 5rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .result-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .score-display {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 1.5rem 0;
+        }
+        
+        .result-message {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 2rem;
+        }
+        
+        .share-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.7rem 1.5rem;
+            background: #f0f4f8;
+            color: var(--dark);
             border-radius: 30px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         
         /* Tilastot */
@@ -641,8 +787,17 @@
                 margin: 5px 0;
             }
             
-            .guides-container {
+            .quizzes-container {
                 grid-template-columns: 1fr;
+            }
+            
+            .quiz-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .quiz-btn {
+                width: 100%;
             }
         }
     </style>
@@ -695,265 +850,263 @@
     <!-- Torjuntaoppaat - Sivu -->
     <section class="hero">
         <div class="container hero-content">
-            <h1><i class="fas fa-book-open"></i> Torjuntaoppaat</h1>
-            <p>Lataa ilmaisia käytännön oppaita erilaisten verkkopetosten tunnistamiseen ja torjuntaan. Kaikki materiaalit ovat viranomaisten suosituksia noudattavia.</p>
+            <h1><i class="fas fa-question-circle"></i> Huijausvisailut</h1>
+            <p>Testaa osaamistasi ja opi tunnistamaan erilaisia huijauskeinoja käytännön esimerkkien avulla. Kukin visailu antaa välittömän palautteen ja opastaa sinua.</p>
         </div>
     </section>
 
     <section class="section">
         <div class="container">
             <div class="section-title">
-                <h2>Ilmaiset oppaat verkkopetosten torjuntaan</h2>
-                <p>Lataa PDF-muotoiset oppaat ja lisää tietoturvaasi</p>
+                <h2>Testaa osaamistasi huijausten tunnistamisessa</h2>
+                <p>Valitse aihealue ja aloita visailu oppiaksesi tunnistamaan huijauksia</p>
             </div>
             
-            <div class="guide-categories">
-                <button class="category-btn active" data-category="all">Kaikki oppaat</button>
+            <div class="quiz-categories">
+                <button class="category-btn active" data-category="all">Kaikki visailut</button>
                 <button class="category-btn" data-category="email">Sähköpostihuijaukset</button>
                 <button class="category-btn" data-category="phone">Puhelinhuijaukset</button>
                 <button class="category-btn" data-category="online">Verkkokaupat</button>
                 <button class="category-btn" data-category="social">Sosiaalinen media</button>
             </div>
             
-            <div class="guides-container">
+            <!-- Visailunäkymä -->
+            <div id="quizView">
+                <div class="quiz-progress">
+                    <div class="question-count">Kysymys <span id="currentQuestion">1</span>/<span id="totalQuestions">5</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="score">Pisteet: <span id="currentScore">0</span></div>
+                </div>
+                
+                <div class="question-container">
+                    <div class="question" id="questionText"></div>
+                    
+                    <div class="options-container" id="optionsContainer"></div>
+                    
+                    <div class="explanation" id="explanation">
+                        <div class="explanation-title">Miksi tämä on huijaus?</div>
+                        <div id="explanationText"></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-controls">
+                    <button class="quiz-btn" id="prevBtn" disabled>
+                        <i class="fas fa-arrow-left"></i> Edellinen
+                    </button>
+                    <button class="quiz-btn" id="nextBtn">
+                        Seuraava <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tulostenäkymä -->
+            <div class="result-container" id="resultView">
+                <div class="result-icon">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <h2 class="result-title">Visailu suoritettu!</h2>
+                <div class="score-display" id="finalScore">0/5</div>
+                <div class="result-message" id="resultMessage"></div>
+                
+                <div class="quiz-buttons">
+                    <button class="quiz-btn" id="restartBtn">
+                        <i class="fas fa-redo"></i> Uusi visailu
+                    </button>
+                    <button class="quiz-btn" id="backToQuizzesBtn">
+                        <i class="fas fa-list"></i> Valitse toinen visailu
+                    </button>
+                </div>
+                
+                <div class="share-buttons">
+                    <a href="#" class="share-btn">
+                        <i class="fab fa-facebook"></i> Jaa Facebookissa
+                    </a>
+                    <a href="#" class="share-btn">
+                        <i class="fab fa-twitter"></i> Jaa Twitterissä
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Visailujen valikoima -->
+            <div class="quizzes-container" id="quizzesContainer">
                 <!-- Sähköpostihuijaukset -->
-                <div class="guide-card" data-category="email">
-                    <div class="guide-header">
-                        <div class="guide-icon">
+                <div class="quiz-card" data-category="email" data-quiz="email">
+                    <div class="quiz-header">
+                        <div class="quiz-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <h3>Sähköpostihuijaukset</h3>
                         <p>Opi tunnistamaan ja torjumaan</p>
                     </div>
-                    <div class="guide-content">
-                        <p>Opas auttaa sinua tunnistamaan yleisimmät huijaussähköpostit ja tarjoaa käytännön vinkit niiden käsittelyyn.</p>
+                    <div class="quiz-content">
+                        <p>Testaa osaamistasi tunnistaa huijaussähköposteja ja opi torjumaan niitä.</p>
                         
-                        <div class="guide-steps">
-                            <h4><i class="fas fa-check-circle"></i> Oppaassa käsitellään:</h4>
-                            <ol>
-                                <li>Pankki- ja laskuhuijaukset</li>
-                                <li>Toimitus- ja pakettihuijaukset</li>
-                                <li>Arpajais- ja perintöhuijaukset</li>
-                                <li>Nettipalveluiden huijausviestit</li>
-                            </ol>
+                        <div class="quiz-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">5</div>
+                                <div>Kysymystä</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">87%</div>
+                                <div>Keskiarvo</div>
+                            </div>
                         </div>
                         
-                        <div class="guide-buttons">
-                            <a href="#" class="guide-btn">
-                                <i class="fas fa-download"></i> Lataa PDF (12 sivua)
-                            </a>
-                            <a href="#" class="guide-btn secondary">
-                                <i class="fas fa-eye"></i> Esikatsele
-                            </a>
+                        <div class="quiz-buttons">
+                            <button class="quiz-btn start-quiz" data-quiz="email">
+                                <i class="fas fa-play"></i> Aloita visailu
+                            </button>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Puhelinhuijaukset -->
-                <div class="guide-card" data-category="phone">
-                    <div class="guide-header">
-                        <div class="guide-icon">
+                <div class="quiz-card" data-category="phone" data-quiz="phone">
+                    <div class="quiz-header">
+                        <div class="quiz-icon">
                             <i class="fas fa-phone"></i>
                         </div>
                         <h3>Puhelinhuijaukset</h3>
                         <p>Suojaa itsesi puhelinhuijareilta</p>
                     </div>
-                    <div class="guide-content">
-                        <p>Tämä opas opastaa sinua tunnistamaan puhelinhuijauksia ja tarjoaa selkeät ohjeet miten suojautua niiltä.</p>
+                    <div class="quiz-content">
+                        <p>Tunnista yleisimmät puhelinhuijauskuviot ja opi suojautumaan niiltä.</p>
                         
-                        <div class="guide-steps">
-                            <h4><i class="fas fa-check-circle"></i> Oppaassa käsitellään:</h4>
-                            <ol>
-                                <li>Tietoturvahuijaukset (Microsoft, Windows)</li>
-                                <li>Pankkihuijaukset</li>
-                                <li>Perintähuijaukset</li>
-                                <li>Lotto- ja arvonhuijaukset</li>
-                            </ol>
+                        <div class="quiz-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">5</div>
+                                <div>Kysymystä</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">75%</div>
+                                <div>Keskiarvo</div>
+                            </div>
                         </div>
                         
-                        <div class="guide-buttons">
-                            <a href="#" class="guide-btn">
-                                <i class="fas fa-download"></i> Lataa PDF (8 sivua)
-                            </a>
-                            <a href="#" class="guide-btn secondary">
-                                <i class="fas fa-eye"></i> Esikatsele
-                            </a>
+                        <div class="quiz-buttons">
+                            <button class="quiz-btn start-quiz" data-quiz="phone">
+                                <i class="fas fa-play"></i> Aloita visailu
+                            </button>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Verkkokauppahuijaukset -->
-                <div class="guide-card" data-category="online">
-                    <div class="guide-header">
-                        <div class="guide-icon">
+                <div class="quiz-card" data-category="online" data-quiz="online">
+                    <div class="quiz-header">
+                        <div class="quiz-icon">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
                         <h3>Verkkokaupan huijaukset</h3>
                         <p>Osta turvallisesti verkosta</p>
                     </div>
-                    <div class="guide-content">
-                        <p>Opas auttaa sinua tunnistamaan epäluotettavat verkkokaupat ja tarjoaa vinkkejä turvalliseen verkkokauppaan.</p>
+                    <div class="quiz-content">
+                        <p>Testaa tietojasi verkkokauppahuijauksista ja opi tekemään turvallisia ostoksia.</p>
                         
-                        <div class="guide-steps">
-                            <h4><i class="fas fa-check-circle"></i> Oppaassa käsitellään:</h4>
-                            <ol>
-                                <li>Huijausverkkokauppojen tunnistaminen</li>
-                                <li>Turvalliset maksutavat</li>
-                                <li>Tuotteiden vastaamattomuus</li>
-                                <li>Väärennetyt tuotteet</li>
-                            </ol>
+                        <div class="quiz-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">5</div>
+                                <div>Kysymystä</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">82%</div>
+                                <div>Keskiarvo</div>
+                            </div>
                         </div>
                         
-                        <div class="guide-buttons">
-                            <a href="#" class="guide-btn">
-                                <i class="fas fa-download"></i> Lataa PDF (10 sivua)
-                            </a>
-                            <a href="#" class="guide-btn secondary">
-                                <i class="fas fa-eye"></i> Esikatsele
-                            </a>
+                        <div class="quiz-buttons">
+                            <button class="quiz-btn start-quiz" data-quiz="online">
+                                <i class="fas fa-play"></i> Aloita visailu
+                            </button>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Sosiaalisen median huijaukset -->
-                <div class="guide-card" data-category="social">
-                    <div class="guide-header">
-                        <div class="guide-icon">
+                <div class="quiz-card" data-category="social" data-quiz="social">
+                    <div class="quiz-header">
+                        <div class="quiz-icon">
                             <i class="fab fa-facebook"></i>
                         </div>
                         <h3>Sosiaalisen median huijaukset</h3>
                         <p>Pysy turvassa some-alustoilla</p>
                     </div>
-                    <div class="guide-content">
-                        <p>Opas kertoo yleisimmistä sosiaalisen median huijauksista ja miten suojata profiilisi sekä henkilötietosi.</p>
+                    <div class="quiz-content">
+                        <p>Tunnista yleisimmät some-huijaukset ja opi suojaamaan profiilisi.</p>
                         
-                        <div class="guide-steps">
-                            <h4><i class="fas fa-check-circle"></i> Oppaassa käsitellään:</h4>
-                            <ol>
-                                <li>Profiilien väärentäminen</li>
-                                <li>Klikki-huijaukset</li>
-                                <li>Suosittelu- ja kumppanuushuijaukset</li>
-                                <li>Tietojenkalastelu</li>
-                            </ol>
+                        <div class="quiz-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">5</div>
+                                <div>Kysymystä</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">79%</div>
+                                <div>Keskiarvo</div>
+                            </div>
                         </div>
                         
-                        <div class="guide-buttons">
-                            <a href="#" class="guide-btn">
-                                <i class="fas fa-download"></i> Lataa PDF (9 sivua)
-                            </a>
-                            <a href="#" class="guide-btn secondary">
-                                <i class="fas fa-eye"></i> Esikatsele
-                            </a>
+                        <div class="quiz-buttons">
+                            <button class="quiz-btn start-quiz" data-quiz="social">
+                                <i class="fas fa-play"></i> Aloita visailu
+                            </button>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Salasanaturvallisuus -->
-                <div class="guide-card" data-category="security">
-                    <div class="guide-header">
-                        <div class="guide-icon">
+                <div class="quiz-card" data-category="security" data-quiz="security">
+                    <div class="quiz-header">
+                        <div class="quiz-icon">
                             <i class="fas fa-lock"></i>
                         </div>
                         <h3>Salasanaturvallisuus</h3>
                         <p>Luo ja hallinnoi turvallisia salasanoja</p>
                     </div>
-                    <div class="guide-content">
-                        <p>Tämä kattava opas opastaa sinua luomaan vahvoja salasanoja ja hallitsemaan niitä turvallisesti.</p>
+                    <div class="quiz-content">
+                        <p>Testaa tietojasi salasanojen turvallisuudesta ja opi luomaan vahvoja tunnuksia.</p>
                         
-                        <div class="guide-steps">
-                            <h4><i class="fas fa-check-circle"></i> Oppaassa käsitellään:</h4>
-                            <ol>
-                                <li>Vahvojen salasanojen luominen</li>
-                                <li>Salasanojen hallintaohjelmat</li>
-                                <li>Kaksivaiheinen tunnistautuminen</li>
-                                <li>Salasanojen säännöllinen vaihto</li>
-                            </ol>
+                        <div class="quiz-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">5</div>
+                                <div>Kysymystä</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">85%</div>
+                                <div>Keskiarvo</div>
+                            </div>
                         </div>
                         
-                        <div class="guide-buttons">
-                            <a href="#" class="guide-btn">
-                                <i class="fas fa-download"></i> Lataa PDF (14 sivua)
-                            </a>
-                            <a href="#" class="guide-btn secondary">
-                                <i class="fas fa-eye"></i> Esikatsele
-                            </a>
+                        <div class="quiz-buttons">
+                            <button class="quiz-btn start-quiz" data-quiz="security">
+                                <i class="fas fa-play"></i> Aloita visailu
+                            </button>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Tietoturva kotiympäristössä -->
-                <div class="guide-card" data-category="security">
-                    <div class="guide-header">
-                        <div class="guide-icon">
-                            <i class="fas fa-home"></i>
-                        </div>
-                        <h3>Kodin tietoturva</h3>
-                        <p>Suojaa kotiympäristösi verkkorikollisuudelta</p>
-                    </div>
-                    <div class="guide-content">
-                        <p>Opas auttaa sinua suojaamaan kotiympäristösi verkkorikollisuudelta ja tarjoaa käytännön vinkit turvalliseen verkkoon.</p>
-                        
-                        <div class="guide-steps">
-                            <h4><i class="fas fa-check-circle"></i> Oppaassa käsitellään:</h4>
-                            <ol>
-                                <li>Turvallinen langaton verkko</li>
-                                <li>Laitteiden päivitykset</li>
-                                <li>Lasten tietoturva</li>
-                                <li>Älykodin turvallisuus</li>
-                            </ol>
-                        </div>
-                        
-                        <div class="guide-buttons">
-                            <a href="#" class="guide-btn">
-                                <i class="fas fa-download"></i> Lataa PDF (11 sivua)
-                            </a>
-                            <a href="#" class="guide-btn secondary">
-                                <i class="fas fa-eye"></i> Esikatsele
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="file-types">
-                <div class="file-type">
-                    <i class="fas fa-file-pdf" style="color: #e63946;"></i>
-                    <span>PDF-tiedostot</span>
-                </div>
-                <div class="file-type">
-                    <i class="fas fa-print" style="color: #1a3a6c;"></i>
-                    <span>Tulostettava versio</span>
-                </div>
-                <div class="file-type">
-                    <i class="fas fa-mobile-alt" style="color: #2a9d8f;"></i>
-                    <span>Mobiiliystävällinen</span>
-                </div>
-                <div class="file-type">
-                    <i class="fas fa-universal-access" style="color: #e9c46a;"></i>
-                    <span>Esteettömyys</span>
                 </div>
             </div>
             
             <div class="stats-section">
-                <h2>Oppaiden vaikuttavuus</h2>
-                <p>Meidän oppaiden käyttäjät ovat merkittävästi paremmin suojattuja verkkopetoksilta</p>
+                <h2>Visailujen vaikuttavuus</h2>
+                <p>Visailujen käyttäjät oppivat tunnistamaan huijauksia 3 kertaa nopeammin</p>
                 
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <div class="stat-number">92%</div>
-                        <p>Oppaiden lukeneista osaa paremmin tunnistaa huijauksia</p>
+                        <div class="stat-number">94%</div>
+                        <p>Visailujen tekijöistä osaa paremmin tunnistaa huijauksia</p>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number">78%</div>
-                        <p>Käyttäjistä on parantanut salasanojaan oppaan lukemisen jälkeen</p>
+                        <p>Käyttäjistä on parantanut salasanojaan visailun jälkeen</p>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number">65%</div>
-                        <p>Käyttäjistä on estänyt huijauksen oppaan ohjeiden perusteella</p>
+                        <div class="stat-number">68%</div>
+                        <p>Käyttäjistä on estänyt huijauksen visailussa oppiensa perusteella</p>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number">50k+</div>
-                        <p>Oppaita ladattu viimeisen 6 kuukauden aikana</p>
+                        <div class="stat-number">15k+</div>
+                        <p>Visailua suoritettu viime kuukauden aikana</p>
                     </div>
                 </div>
             </div>
@@ -976,7 +1129,7 @@
                         <li><a href="huijaussahkopostit.html"><i class="fas fa-envelope"></i> Huijaussähköpostit</a></li>
                         <li><a href="uhrin-tuki.html"><i class="fas fa-hands-helping"></i> Olen uhrina</a></li>
                         <li><a href="resurssit.html"><i class="fas fa-book"></i> Resurssit</a></li>
-                        <li><a href="torjuntaoppaat.html"><i class="fas fa-book-open"></i> Torjuntaoppaat</a></li>
+                        <li><a href="torjuntaoppaat.html"><i class="fas fa-question-circle"></i> Huijausvisailut</a></li>
                         <li><a href="ukk.html"><i class="fas fa-question-circle"></i> UKK</a></li>
                     </ul>
                 </div>
@@ -1023,10 +1176,352 @@
                 });
             }
             
-            // Oppaiden suodatus
-            const categoryBtns = document.querySelectorAll('.category-btn');
-            const guideCards = document.querySelectorAll('.guide-card');
+            // Visailujen data
+            const quizzes = {
+                email: {
+                    title: "Sähköpostihuijaukset",
+                    questions: [
+                        {
+                            question: "Saat sähköpostin, jossa kerrotaan että olet voittanut 1000€. Mitä teet?",
+                            options: [
+                                "Avaan linkin ja täytän lomakkeen",
+                                "Poistan viestin välittömästi",
+                                "Vastaan viestiin ja kysyn lisätietoja"
+                            ],
+                            correct: 1,
+                            explanation: "Tämä on tyypillinen arpajais- tai perintöhuijaus. Älä koskaan avaa linkkejä tai anna henkilötietoja tällaisissa viesteissä."
+                        },
+                        {
+                            question: "Saat sähköpostin pankiltasi, jossa pyydetään vahvistamaan tilitietojasi. Mitä teet?",
+                            options: [
+                                "Avaan linkin ja kirjaudun pankkiini",
+                                "Poistan viestin ja ilmoitan pankilleni",
+                                "Vastaan viestiin ja kysyn onko tämä oikeasti pankista"
+                            ],
+                            correct: 1,
+                            explanation: "Pankit eivät koskaan pyydä tilitietojen vahvistamista sähköpostitse. Tämä on klassinen phishing-huijaus."
+                        },
+                        {
+                            question: "Saat sähköpostin verkkokaupalta, jossa kerrotaan että tilauksesi on peruttu. Mitä teet?",
+                            options: [
+                                "Avaan linkin nähdäkseni tilauksen tilan",
+                                "Kirjaudun suoraan verkkokauppaan tarkistamaan tilauksen",
+                                "Vastaan viestiin ja kysyn miksi tilaus on peruttu"
+                            ],
+                            correct: 1,
+                            explanation: "Huijarit lähettävät usein väärennettyjä peruutusviestejä saadakseen sinut klikkaamaan linkkiä. Kirjaudu aina suoraan palveluun tarkistamaan tilaustesi tila."
+                        },
+                        {
+                            question: "Saat sähköpostin toimituksesta, jossa kerrotaan että pakettisi ei voitu toimittaa. Mitä teet?",
+                            options: [
+                                "Avaan linkin ja annan uudet toimitusohjeet",
+                                "Tarkistan toimitusseurannan viralliselta sivustolta",
+                                "Vastaan viestiin ja kysyn lisätietoja"
+                            ],
+                            correct: 1,
+                            explanation: "Tämä on yleinen pakettihuijaus. Älä koskaan klikkaa linkkejä tällaisissa viesteissä, vaan tarkista toimitus suoraan kuljetusyhtiön viralliselta sivustolta."
+                        },
+                        {
+                            question: "Saat sähköpostin verkkopalvelulta, jossa pyydetään vahvistamaan salasanasi. Mitä teet?",
+                            options: [
+                                "Avaan linkin ja päivitän salasanani",
+                                "Kirjaudun suoraan palveluun ja tarkistan asetukset",
+                                "Vastaan viestiin ja kysyn miksi salasanaa pitäisi vahvistaa"
+                            ],
+                            correct: 1,
+                            explanation: "Palveluntarjoajat eivät pyydä salasanojen vahvistamista sähköpostitse. Tämä on phishing-yritys."
+                        }
+                    ]
+                },
+                phone: {
+                    title: "Puhelinhuijaukset",
+                    questions: [
+                        {
+                            question: "Soittaja väittää olevansa Microsoftin asiakaspalvelusta ja kertoo tietokoneessasi olevan viruksia. Mitä teet?",
+                            options: [
+                                "Annan soittajan ohjata minua korjaamaan ongelma",
+                                "Lopetan puhelun välittömästi",
+                                "Kysyn soittajan henkilöllisyyttä ja yhtiötietoja"
+                            ],
+                            correct: 1,
+                            explanation: "Microsoft ei koskaan soita asiakkaille tällaisista ongelmista. Tämä on yleinen tekninen huijaus."
+                        },
+                        {
+                            question: "Soittaja väittää olevansa verottajasta ja kertoo että olet velkaa veroja. Mitä teet?",
+                            options: [
+                                "Maksan välittömästi soittajan antamille tileille",
+                                "Lopetan puhelun ja otan yhteyttä verottajaan virallisesta numerosta",
+                                "Annan henkilötietojani varmistaakseni asian"
+                            ],
+                            correct: 1,
+                            explanation: "Verottaja ei koskaan soita maksukehotuksista. Tarkista aina asia virallisesta lähteestä."
+                        },
+                        {
+                            question: "Soittaja väittää olevansa pankistasi ja pyytää vahvistamaan korttitietojasi. Mitä teet?",
+                            options: [
+                                "Annan kortin numeron ja PIN-koodin",
+                                "Lopetan puhelun ja otan yhteyttä pankkiini virallisesta numerosta",
+                                "Kysyn soittajan työntekijätunnusta ja vahvistan sen pankissa"
+                            ],
+                            correct: 1,
+                            explanation: "Pankit eivät koskaan pyydä täydellisiä korttitietoja puhelimitse. Tämä on pankkihuijaus."
+                        },
+                        {
+                            question: "Soittaja väittää olevansa poliisista ja kertoo että läheisesi on onnettomuudessa. Mitä teet?",
+                            options: [
+                                "Annan soittajan pyytämät rahat välittömästi",
+                                "Lopetan puhelun ja otan yhteyttä poliisiin virallisesta numerosta",
+                                "Pyydän soittajaa siirtämään minut osastolle jossa läheiseni on"
+                            ],
+                            correct: 1,
+                            explanation: "Tämä on surullisenkuuluisa 'lähimmäis-huijaus'. Poliisi ei koskaan pyydä rahaa puhelimitse."
+                        },
+                        {
+                            question: "Soittaja väittää olevansa sähkölaskun perinnästä ja uhkaa katkaista sähköt. Mitä teet?",
+                            options: [
+                                "Maksan välittömästi soittajan antamalle tilille",
+                                "Lopetan puhelun ja otan yhteyttä sähköyhtiööni virallisesta numerosta",
+                                "Annan henkilötietojani varmistaakseni laskun"
+                            ],
+                            correct: 1,
+                            explanation: "Sähkön katkaisemisesta ilmoitetaan aina kirjallisesti. Älä koskaan maksa puhelimitse pyydettyjä summia."
+                        }
+                    ]
+                },
+                online: {
+                    title: "Verkkokaupan huijaukset",
+                    questions: [
+                        {
+                            question: "Näet mainoksen uudesta puhelimesta, joka maksaa vain 199€. Mitä teet?",
+                            options: [
+                                "Tilaan välittömästi",
+                                "Tutkin verkkokauppaa ja etsin arvosteluja",
+                                "Kysyn kaverilta onko hän kuullut kaupasta"
+                            ],
+                            correct: 1,
+                            explanation: "Epärealistisen halvat hinnat ovat usein merkki huijauskaupasta. Tutki aina kauppaa ennen ostopäätöstä."
+                        },
+                        {
+                            question: "Verkkokaupan maksutavassa on vain pankkisiirto. Mitä teet?",
+                            options: [
+                                "Maksan pankkisiirrolla",
+                                "Etsin toisen kaupan jossa on turvallisemmat maksutavat",
+                                "Pyydän kaupalta laskua"
+                            ],
+                            correct: 1,
+                            explanation: "Luotettavat verkkokaupat tarjoavat aina useita turvallisia maksutapoja. Pelkkä pankkisiirto voi olla merkki huijauksesta."
+                        },
+                        {
+                            question: "Tuotesivulla ei ole yrityksen yhteystietoja. Mitä teet?",
+                            options: [
+                                "Ostan tuotteen muutenkin",
+                                "En osta kyseisestä kaupasta",
+                                "Kysyn yhteystietoja asiakaspalvelusta"
+                            ],
+                            correct: 1,
+                            explanation: "Luotettavalla verkkokaupalla on aina helposti löydettävissä olevat yhteystiedot. Jos niitä ei ole, kyseessä saattaa olla huijaus."
+                        },
+                        {
+                            question: "Saat sähköpostin verkkokaupalta, jossa kerrotaan että tilauksesi on lähetetty, mutta seurantakoodi ei toimi. Mitä teet?",
+                            options: [
+                                "Odotan vielä muutaman päivän",
+                                "Otan yhteyttä kaupan asiakaspalveluun virallisesta sivustosta",
+                                "Avaan sähköpostissa olevan linkin"
+                            ],
+                            correct: 1,
+                            explanation: "Älä koskaan klikkaa linkkejä epäilyttävissä sähköposteissa. Ota aina yhteyttä virallisesta asiakaspalvelukanavasta."
+                        },
+                        {
+                            question: "Verkkokaupassa on upeita tuotteita, mutta verkkotunnus on outo (esim. 'amaz0n-deals.fi'). Mitä teet?",
+                            options: [
+                                "Ostan tuotteen jos hinta on hyvä",
+                                "En osta kyseisestä kaupasta",
+                                "Tutkin verkkotunnuksen rekisteröintiä"
+                            ],
+                            correct: 1,
+                            explanation: "Huijarit käyttävät usein tunnettujen merkkien muunnelmia verkkotunnuksissaan. Ole varovainen epäilyttävien verkkotunnusten kanssa."
+                        }
+                    ]
+                }
+            };
+
+            // DOM-elementit
+            const quizzesContainer = document.getElementById('quizzesContainer');
+            const quizView = document.getElementById('quizView');
+            const resultView = document.getElementById('resultView');
+            const questionText = document.getElementById('questionText');
+            const optionsContainer = document.getElementById('optionsContainer');
+            const explanation = document.getElementById('explanation');
+            const explanationText = document.getElementById('explanationText');
+            const currentQuestion = document.getElementById('currentQuestion');
+            const totalQuestions = document.getElementById('totalQuestions');
+            const progressFill = document.getElementById('progressFill');
+            const currentScore = document.getElementById('currentScore');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const finalScore = document.getElementById('finalScore');
+            const resultMessage = document.getElementById('resultMessage');
+            const restartBtn = document.getElementById('restartBtn');
+            const backToQuizzesBtn = document.getElementById('backToQuizzesBtn');
             
+            // Visailutila
+            let currentQuiz = null;
+            let currentQuizIndex = 0;
+            let userScore = 0;
+            let userAnswers = [];
+            
+            // Aloita visailu
+            document.querySelectorAll('.start-quiz').forEach(button => {
+                button.addEventListener('click', function() {
+                    const quizId = this.dataset.quiz;
+                    startQuiz(quizId);
+                });
+            });
+            
+            // Aloita uusi visailu
+            restartBtn.addEventListener('click', function() {
+                startQuiz(currentQuiz);
+            });
+            
+            // Palaa visailuvalikoimaan
+            backToQuizzesBtn.addEventListener('click', function() {
+                quizView.style.display = 'none';
+                resultView.style.display = 'none';
+                quizzesContainer.style.display = 'grid';
+            });
+            
+            // Seuraava kysymys
+            nextBtn.addEventListener('click', function() {
+                if (currentQuizIndex < quizzes[currentQuiz].questions.length - 1) {
+                    currentQuizIndex++;
+                    showQuestion();
+                } else {
+                    showResults();
+                }
+            });
+            
+            // Edellinen kysymys
+            prevBtn.addEventListener('click', function() {
+                if (currentQuizIndex > 0) {
+                    currentQuizIndex--;
+                    showQuestion();
+                }
+            });
+            
+            // Aloita visailu
+            function startQuiz(quizId) {
+                currentQuiz = quizId;
+                currentQuizIndex = 0;
+                userScore = 0;
+                userAnswers = [];
+                
+                // Piilota valikoima ja näytä visailu
+                quizzesContainer.style.display = 'none';
+                quizView.style.display = 'block';
+                resultView.style.display = 'none';
+                
+                // Aseta visailun tiedot
+                document.querySelector('.quiz-header h3').textContent = quizzes[quizId].title;
+                totalQuestions.textContent = quizzes[quizId].questions.length;
+                currentScore.textContent = userScore;
+                
+                // Näytä ensimmäinen kysymys
+                showQuestion();
+            }
+            
+            // Näytä kysymys
+            function showQuestion() {
+                const question = quizzes[currentQuiz].questions[currentQuizIndex];
+                
+                // Päivitä näkymä
+                questionText.textContent = question.question;
+                currentQuestion.textContent = currentQuizIndex + 1;
+                progressFill.style.width = ((currentQuizIndex) / quizzes[currentQuiz].questions.length * 100) + '%';
+                explanation.style.display = 'none';
+                
+                // Tyhjennä vaihtoehdot
+                optionsContainer.innerHTML = '';
+                
+                // Lisää vastausvaihtoehdot
+                question.options.forEach((option, index) => {
+                    const optionElement = document.createElement('div');
+                    optionElement.className = 'option';
+                    if (userAnswers[currentQuizIndex] === index) {
+                        optionElement.classList.add('selected');
+                    }
+                    
+                    optionElement.innerHTML = `
+                        <div class="option-letter">${String.fromCharCode(65 + index)}</div>
+                        <div class="option-text">${option}</div>
+                    `;
+                    
+                    optionElement.addEventListener('click', () => selectOption(index));
+                    optionsContainer.appendChild(optionElement);
+                });
+                
+                // Päivitä napit
+                prevBtn.disabled = currentQuizIndex === 0;
+                nextBtn.textContent = currentQuizIndex < quizzes[currentQuiz].questions.length - 1 ? 
+                    'Seuraava <i class="fas fa-arrow-right"></i>' : 
+                    'Lopeta visailu <i class="fas fa-flag-checkered"></i>';
+            }
+            
+            // Valitse vastausvaihtoehto
+            function selectOption(optionIndex) {
+                const question = quizzes[currentQuiz].questions[currentQuizIndex];
+                const options = document.querySelectorAll('.option');
+                
+                // Poista valinnat muilta vaihtoehdoilta
+                options.forEach(option => option.classList.remove('selected', 'correct', 'incorrect'));
+                
+                // Merkitse valittu vaihtoehto
+                options[optionIndex].classList.add('selected');
+                
+                // Tallenna vastaus
+                userAnswers[currentQuizIndex] = optionIndex;
+                
+                // Näytä selitys
+                explanationText.textContent = question.explanation;
+                explanation.style.display = 'block';
+                
+                // Lisää pisteitä jos vastaus on oikea
+                if (optionIndex === question.correct && !userAnswers.hasOwnProperty(currentQuizIndex + '_scored')) {
+                    userScore++;
+                    currentScore.textContent = userScore;
+                    userAnswers[currentQuizIndex + '_scored'] = true;
+                }
+                
+                // Merkitse oikea ja väärä vastaus
+                options[question.correct].classList.add('correct');
+                if (optionIndex !== question.correct) {
+                    options[optionIndex].classList.add('incorrect');
+                }
+            }
+            
+            // Näytä tulokset
+            function showResults() {
+                quizView.style.display = 'none';
+                resultView.style.display = 'block';
+                
+                const totalQuestions = quizzes[currentQuiz].questions.length;
+                const percentage = Math.round((userScore / totalQuestions) * 100);
+                
+                finalScore.textContent = `${userScore}/${totalQuestions}`;
+                
+                // Aseta viesti tuloksen perusteella
+                if (percentage >= 90) {
+                    resultMessage.textContent = "Loistavaa! Olet todella taitava huijausten tunnistamisessa. Jatka samaan malliin!";
+                } else if (percentage >= 70) {
+                    resultMessage.textContent = "Hyvää työtä! Tunnet huijaukset melko hyvin, mutta kannattaa silti olla tarkkana.";
+                } else if (percentage >= 50) {
+                    resultMessage.textContent = "Kohtalaisesti! Tunnistat joitain huijauksia, mutta kannattaa opiskella lisää aiheesta.";
+                } else {
+                    resultMessage.textContent = "Opiskelua edessä! Tutustu huijauskeinoihin tarkemmin ja yritä uudelleen.";
+                }
+            }
+            
+            // Suodatusnappien toiminta
+            const categoryBtns = document.querySelectorAll('.category-btn');
             categoryBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
                     // Poista aktiivinen luokka kaikilta
@@ -1034,41 +1529,22 @@
                     // Lisää aktiivinen luokka klikatulle
                     this.classList.add('active');
                     
-                    const category = this.getAttribute('data-category');
+                    const category = this.dataset.category;
                     
                     // Näytä kaikki jos "all" on valittu
                     if (category === 'all') {
-                        guideCards.forEach(card => {
+                        document.querySelectorAll('.quiz-card').forEach(card => {
                             card.style.display = 'flex';
                         });
                     } else {
-                        // Piilota kaikki ja näytä vain valitun kategorian oppaat
-                        guideCards.forEach(card => {
-                            if (card.getAttribute('data-category') === category) {
+                        // Piilota kaikki ja näytä vain valitun kategorian visailut
+                        document.querySelectorAll('.quiz-card').forEach(card => {
+                            if (card.dataset.category === category) {
                                 card.style.display = 'flex';
                             } else {
                                 card.style.display = 'none';
                             }
                         });
-                    }
-                });
-            });
-            
-            // Kielivalitsimen toiminnallisuus
-            const langButtons = document.querySelectorAll('.language-switcher button');
-            langButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const lang = this.getAttribute('data-lang');
-                    langButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Tässä esimerkissä kielenvaihto on vain demo
-                    if (lang === 'en') {
-                        document.querySelector('.hero h1').textContent = 'Prevention Guides';
-                        document.querySelector('.hero p').textContent = 'Download free practical guides to identify and prevent various online scams. All materials follow official recommendations.';
-                    } else {
-                        document.querySelector('.hero h1').textContent = 'Torjuntaoppaat';
-                        document.querySelector('.hero p').textContent = 'Lataa ilmaisia käytännön oppaita erilaisten verkkopetosten tunnistamiseen ja torjuntaan. Kaikki materiaalit ovat viranomaisten suosituksia noudattavia.';
                     }
                 });
             });

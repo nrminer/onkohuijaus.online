@@ -14,6 +14,9 @@
             --dark: #212529;
             --warning: #e9c46a;
             --success: #4caf50;
+            --cyber-blue: #0a58ca;
+            --cyber-red: #dc3545;
+            --cyber-green: #198754;
         }
         
         * {
@@ -422,6 +425,39 @@
             min-width: 24px;
         }
         
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--cyber-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+        
         footer {
             background: linear-gradient(135deg, var(--dark) 0%, #121a26 100%);
             color: white;
@@ -489,6 +525,27 @@
             padding: 2rem 15px 0;
         }
         
+        .cyber-alert {
+            background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .alert-icon {
+            font-size: 2.5rem;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .alert-content h3 {
+            margin-bottom: 0.5rem;
+        }
+        
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2.2rem;
@@ -519,6 +576,11 @@
             nav li {
                 margin-left: 0;
                 margin-bottom: 0.5rem;
+            }
+            
+            .cyber-alert {
+                flex-direction: column;
+                text-align: center;
             }
         }
     </style>
@@ -556,7 +618,7 @@
         <a href="uhrin-tuki.html">Tee välittömästi nämä toimet</a>
         <div class="phone-link">
             <i class="fas fa-phone"></i>
-            <span>Soita neuvontaan: 09 123 4567</span>
+            <span>Soita neuvontaan: 04 555 0487</span>
         </div>
     </div>
 
@@ -565,6 +627,28 @@
         <div class="hero-content">
             <h1>Verkkopetos- ja huijausuutiset</h1>
             <p>Pysy ajan tasalla uusimmista verkkopetoskeinoista ja huijausmenetelmistä. Tältä sivulta löydät tuoreimmat uutiset ja varoitukset verkossa tapahtuvista huijauksista.</p>
+        </div>
+    </section>
+
+    <!-- Tiedot ja tilastot -->
+    <section class="section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">+78%</div>
+                <div class="stat-label">Verkkopetosten kasvu viime vuonna</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">3,5 milj.</div>
+                <div class="stat-label">Suomalaista joutunut petosten kohteeksi</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">120 milj. €</div>
+                <div class="stat-label">Suomalaisten menetykset vuosittain</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">1/3</div>
+                <div class="stat-label">Huijatuista ei raportoi rikosta</div>
+            </div>
         </div>
     </section>
 
@@ -586,10 +670,6 @@
         <!-- Uutispanel -->
         <div class="news-container" id="newsPanel">
             <!-- Uutiset tulevat tähän JavaScriptin avulla -->
-            <div class="loading">
-                <div class="loader"></div>
-                <p>Ladataan verkkopetosuutisia...</p>
-            </div>
         </div>
         
         <!-- Tärkeät varoitukset -->
@@ -609,6 +689,17 @@
                     <span><strong>Verkkokauppahuijaukset:</strong> Uusia huijausverkkokauppoja on ilmestynyt, jotka myyvät halvalla elektroniikkaa. Tutki aina verkkokauppojen luotettavuus ennen ostopäätöstä.</span>
                 </li>
             </ul>
+        </div>
+        
+        <!-- Ajankohtainen hälytys -->
+        <div class="cyber-alert">
+            <div class="alert-icon">
+                <i class="fas fa-radiation"></i>
+            </div>
+            <div class="alert-content">
+                <h3>AJANKOHTAINEN HÄLYTYS: Uusi verkkopankkihuijaus</h3>
+                <p>Traficom varoittaa uudesta verkkopankkihuijauksesta, jossa uhreja pyydetään antamaan pankkitunnukset valepalvelulle. Huijaus on erityisen hienostunut ja vaikuttaa aidolta. Älä anna koskaan pankkitietojasi kolmannelle osapuolelle!</p>
+            </div>
         </div>
     </section>
 
@@ -665,6 +756,14 @@
             const newsPanel = document.getElementById('newsPanel');
             const filterButtons = document.querySelectorAll('.filter-btn');
             
+            // Alustetaan latausanimaatio
+            newsPanel.innerHTML = `
+                <div class="loading">
+                    <div class="loader"></div>
+                    <p>Ladataan verkkopetosuutisia...</p>
+                </div>
+            `;
+            
             // Traficomin uutiset ja varoitukset
             const petosuutiset = [
                 {
@@ -714,12 +813,27 @@
                     category: "petos",
                     link: "#",
                     image: "https://images.unsplash.com/photo-1622837137200-95fc5e8716a1?q=80"
+                },
+                {
+                    title: "Viestisovellusten kautta leviävä huijaus lisääntynyt",
+                    summary: "WhatsAppin ja Signalin kaltaisissa viestisovelluksissa leviää uusi huijaus, jossa pyydetään rahaa perheenjäsenen nimissä. Varmista aina viestin lähettäjän henkilöllisyys.",
+                    date: "2025-06-28T10:00:00Z",
+                    category: "huijaus",
+                    link: "#",
+                    image: "https://images.unsplash.com/photo-1600267175161-cfaa711b4a81?q=80"
+                },
+                {
+                    title: "Ransomware-hyökkäykset kohdistuvat pieniin yrityksiin",
+                    summary: "Pienet ja keskisuuret yritykset ovat uusien ransomware-hyökkäysten kohteena. Huijarit vaativat maksua salausavaimesta. Säännölliset varmuuskopiot ovat paras suojakeino.",
+                    date: "2025-06-25T14:00:00Z",
+                    category: "petos",
+                    link: "#",
+                    image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80"
                 }
             ];
-
-            // Näytä uutiset sivun latautuessa
+            
+            // Lisätään uutiset sivulle
             function showNews() {
-                // Piilota latausindikaattori
                 newsPanel.innerHTML = '';
                 
                 // Näytä uutiset
@@ -727,22 +841,6 @@
                     const newsCard = createNewsCard(article);
                     newsPanel.appendChild(newsCard);
                 });
-            }
-            
-            // Näytä virheviesti
-            function showError(message) {
-                newsPanel.innerHTML = `
-                    <div class="error-message">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p>${message}</p>
-                        <button class="retry-btn" id="retryBtn">
-                            <i class="fas fa-sync-alt"></i> Yritä uudelleen
-                        </button>
-                    </div>
-                `;
-                
-                // Lisää uudelleenyritysnapille toiminnallisuus
-                document.getElementById('retryBtn').addEventListener('click', showNews);
             }
             
             // Luo uutiskortin HTML
