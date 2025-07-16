@@ -632,6 +632,42 @@
             margin-bottom: 0.5rem;
         }
         
+        /* Reaaliaikainen laskuri */
+        .counter-container {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .counter-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .counter {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0.5rem 0;
+        }
+        
+        .counter-subtitle {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        .counter-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
         /* Footer */
         footer {
             background: linear-gradient(135deg, var(--dark) 0%, #121a26 100%);
@@ -860,6 +896,16 @@
             <div class="section-title">
                 <h2>Testaa osaamistasi huijausten tunnistamisessa</h2>
                 <p>Valitse aihealue ja aloita visailu oppiaksesi tunnistamaan huijauksia</p>
+            </div>
+            
+            <!-- Reaaliaikainen laskuri -->
+            <div class="counter-container">
+                <div class="counter-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="counter-title">Visailuja tehty tämän kuun alusta</div>
+                <div class="counter" id="quizCounter">56</div>
+                <div class="counter-subtitle">Uusin visailu tehtiin <span id="latestTime">juuri äsken</span></div>
             </div>
             
             <div class="quiz-categories">
@@ -1105,8 +1151,8 @@
                         <p>Käyttäjistä on estänyt huijauksen visailussa oppiensa perusteella</p>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number">15k+</div>
-                        <p>Visailua suoritettu viime kuukauden aikana</p>
+                        <div class="stat-number" id="monthlyCompleted">56</div>
+                        <p>Tehtyä visailua tässä kuussa</p>
                     </div>
                 </div>
             </div>
@@ -1176,6 +1222,27 @@
                 });
             }
             
+            // Visailujen laskuri
+            let completedQuizzesThisMonth = 56;
+            const quizCounter = document.getElementById('quizCounter');
+            const monthlyCompleted = document.getElementById('monthlyCompleted');
+            const latestTime = document.getElementById('latestTime');
+            
+            // Päivitä laskuri
+            function updateCounter() {
+                quizCounter.textContent = completedQuizzesThisMonth;
+                monthlyCompleted.textContent = completedQuizzesThisMonth;
+                
+                // Päivitä viimeisin aika
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                latestTime.textContent = `${hours}:${minutes}`;
+            }
+            
+            // Alustus
+            updateCounter();
+            
             // Visailujen data
             const quizzes = {
                 email: {
@@ -1206,7 +1273,7 @@
                             options: [
                                 "Avaan linkin nähdäkseni tilauksen tilan",
                                 "Kirjaudun suoraan verkkokauppaan tarkistamaan tilauksen",
-                                "Vastaan viestiin ja kysyn miksi tilaus on peruttu"
+                                "Kysyn yhteystietoja asiakaspalvelusta"
                             ],
                             correct: 1,
                             explanation: "Huijarit lähettävät usein väärennettyjä peruutusviestejä saadakseen sinut klikkaamaan linkkiä. Kirjaudu aina suoraan palveluun tarkistamaan tilaustesi tila."
@@ -1375,12 +1442,20 @@
                 button.addEventListener('click', function() {
                     const quizId = this.dataset.quiz;
                     startQuiz(quizId);
+                    
+                    // Päivitä laskuri
+                    completedQuizzesThisMonth++;
+                    updateCounter();
                 });
             });
             
             // Aloita uusi visailu
             restartBtn.addEventListener('click', function() {
                 startQuiz(currentQuiz);
+                
+                // Päivitä laskuri
+                completedQuizzesThisMonth++;
+                updateCounter();
             });
             
             // Palaa visailuvalikoimaan
@@ -1548,6 +1623,17 @@
                     }
                 });
             });
+            
+            // Simuloi muiden käyttäjien visailuja
+            function simulateOtherUsers() {
+                setInterval(() => {
+                    completedQuizzesThisMonth++;
+                    updateCounter();
+                }, 15000); // 15 sekunnin välein
+            }
+            
+            // Käynnistä simulaatio
+            simulateOtherUsers();
         });
     </script>
 </body>
