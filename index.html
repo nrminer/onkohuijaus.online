@@ -6,6 +6,57 @@
     <title>OnkoHuijaus.online - Suojaa itsesi verkossa</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Lisätyt ilmoituspalkit */
+        .notification-bar {
+            padding: 12px 20px;
+            text-align: center;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            z-index: 900;
+            animation: pulse 2s infinite;
+        }
+        
+        .notification-bar.phone-notice {
+            background: linear-gradient(90deg, #ff9800 0%, #ff5722 100%);
+            color: white;
+        }
+        
+        .notification-bar.beta-notice {
+            background: linear-gradient(90deg, #2196F3 0%, #0d47a1 100%);
+            color: white;
+        }
+        
+        .notification-bar .close-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+            transition: all 0.3s;
+        }
+        
+        .notification-bar .close-btn:hover {
+            background: rgba(255,255,255,0.4);
+            transform: scale(1.1);
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 152, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
+        }
+        
+        /* Muut tyylit pysyvät ennallaan */
         :root {
             --primary: #1a3a6c;
             --secondary: #e63946;
@@ -708,6 +759,11 @@
             .emergency-banner > * {
                 margin: 5px 0;
             }
+            
+            .notification-bar {
+                flex-wrap: wrap;
+                padding: 10px;
+            }
         }
         
         @media (prefers-reduced-motion: reduce) {
@@ -772,6 +828,15 @@
             </div>
         </div>
     </header>
+
+    <!-- Ilmoitus puhelinlinjojen käytöstä -->
+    <div id="phone-notification" class="notification-bar phone-notice">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>TÄRKEÄ TIEDOTE: Verkkopetosneuvontapuhelin on tilapäisesti pois käytöstä huoltojen vuoksi.</span>
+        <button class="close-btn" aria-label="Sulje ilmoitus" onclick="closeNotification('phone-notification')">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
 
     <!-- Hätätilanne banneri -->
     <div class="emergency-banner">
@@ -950,6 +1015,20 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Alustetaan ilmoitukset
+            const betaNotification = document.createElement('div');
+            betaNotification.id = 'beta-notification';
+            betaNotification.className = 'notification-bar beta-notice';
+            betaNotification.innerHTML = `
+                <i class="fas fa-flask"></i>
+                <span>HUOMIO: Englanninkielinen versio sivustosta on tällä hetkellä beta-testauksessa. Raportoi mahdolliset ongelmat tukipalveluumme.</span>
+                <button class="close-btn" aria-label="Sulje ilmoitus" onclick="closeNotification('beta-notification')">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            betaNotification.style.display = 'none';
+            document.body.insertBefore(betaNotification, document.querySelector('.emergency-banner'));
+            
             const navToggle = document.querySelector('.nav-toggle');
             const navMenu = document.querySelector('#main-nav');
             
@@ -1009,6 +1088,18 @@
                         document.querySelectorAll('.gdpr-card h4')[3].innerHTML = '<i class="fas fa-file-alt"></i> Privacy Policy';
                         document.querySelectorAll('.gdpr-card p')[3].textContent = 'You can read our full privacy policy from the link below:';
                         document.querySelectorAll('.gdpr-card .btn')[0].textContent = 'Read Privacy Policy';
+                        
+                        // Näytä beta-ilmoitus englanninkielisessä versiossa
+                        document.getElementById('beta-notification').style.display = 'flex';
+                        
+                        // Päivitä puhelinilmoitus englanniksi
+                        document.getElementById('phone-notification').innerHTML = `
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>IMPORTANT NOTICE: Online scams helpline is temporarily out of service due to maintenance.</span>
+                            <button class="close-btn" aria-label="Close notification" onclick="closeNotification('phone-notification')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
                     } else {
                         // Palauta suomenkielinen versio
                         document.documentElement.lang = 'fi';
@@ -1051,6 +1142,18 @@
                         document.querySelectorAll('.gdpr-card h4')[3].innerHTML = '<i class="fas fa-file-alt"></i> Tietosuojaseloste';
                         document.querySelectorAll('.gdpr-card p')[3].textContent = 'Voit lukea täydellisen tietosuojaselosteemme alla olevasta linkistä:';
                         document.querySelectorAll('.gdpr-card .btn')[0].textContent = 'Lue tietosuojaseloste';
+                        
+                        // Piilota beta-ilmoitus suomenkielisessä versiossa
+                        document.getElementById('beta-notification').style.display = 'none';
+                        
+                        // Päivitä puhelinilmoitus suomeksi
+                        document.getElementById('phone-notification').innerHTML = `
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>TÄRKEÄ TIEDOTE: Verkkopetosneuvontapuhelin on tilapäisesti pois käytöstä huoltojen vuoksi.</span>
+                            <button class="close-btn" aria-label="Sulje ilmoitus" onclick="closeNotification('phone-notification')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
                     }
                 });
             });
@@ -1072,6 +1175,14 @@
                 observer.observe(el);
             });
         });
+        
+        // Ilmoituksen sulkemisfunktio
+        function closeNotification(id) {
+            const notification = document.getElementById(id);
+            if (notification) {
+                notification.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>
