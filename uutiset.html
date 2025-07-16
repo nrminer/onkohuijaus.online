@@ -6,7 +6,6 @@
     <title>Ajankohtaiset verkkopetosuutiset - OnkoHuijaus.online</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Yleiset tyylit */
         :root {
             --primary: #1a3a6c;
             --secondary: #e63946;
@@ -33,7 +32,6 @@
             flex-direction: column;
         }
         
-        /* Pääotsikko ja navigaatio */
         header {
             background-color: white;
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
@@ -123,7 +121,6 @@
             box-shadow: 0 4px 8px rgba(230, 57, 70, 0.3);
         }
         
-        /* Hätätilanne banneri */
         .emergency-banner {
             background: linear-gradient(90deg, var(--secondary) 0%, #c1121f 100%);
             color: white;
@@ -148,7 +145,6 @@
             gap: 5px;
         }
         
-        /* Hero-osio */
         .hero {
             background: linear-gradient(135deg, var(--primary) 0%, #0d2a4d 100%);
             color: white;
@@ -177,7 +173,6 @@
             max-width: 700px;
         }
         
-        /* Uutisosio */
         .section {
             padding: 4rem 0;
             max-width: 1200px;
@@ -211,7 +206,6 @@
             border-radius: 3px;
         }
         
-        /* Uutispanel */
         .news-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -301,7 +295,6 @@
             gap: 12px;
         }
         
-        /* Uutisten suodatus */
         .news-filter {
             display: flex;
             justify-content: center;
@@ -326,7 +319,6 @@
             color: white;
         }
         
-        /* Latausindikaattori */
         .loading {
             text-align: center;
             padding: 3rem 0;
@@ -336,6 +328,7 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
+            grid-column: 1 / -1;
         }
         
         .loader {
@@ -352,7 +345,45 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Tärkeät varoitukset */
+        .error-message {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            background: #ffebee;
+            border-radius: 12px;
+            border-left: 5px solid var(--secondary);
+        }
+        
+        .error-message i {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .error-message p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .retry-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .retry-btn:hover {
+            background: #21897e;
+            transform: translateY(-2px);
+        }
+        
         .warning-box {
             background: linear-gradient(135deg, #fff9db 0%, #ffe8cc 100%);
             border-left: 5px solid var(--warning);
@@ -391,7 +422,6 @@
             min-width: 24px;
         }
         
-        /* Footer */
         footer {
             background: linear-gradient(135deg, var(--dark) 0%, #121a26 100%);
             color: white;
@@ -459,7 +489,6 @@
             padding: 2rem 15px 0;
         }
         
-        /* Responsiivisuus */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2.2rem;
@@ -473,8 +502,23 @@
                 display: none;
             }
             
-            .mobile-nav-btn {
-                display: block;
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            nav {
+                order: 3;
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav li {
+                margin-left: 0;
+                margin-bottom: 0.5rem;
             }
         }
     </style>
@@ -580,32 +624,32 @@
             <div class="footer-column">
                 <h3>Sivuston sisältö</h3>
                 <ul class="footer-links">
-                    <li><a href="torjuntaoppaat.html">Torjuntaoppaat</a></li>
-                    <li><a href="uhrin-tuki.html">Olen uhrina</a></li>
-                    <li><a href="resurssit.html">Resurssit</a></li>
-                    <li><a href="uutiset.html">Ajankohtaiset varoitukset</a></li>
-                    <li><a href="ukk.html">Usein kysytyt kysymykset</a></li>
+                    <li><a href="torjuntaoppaat.html"><i class="fas fa-arrow-right"></i> Torjuntaoppaat</a></li>
+                    <li><a href="uhrin-tuki.html"><i class="fas fa-arrow-right"></i> Olen uhrina</a></li>
+                    <li><a href="resurssit.html"><i class="fas fa-arrow-right"></i> Resurssit</a></li>
+                    <li><a href="uutiset.html"><i class="fas fa-arrow-right"></i> Ajankohtaiset varoitukset</a></li>
+                    <li><a href="ukk.html"><i class="fas fa-arrow-right"></i> Usein kysytyt kysymykset</a></li>
                 </ul>
             </div>
             
             <div class="footer-column">
                 <h3>Neuvonta ja tuki</h3>
                 <ul class="footer-links">
-                    <li><a href="tel:091234567">Verkkopetosneuvonta: 09 123 4567</a></li>
-                    <li><a href="tel:116006">MIELI Kriisipuhelin: 116 006</a></li>
-                    <li><a href="https://www.mieli.fi" target="_blank">MIELI Suomen Mielenterveys ry</a></li>
-                    <li><a href="tel:112">Hätänumero 112</a></li>
+                    <li><a href="tel:091234567"><i class="fas fa-phone"></i> Verkkopetosneuvonta: 09 123 4567</a></li>
+                    <li><a href="tel:116006"><i class="fas fa-phone-alt"></i> MIELI Kriisipuhelin: 116 006</a></li>
+                    <li><a href="https://www.mieli.fi" target="_blank"><i class="fas fa-globe"></i> MIELI Suomen Mielenterveys ry</a></li>
+                    <li><a href="tel:112"><i class="fas fa-phone-alt"></i> Hätänumero 112</a></li>
                 </ul>
             </div>
             
             <div class="footer-column">
                 <h3>Lähteet ja yhteistyö</h3>
                 <ul class="footer-links">
-                    <li><a href="https://www.traficom.fi" target="_blank">Traficom</a></li>
-                    <li><a href="https://www.europol.europa.eu" target="_blank">Europol</a></li>
-                    <li><a href="https://www.finanssivalvonta.fi" target="_blank">Finanssivalvonta</a></li>
-                    <li><a href="https://www.kyberturvallisuuskeskus.fi" target="_blank">Kyberturvallisuuskeskus</a></li>
-                    <li><a href="tietosuoja.html">Tietosuojaseloste</a></li>
+                    <li><a href="https://www.traficom.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Traficom</a></li>
+                    <li><a href="https://www.europol.europa.eu" target="_blank"><i class="fas fa-external-link-alt"></i> Europol</a></li>
+                    <li><a href="https://www.finanssivalvonta.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Finanssivalvonta</a></li>
+                    <li><a href="https://www.kyberturvallisuuskeskus.fi" target="_blank"><i class="fas fa-external-link-alt"></i> Kyberturvallisuuskeskus</a></li>
+                    <li><a href="tietosuoja.html"><i class="fas fa-lock"></i> Tietosuojaseloste</a></li>
                 </ul>
             </div>
         </div>
@@ -621,77 +665,69 @@
             const newsPanel = document.getElementById('newsPanel');
             const filterButtons = document.querySelectorAll('.filter-btn');
             
-            // Uutisten haku Ylen API:sta
+            // Uutisten haku API:sta
             async function fetchNews() {
                 try {
-                    // Käytetään Ylen API:a verkkopetosuutisille
-                    const response = await fetch('https://yle.fi/uutiset/api/categories/18?limit=6');
+                    // Näytä latausindikaattori
+                    newsPanel.innerHTML = `
+                        <div class="loading">
+                            <div class="loader"></div>
+                            <p>Ladataan ajankohtaisia uutisia...</p>
+                        </div>
+                    `;
+                    
+                    // Käytetään uutta API-osoitetta
+                    const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ffeeds.yle.fi%2Fuutiset%2Fv1%2Frecent.rss%3FpublisherIds%3DYLE_UUTISET');
+                    
+                    if (!response.ok) {
+                        throw new Error(`API-virhe: ${response.status}`);
+                    }
+                    
                     const data = await response.json();
                     
                     // Piilotetaan latausindikaattori
                     newsPanel.innerHTML = '';
                     
                     // Näytetään uutiset
-                    data.forEach(article => {
-                        // Lisätään kategoria verkkopetosuutisille
-                        article.category = 'petos';
+                    data.items.forEach((article, index) => {
+                        // Määritetään kategoria indeksin perusteella
+                        const categories = ['petos', 'huijaus', 'varoitus'];
+                        const category = categories[index % categories.length];
                         
-                        const newsCard = createNewsCard(article);
-                        newsPanel.appendChild(newsCard);
-                    });
-                    
-                    // Lisätään lisää esimerkkiuutisia eri kategorioista
-                    const additionalNews = [
-                        {
-                            title: "Uusi huijauskeino: Puhelinsoittajat väittävät olevansa viranomaisia",
-                            summary: "Huijarit ovat alkaneet käyttää entistä uskottavampia keinoja saadakseen uhrinsa luovuttamaan henkilötietojaan.",
-                            image: "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?q=80",
-                            date: "2025-07-15T08:30:00Z",
-                            category: "huijaus",
-                            link: "#"
-                        },
-                        {
-                            title: "Varoitus: Uusi sähköpostihuijaus jäljittelee verottajaa",
-                            summary: "Älä anna henkilötietojasi sähköpostitse, vaikka viesti vaikuttaisi viralliselta.",
-                            image: "https://images.unsplash.com/photo-1590402494587-44b71d7772f6?q=80",
-                            date: "2025-07-12T14:15:00Z",
-                            category: "varoitus",
-                            link: "#"
-                        },
-                        {
-                            title: "Verkkopankkihuijaukset lisääntyneet kesäkuussa - näin suojautut",
-                            summary: "Asiantuntijat varoittavat uusista keinoista, joilla huijarit yrittävät päästä käsiksi verkkopankkitunnuksiisi.",
-                            image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80",
-                            date: "2025-07-10T11:20:00Z",
-                            category: "varoitus",
-                            link: "#"
-                        }
-                    ];
-                    
-                    additionalNews.forEach(article => {
-                        const newsCard = createNewsCard(article);
+                        const newsCard = createNewsCard(article, category);
                         newsPanel.appendChild(newsCard);
                     });
                     
                 } catch (error) {
                     console.error('Uutisten haku epäonnistui:', error);
-                    newsPanel.innerHTML = `
-                        <div class="error-message">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <p>Uutisten lataus epäonnistui. Yritä myöhemmin uudelleen.</p>
-                        </div>
-                    `;
+                    showError('Uutisten lataus epäonnistui. Yritä myöhemmin uudelleen.');
                 }
             }
             
+            // Näytä virheviesti
+            function showError(message) {
+                newsPanel.innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>${message}</p>
+                        <button class="retry-btn" id="retryBtn">
+                            <i class="fas fa-sync-alt"></i> Yritä uudelleen
+                        </button>
+                    </div>
+                `;
+                
+                // Lisää uudelleenyritysnapille toiminnallisuus
+                document.getElementById('retryBtn').addEventListener('click', fetchNews);
+            }
+            
             // Luo uutiskortin HTML
-            function createNewsCard(article) {
+            function createNewsCard(article, category) {
                 const card = document.createElement('div');
                 card.className = 'news-card';
-                card.dataset.category = article.category;
+                card.dataset.category = category;
                 
                 // Muotoillaan päivämäärä
-                const dateObj = new Date(article.date);
+                const dateObj = new Date(article.pubDate);
                 const formattedDate = dateObj.toLocaleDateString('fi-FI', {
                     year: 'numeric',
                     month: 'long',
@@ -699,12 +735,15 @@
                 });
                 
                 // Kategoriaotsikko
-                const categoryName = article.category === 'petos' ? 'Verkkopetos' : 
-                                    article.category === 'huijaus' ? 'Huijauskeino' : 
+                const categoryName = category === 'petos' ? 'Verkkopetos' : 
+                                    category === 'huijaus' ? 'Huijauskeino' : 
                                     'Tärkeä varoitus';
                 
+                // Hae kuva artikkelista
+                const thumbnail = article.thumbnail || 'https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?q=80';
+                
                 card.innerHTML = `
-                    <div class="news-image" style="background-image: url('${article.image || 'https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?q=80'}');">
+                    <div class="news-image" style="background-image: url('${thumbnail}');">
                         <span class="news-category">${categoryName}</span>
                     </div>
                     <div class="news-content">
@@ -712,8 +751,8 @@
                             <i class="far fa-calendar"></i> ${formattedDate}
                         </div>
                         <h3 class="news-title">${article.title}</h3>
-                        <p class="news-summary">${article.summary}</p>
-                        <a href="${article.link || '#'}" class="news-link">
+                        <p class="news-summary">${article.description.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 150)}...</p>
+                        <a href="${article.link}" target="_blank" class="news-link">
                             Lue koko uutinen
                             <i class="fas fa-arrow-right"></i>
                         </a>
