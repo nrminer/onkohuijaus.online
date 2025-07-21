@@ -505,7 +505,7 @@
     </style>
 </head>
 <body>
-    <!-- Pääotsikko ja navigaatio -->
+    <!-- pääots -->
     <header>
         <div class="header-container">
             <a href="index.html" class="logo">
@@ -537,7 +537,7 @@
         <a href="uhrin-tuki.html">Tee välittömästi nämä toimet</a>
         <div class="phone-link">
             <i class="fas fa-phone"></i>
-            <span>Soita neuvontaan: 09 123 4567</span>
+            <span>Soita neuvontaan: 04 555 0487</span>
         </div>
     </div>
 
@@ -672,7 +672,6 @@
         </div>
     </section>
     
-    <!-- Ideointiosio -->
     <section class="section">
         <div class="section-title">
             <h2>Oma ideointi</h2>
@@ -714,7 +713,7 @@
             <div class="footer-column">
                 <h3>Neuvonta ja tuki</h3>
                 <ul class="footer-links">
-                    <li><a href="tel:091234567"><i class="fas fa-phone"></i> Verkkopetosneuvonta: 09 123 4567</a></li>
+                    <li><a href="tel:091234567"><i class="fas fa-phone"></i> Verkkopetosneuvonta: 04 555 0487</a></li>
                     <li><a href="tel:116006"><i class="fas fa-phone-alt"></i> MIELI Kriisipuhelin: 116 006</a></li>
                     <li><a href="https://www.mieli.fi" target="_blank"><i class="fas fa-globe"></i> MIELI Suomen Mielenterveys ry</a></li>
                     <li><a href="tel:112"><i class="fas fa-phone-alt"></i> Hätänumero 112</a></li>
@@ -741,21 +740,18 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Quizin toiminnallisuus
+            // kysely hommeli
             const options = document.querySelectorAll('.option');
             const checkBtn = document.getElementById('checkAnswers');
             
             options.forEach(option => {
                 option.addEventListener('click', function() {
-                    // Poista valinnat muilta saman kysymyksen vaihtoehdoilta
                     const question = this.closest('.quiz-question');
                     const allOptions = question.querySelectorAll('.option');
                     allOptions.forEach(opt => opt.classList.remove('selected'));
                     
-                    // Lisää valittu luokka
                     this.classList.add('selected');
                     
-                    // Lisää valinta inputtiin
                     const input = this.querySelector('input');
                     input.checked = true;
                 });
@@ -780,7 +776,8 @@
                             resultDiv.className = 'result incorrect';
                             selectedOption.classList.add('incorrect');
                             
-                            // Korosta oikeat vastaukset
+
+                            // oikeet vast
                             const correctOptions = question.querySelectorAll('.option[data-correct="true"]');
                             correctOptions.forEach(opt => opt.classList.add('correct'));
                         }
@@ -795,7 +792,7 @@
                 });
             });
             
-            // Ideointiosion toiminnallisuus
+            
             const submitBtn = document.getElementById('submitIdea');
             
             submitBtn.addEventListener('click', function() {
@@ -806,7 +803,7 @@
                     return;
                 }
                 
-                // Tallenna idea (tässä vain esimerkki, ei tallenneta mihinkään)
+                
                 alert('Kiitos ideastasi! Tämä auttaa sinua ja muita tunnistamaan huijaussähköposteja paremmin.');
                 document.getElementById('emailIdea').value = '';
             });
